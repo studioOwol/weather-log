@@ -23,7 +23,7 @@ export default defineConfig([
     },
     extends: [
       js.configs.recommended,
-      ...tseslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
       react.configs.flat.recommended,
       reactRefresh.configs.vite,
       prettierOff,
@@ -74,7 +74,7 @@ export default defineConfig([
       "react/prop-types": "off", // shadcn/ui는 TypeScript 없이 사용하므로 prop-types 비활성화
       "react/jsx-key": ["error", { checkFragmentShorthand: true, checkKeyMustBeforeSpread: true }],
       "react/no-unknown-property": "error",
-      "react/self-closing-comp": "warn", // fix 가능
+      "react/self-closing-comp": ["warn", { component: true, html: true }], // fix 가능
       "react/jsx-no-useless-fragment": ["warn", { allowExpressions: true }], // fix 가능
       "react/jsx-curly-brace-presence": ["warn", { props: "never", children: "never" }],
       "react/jsx-no-bind": ["warn", { allowArrowFunctions: true }],
