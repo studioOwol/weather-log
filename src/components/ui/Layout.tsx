@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Header from './Header'
 
 interface LayoutProps {
   children: ReactNode
@@ -6,7 +7,8 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div>
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header />
       <main>{children}</main>
     </div>
   )
