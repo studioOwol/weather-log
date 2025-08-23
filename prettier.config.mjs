@@ -1,5 +1,5 @@
 export default {
-  singleQuote: true,
+  singleQuote: false,
   semi: false,
   trailingComma: 'es5',
   printWidth: 100,
@@ -8,7 +8,6 @@ export default {
   endOfLine: 'lf',
   bracketSameLine: false,
   arrowParens: 'always',
-  jsxSingleQuote: true,
   bracketSpacing: true,
   bracketSameLine: false,
 }

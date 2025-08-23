@@ -1,35 +1,29 @@
 import js from "@eslint/js"
 import { defineConfig, globalIgnores } from "eslint/config"
-import prettierOff from "eslint-config-prettier/flat"
 import importPlugin from "eslint-plugin-import"
 import react from "eslint-plugin-react"
 import reactHooks from "eslint-plugin-react-hooks"
 import reactRefresh from "eslint-plugin-react-refresh"
 import unusedImports from "eslint-plugin-unused-imports"
-import tseslint from "@typescript-eslint/eslint-plugin"
-import tsParser from "@typescript-eslint/parser"
 import globals from "globals"
 
 export default defineConfig([
   globalIgnores(["node_modules", "dist", "build", ".vite", "coverage"]),
   {
-    files: ["**/*.{js,jsx,ts,tsx}", "src/**/*.{js,jsx,ts,tsx}"],
+    files: ["**/*.{js,jsx}", "src/**/*.{js,jsx}"],
     plugins: {
       react,
       import: importPlugin,
       "react-hooks": reactHooks,
       "unused-imports": unusedImports,
-      "@typescript-eslint": tseslint,
     },
     extends: [
       js.configs.recommended,
-      ...tseslint.configs.recommendedTypeChecked,
       react.configs.flat.recommended,
       reactRefresh.configs.vite,
-      prettierOff,
+      prettier,
     ],
     languageOptions: {
-      parser: tsParser,
       ecmaVersion: "latest",
       sourceType: "module",
       globals: globals.browser,
@@ -37,7 +31,6 @@ export default defineConfig([
         ecmaVersion: "latest",
         sourceType: "module",
         ecmaFeatures: { jsx: true },
-        project: "./tsconfig.json",
       },
     },
     settings: {
@@ -65,17 +58,16 @@ export default defineConfig([
       "import/order": "off",
 
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-      "unused-imports/no-unused-imports": "off", // shadcn/ui 컴포넌트에서 React import 필요할 수 있음
+      "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": ["warn", { args: "after-used", ignoreRestSiblings: true }],
 
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
-      "react/prop-types": "off", // shadcn/ui는 TypeScript 없이 사용하므로 prop-types 비활성화
+      "react/prop-types": "off",
       "react/jsx-key": ["error", { checkFragmentShorthand: true, checkKeyMustBeforeSpread: true }],
       "react/no-unknown-property": "error",
-      "react/self-closing-comp": ["warn", { component: true, html: true }], // fix 가능
-      "react/jsx-no-useless-fragment": ["warn", { allowExpressions: true }], // fix 가능
+      "react/self-closing-comp": "warn",
+      "react/jsx-no-useless-fragment": ["warn", { allowExpressions: true }],
       "react/jsx-curly-brace-presence": ["warn", { props: "never", children: "never" }],
       "react/jsx-no-bind": ["warn", { allowArrowFunctions: true }],
       "react/jsx-no-duplicate-props": ["error", { ignoreCase: true }],
@@ -86,7 +78,7 @@ export default defineConfig([
   },
 
   {
-    files: ["eslint.config.js", "prettier.config.*", "vite.config.*", "scripts/**/*.{js,jsx,ts,tsx}"],
+    files: ["eslint.config.js", "prettier.config.*", "vite.config.*", "scripts/**/*.{js,jsx}"],
     languageOptions: {
       sourceType: "module",
       globals: globals.node,
