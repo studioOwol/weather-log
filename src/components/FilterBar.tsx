@@ -1,6 +1,7 @@
 import { FilterIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
+import DateSearch from "./filter/DateSearch"
 
 export default function FilterBar() {
   return (
@@ -19,6 +20,10 @@ export default function FilterBar() {
         >
           Clear All
         </Button>
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3">
+        <DateSearch />
       </div>
     </div>
   )
