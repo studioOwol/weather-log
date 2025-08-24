@@ -15,7 +15,7 @@ export default function Header() {
             to="/"
             className={({ isActive }) =>
               `flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 text-sm sm:text-lg rounded-lg font-bold transition-colors ${
-                isActive ? "text-background bg-primary" : "text-primary hover:bg-muted"
+                isActive ? "text-inner bg-primary" : "text-primary hover:bg-muted"
               }`
             }
           >
@@ -27,7 +27,7 @@ export default function Header() {
             to="/bookmarks"
             className={({ isActive }) =>
               `flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 text-sm sm:text-lg rounded-lg font-bold transition-colors ${
-                isActive ? "text-background bg-primary" : "text-primary hover:bg-muted"
+                isActive ? "text-inner bg-primary" : "text-primary hover:bg-muted"
               }`
             }
           >
