@@ -1,5 +1,5 @@
-import AddButton from "@/components/AddButton"
 import FilterBar from "@/components/FilterBar"
+import AddCardModal from "@/components/modal/AddCardModal"
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       </div>
 
       <FilterBar />
-      <AddButton />
+      <AddCardModal />
     </div>
   )
 }

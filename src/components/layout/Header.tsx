@@ -3,7 +3,7 @@ import { NavLink } from "react-router"
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border-default">
+    <header className="sticky bg-background top-0 z-50 w-full border-b border-border-default">
       <div className="h-16 px-4 py-2 flex items-center justify-between text-primary">
         <div className="flex items-center gap-2">
           <Cloud className="size-6 sm:size-7" />
