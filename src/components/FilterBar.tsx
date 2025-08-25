@@ -3,6 +3,7 @@ import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import DateSearch from "./filter/DateSearch"
 import MemoSearch from "./filter/MemoSearch"
+import SortGroup from "./filter/SortGroup"
 
 export default function FilterBar() {
   return (
@@ -27,6 +28,7 @@ export default function FilterBar() {
         <DateSearch />
         <MemoSearch />
       </div>
+      <SortGroup />
     </div>
   )
 }
