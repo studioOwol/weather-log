@@ -1,27 +1,87 @@
-import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
-import { Popover } from "../ui/popover"
-import { Button } from "../ui/button"
-import { Calendar as CalendarPicker } from "../ui/calendar"
 import { Calendar } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select"
+import { SelectValue } from "@radix-ui/react-select"
+import { useState, useMemo } from "react"
+import { getDaysInMonth } from "../../lib/dateUtils"
 
 export default function DateSearch() {
+  const [selectedYear, setSelectedYear] = useState<string>("")
+  const [selectedMonth, setSelectedMonth] = useState<string>("")
+  const [selectedDay, setSelectedDay] = useState<string>("")
+
+  const months = useMemo(
+    () => [
+      { value: "1", label: "Jan" },
+      { value: "2", label: "Feb" },
+      { value: "3", label: "Mar" },
+      { value: "4", label: "Apr" },
+      { value: "5", label: "May" },
+      { value: "6", label: "Jun" },
+      { value: "7", label: "Jul" },
+      { value: "8", label: "Aug" },
+      { value: "9", label: "Sep" },
+      { value: "10", label: "Oct" },
+      { value: "11", label: "Nov" },
+      { value: "12", label: "Dec" },
+    ],
+    []
+  )
+
+  const years = useMemo(() => {
+    const currentYear = new Date().getFullYear()
+    return Array.from({ length: 6 }, (_, i) => currentYear - i)
+  }, [])
+
+  const days = useMemo(
+    () => getDaysInMonth(selectedYear, selectedMonth),
+    [selectedYear, selectedMonth]
+  )
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className="justify-start text-left bg-inner border-border-default text-muted-foreground"
-        >
-          <Calendar className="mr-2 size-4" />
-          <span>Search by date</span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <CalendarPicker
-          mode="single"
-          className="p-3 pointer-events-auto bg-inner border rounded-lg mt-1 border-border-default"
-        />
-      </PopoverContent>
-    </Popover>
+    <div className="flex flex-col items-start">
+      <div className="flex items-center gap-2 flex-wrap">
+        <Calendar className="size-4 text-muted-foreground" />
+
+        <Select value={selectedYear} onValueChange={setSelectedYear}>
+          <SelectTrigger className="w-24 border border-border-default focus:outline-none focus-visible:ring-0">
+            <SelectValue placeholder="Year" />
+          </SelectTrigger>
+
+          <SelectContent className="bg-inner text-muted-foreground border-border-default">
+            {years.map((year) => (
+              <SelectItem key={year} value={year.toString()} className="focus:text-primary">
+                {year}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={selectedMonth} onValueChange={setSelectedMonth} disabled={!selectedYear}>
+          <SelectTrigger className="w-24 border border-border-default focus:outline-none focus-visible:ring-0">
+            <SelectValue placeholder="Month" />
+          </SelectTrigger>
+          <SelectContent className="bg-inner text-muted-foreground border-border-default">
+            {months.map((month) => (
+              <SelectItem key={month.value} value={month.value} className="focus:text-primary">
+                {month.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={selectedDay} onValueChange={setSelectedDay} disabled={!selectedMonth}>
+          <SelectTrigger className="w-20 border border-border-default focus:outline-none focus-visible:ring-0">
+            <SelectValue placeholder="Day" />
+          </SelectTrigger>
+          <SelectContent className="bg-inner text-muted-foreground border-border-default">
+            {days.map((day) => (
+              <SelectItem key={day.value} value={day.value} className="focus:text-primary">
+                {day.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
   )
 }
