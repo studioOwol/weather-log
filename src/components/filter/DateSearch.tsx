@@ -43,7 +43,7 @@ export default function DateSearch() {
         <Calendar className="size-4 text-muted-foreground" />
 
         <Select value={selectedYear} onValueChange={setSelectedYear}>
-          <SelectTrigger className="w-24 border border-border-default focus:outline-none focus-visible:ring-0">
+          <SelectTrigger className="w-24 border border-border-default">
             <SelectValue placeholder="Year" />
           </SelectTrigger>
 
@@ -57,7 +57,7 @@ export default function DateSearch() {
         </Select>
 
         <Select value={selectedMonth} onValueChange={setSelectedMonth} disabled={!selectedYear}>
-          <SelectTrigger className="w-24 border border-border-default focus:outline-none focus-visible:ring-0">
+          <SelectTrigger className="w-24 border border-border-default">
             <SelectValue placeholder="Month" />
           </SelectTrigger>
           <SelectContent className="bg-inner text-muted-foreground border-border-default">
@@ -70,7 +70,7 @@ export default function DateSearch() {
         </Select>
 
         <Select value={selectedDay} onValueChange={setSelectedDay} disabled={!selectedMonth}>
-          <SelectTrigger className="w-20 border border-border-default focus:outline-none focus-visible:ring-0">
+          <SelectTrigger className="w-20 border border-border-default">
             <SelectValue placeholder="Day" />
           </SelectTrigger>
           <SelectContent className="bg-inner text-muted-foreground border-border-default">
