@@ -2,6 +2,7 @@ import { FilterIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import DateSearch from "./filter/DateSearch"
+import MemoSearch from "./filter/MemoSearch"
 
 export default function FilterBar() {
   return (
@@ -24,6 +25,7 @@ export default function FilterBar() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <DateSearch />
+        <MemoSearch />
       </div>
     </div>
   )
