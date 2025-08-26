@@ -1,23 +1,89 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
-import { Plus } from "lucide-react"
+import { Plus, Loader2 } from "lucide-react"
 import { Textarea } from "../ui/textarea"
+import { useWeather } from "@/hooks/useWeather"
+import { useWeatherStore } from "@/store/useWeatherStore"
+import { getCurrentLocation } from "@/lib/apiUtils"
+import { reverseGeocode } from "@/api/api"
 
 export default function AddCardModal() {
   const [isOpen, setIsOpen] = useState(false)
+  const [memo, setMemo] = useState("")
+  const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null)
+  const [locationInfo, setLocationInfo] = useState<{
+    country: string
+    city: string
+    state: string
+  } | null>(null)
+  const [isGettingLocation, setIsGettingLocation] = useState(false)
+
+  const { data: weatherData, isLoading: isWeatherLoading } = useWeather(
+    location?.lat,
+    location?.lon
+  )
+  const { addCard } = useWeatherStore()
+
   const today = new Date().toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "2-digit",
   })
 
+  useEffect(() => {
+    if (isOpen && !location) {
+      handleGetLocation()
+    }
+  }, [isOpen])
+
+  const handleGetLocation = async () => {
+    setIsGettingLocation(true)
+    try {
+      const coords = await getCurrentLocation()
+      setLocation(coords)
+      const locationData = await reverseGeocode(coords.lat, coords.lon)
+      setLocationInfo(locationData)
+    } catch (error) {
+      console.error("위치 정보 가져오기 실패:", error)
+    } finally {
+      setIsGettingLocation(false)
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!location || !weatherData || !locationInfo) return
+
+    const newCard = {
+      id: crypto.randomUUID(),
+      date: new Date().toISOString().split("T")[0],
+      location: location,
+      country: locationInfo.country,
+      city: locationInfo.city,
+      state: locationInfo.state,
+      memo: memo,
+      min: Math.ceil(weatherData.daily.temperature_2m_min[0]),
+      max: Math.ceil(weatherData.daily.temperature_2m_max[0]),
+    }
+
+    addCard(newCard)
+    handleClose()
+  }
+
+  const handleClose = () => {
+    setIsOpen(false)
+    setMemo("")
+    setLocation(null)
+    setLocationInfo(null)
+  }
+
   return (
     <Dialog
       open={isOpen}
       onOpenChange={(open) => {
-        console.log("Dialog state changing:", open)
         setIsOpen(open)
       }}
     >
@@ -32,28 +98,74 @@ export default function AddCardModal() {
           <DialogTitle>Add New Record</DialogTitle>
         </DialogHeader>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Label>
               Date: <div className="text-sm">{today}</div>
             </Label>
           </div>
 
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              Location:{" "}
+              {isGettingLocation ? (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="size-4 animate-spin" />
+                  Getting location...
+                </div>
+              ) : locationInfo ? (
+                <div className="text-sm">
+                  {locationInfo.country} {locationInfo.state} {locationInfo.city}
+                </div>
+              ) : (
+                <div className="text-sm text-muted-foreground">Location not available</div>
+              )}
+            </Label>
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Min Temp</Label>
-              <div className="text-sm">0°C</div>
+              {isWeatherLoading ? (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="size-4 animate-spin" />
+                  Loading...
+                </div>
+              ) : weatherData ? (
+                <div className="text-sm">
+                  {Math.ceil(weatherData.daily.temperature_2m_min[0])}°C
+                </div>
+              ) : (
+                <div className="text-sm text-muted-foreground">--°C</div>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label>Max Temp</Label>
-              <div className="text-sm">10°C</div>
+              {isWeatherLoading ? (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="size-4 animate-spin" />
+                  Loading...
+                </div>
+              ) : weatherData ? (
+                <div className="text-sm">
+                  {Math.ceil(weatherData.daily.temperature_2m_max[0])}°C
+                </div>
+              ) : (
+                <div className="text-sm text-muted-foreground">--°C</div>
+              )}
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="memo">Notes</Label>
-            <Textarea id="memo" className="resize-none bg-inner border-border-default" rows={3} />
+            <Textarea
+              id="memo"
+              className="resize-none bg-inner border-border-default"
+              rows={3}
+              value={memo}
+              onChange={(e) => setMemo(e.target.value)}
+            />
           </div>
 
           <div className="flex gap-2 pt-4">
@@ -61,10 +173,15 @@ export default function AddCardModal() {
               type="button"
               variant="outline"
               className="flex-1 bg-inner border-border-default"
+              onClick={handleClose}
             >
               Cancel
             </Button>
-            <Button type="submit" className="flex-1 text-inner">
+            <Button
+              type="submit"
+              className="flex-1 text-inner"
+              disabled={!location || !weatherData}
+            >
               Save
             </Button>
           </div>
