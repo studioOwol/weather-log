@@ -27,8 +27,8 @@ export default function FilterBar() {
       <div className="flex flex-col sm:flex-row gap-3">
         <DateSearch />
         <MemoSearch />
+        <SortGroup />
       </div>
-      <SortGroup />
     </div>
   )
 }
