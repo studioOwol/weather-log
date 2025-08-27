@@ -14,6 +14,7 @@ export interface WeatherStore {
   cards: WeatherCardType[]
   addCard: (card: WeatherCardType) => void
   updateCard: (id: string, updatedCard: WeatherCardType) => void
+  deleteCard: (id: string) => void
 }
 
 export interface WeatherApiResponse {

@@ -5,6 +5,7 @@ import { Button } from "./ui/button"
 import { Bookmark, Edit2, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
+import DeleteCardModal from "./modal/DeleteCardModal"
 
 interface WeatherProps {
   card: WeatherCardType
@@ -12,6 +13,7 @@ interface WeatherProps {
 
 export default function WeatherCard({ card }: WeatherProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   return (
     <>
@@ -39,6 +41,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 variant="ghost"
                 size="sm"
                 className="size-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
+                onClick={() => setIsDeleteModalOpen(true)}
               >
                 <Trash2 />
               </Button>
@@ -73,10 +76,13 @@ export default function WeatherCard({ card }: WeatherProps) {
         </CardContent>
       </Card>
 
-      <EditCardModal
-        card={card}
-        isOpen={isEditModalOpen}
-        onOpenChange={setIsEditModalOpen}
+      <EditCardModal card={card} isOpen={isEditModalOpen} onOpenChange={setIsEditModalOpen} />
+
+      <DeleteCardModal
+        cardId={card.id}
+        cardDate={card.date}
+        isOpen={isDeleteModalOpen}
+        onOpenChange={setIsDeleteModalOpen}
       />
     </>
   )

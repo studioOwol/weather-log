@@ -16,6 +16,10 @@ export const useWeatherStore = create<WeatherStore>()(
             card.id === id ? updatedCard : card
           ),
         })),
+      deleteCard: (id) =>
+        set((state) => ({
+          cards: state.cards.filter((card) => card.id !== id),
+        })),
     }),
     { name: "weather-cards" }
   )
