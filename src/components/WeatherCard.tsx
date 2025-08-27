@@ -1,14 +1,18 @@
+import { useState } from "react"
 import type { WeatherCardType } from "@/types"
 import { Card, CardContent, CardHeader } from "./ui/card"
 import { Button } from "./ui/button"
 import { Bookmark, Edit2, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import EditCardModal from "./modal/EditCardModal"
 
 interface WeatherProps {
   card: WeatherCardType
 }
 
 export default function WeatherCard({ card }: WeatherProps) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
   return (
     <>
       <Card className="bg-inner border-border-default">
@@ -27,6 +31,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 variant="ghost"
                 size="sm"
                 className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer"
+                onClick={() => setIsEditModalOpen(true)}
               >
                 <Edit2 />
               </Button>
@@ -67,6 +72,12 @@ export default function WeatherCard({ card }: WeatherProps) {
           </div>
         </CardContent>
       </Card>
+
+      <EditCardModal
+        card={card}
+        isOpen={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+      />
     </>
   )
 }

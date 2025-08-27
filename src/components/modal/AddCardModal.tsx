@@ -8,6 +8,7 @@ import { useWeather } from "@/hooks/useWeather"
 import { useWeatherStore } from "@/store/useWeatherStore"
 import { getCurrentLocation } from "@/lib/apiUtils"
 import { reverseGeocode } from "@/api/api"
+import { formatDate } from "@/lib/dateUtils"
 
 export default function AddCardModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -26,11 +27,7 @@ export default function AddCardModal() {
   )
   const { addCard } = useWeatherStore()
 
-  const today = new Date().toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-  })
+  const today = formatDate(new Date().toISOString())
 
   useEffect(() => {
     if (isOpen && !location) {

@@ -10,6 +10,12 @@ export const useWeatherStore = create<WeatherStore>()(
         set((state) => ({
           cards: [...state.cards, card],
         })),
+      updateCard: (id, updatedCard) =>
+        set((state) => ({
+          cards: state.cards.map((card) =>
+            card.id === id ? updatedCard : card
+          ),
+        })),
     }),
     { name: "weather-cards" }
   )

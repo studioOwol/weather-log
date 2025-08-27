@@ -13,6 +13,7 @@ export interface WeatherCardType {
 export interface WeatherStore {
   cards: WeatherCardType[]
   addCard: (card: WeatherCardType) => void
+  updateCard: (id: string, updatedCard: WeatherCardType) => void
 }
 
 export interface WeatherApiResponse {
