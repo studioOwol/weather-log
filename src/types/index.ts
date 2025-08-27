@@ -1,4 +1,4 @@
-export interface WeatherCard {
+export interface WeatherCardType {
   id: string
   date: string
   location: { lat: number; lon: number }
@@ -6,13 +6,13 @@ export interface WeatherCard {
   city: string
   state: string
   memo: string
-  min: number
-  max: number
+  minTemp: number
+  maxTemp: number
 }
 
 export interface WeatherStore {
-  cards: WeatherCard[]
-  addCard: (card: WeatherCard) => void
+  cards: WeatherCardType[]
+  addCard: (card: WeatherCardType) => void
 }
 
 export interface WeatherApiResponse {

@@ -65,8 +65,8 @@ export default function AddCardModal() {
       city: locationInfo.city,
       state: locationInfo.state,
       memo: memo,
-      min: Math.ceil(weatherData.daily.temperature_2m_min[0]),
-      max: Math.ceil(weatherData.daily.temperature_2m_max[0]),
+      minTemp: Math.ceil(weatherData.daily.temperature_2m_min[0]),
+      maxTemp: Math.ceil(weatherData.daily.temperature_2m_max[0]),
     }
 
     addCard(newCard)
