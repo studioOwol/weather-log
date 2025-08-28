@@ -8,6 +8,7 @@ export interface WeatherCardType {
   memo: string
   minTemp: number
   maxTemp: number
+  isBookmarked: boolean
 }
 
 export interface WeatherStore {
@@ -15,6 +16,7 @@ export interface WeatherStore {
   addCard: (card: WeatherCardType) => void
   updateCard: (id: string, updatedCard: WeatherCardType) => void
   deleteCard: (id: string) => void
+  toggleBookmark: (id: string) => void
 }
 
 export interface WeatherApiResponse {

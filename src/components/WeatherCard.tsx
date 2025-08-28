@@ -2,10 +2,11 @@ import { useState } from "react"
 import type { WeatherCardType } from "@/types"
 import { Card, CardContent, CardHeader } from "./ui/card"
 import { Button } from "./ui/button"
-import { Bookmark, Edit2, Trash2 } from "lucide-react"
+import { Bookmark, BookmarkCheck, Edit2, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
+import { useWeatherStore } from "@/store/useWeatherStore"
 
 interface WeatherProps {
   card: WeatherCardType
@@ -14,6 +15,11 @@ interface WeatherProps {
 export default function WeatherCard({ card }: WeatherProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const toggleBookmark = useWeatherStore((state) => state.toggleBookmark)
+
+  const handleToggleBookmark = () => {
+    toggleBookmark(card.id)
+  }
 
   return (
     <>
@@ -25,9 +31,10 @@ export default function WeatherCard({ card }: WeatherProps) {
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={handleToggleBookmark}
                 className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer"
               >
-                <Bookmark />
+                {card.isBookmarked ? <BookmarkCheck /> : <Bookmark />}
               </Button>
               <Button
                 variant="ghost"
