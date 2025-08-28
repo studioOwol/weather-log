@@ -1,6 +1,11 @@
 import FilterBar from "@/components/FilterBar"
+import WeatherGrid from "@/components/WeatherGrid"
+import { useWeatherStore } from "@/store/useWeatherStore"
 
 export default function Bookmarks() {
+  const { getBookmarkedCards } = useWeatherStore()
+  const bookmarkedCards = getBookmarkedCards()
+
   return (
     <div>
       <div className="flex flex-col items-center p-8">
@@ -10,6 +15,11 @@ export default function Bookmarks() {
       </div>
 
       <FilterBar />
+      <WeatherGrid
+        cards={bookmarkedCards}
+        emptyMessage="No bookmarked records yet."
+        subMessage="You can bookmark from the All Records list."
+      />
     </div>
   )
 }

@@ -17,6 +17,7 @@ export interface WeatherStore {
   updateCard: (id: string, updatedCard: WeatherCardType) => void
   deleteCard: (id: string) => void
   toggleBookmark: (id: string) => void
+  getBookmarkedCards: () => WeatherCardType[]
 }
 
 export interface WeatherApiResponse {

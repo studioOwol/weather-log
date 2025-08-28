@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware"
 
 export const useWeatherStore = create<WeatherStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       cards: [],
 
       addCard: (card) =>
@@ -28,6 +28,8 @@ export const useWeatherStore = create<WeatherStore>()(
             card.id === id ? { ...card, isBookmarked: !card.isBookmarked } : card
           ),
         })),
+
+      getBookmarkedCards: () => get().cards.filter((card) => card.isBookmarked),
     }),
     { name: "weather-cards" }
   )
