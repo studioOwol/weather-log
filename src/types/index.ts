@@ -47,6 +47,7 @@ export interface WeatherStore {
   setSelectedMonth: (month: string, filterType: FilterType) => void
   setSelectedDay: (day: string, filterType: FilterType) => void
   clearDateFilter: (filterType: FilterType) => void
+  clearAllFilters: (filterType: FilterType) => void
   getFilters: (filterType: FilterType) => DateFilter
   getSearchFilter: (filterType: FilterType) => SearchFilter
   getSortFilter: (filterType: FilterType) => SortFilter

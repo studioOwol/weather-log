@@ -1,7 +1,7 @@
 import type { WeatherStore, FilterType } from "@/types"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import { DEFAULT_SORT_OPTION, SORT_OPTIONS } from "@/constants/filters"
+import { DEFAULT_SORT_OPTION, SORT_OPTIONS, FILTER_KEYS, FILTER_TYPES } from "@/constants/filters"
 
 export const useWeatherStore = create<WeatherStore>()(
   persist(
@@ -127,36 +127,36 @@ export const useWeatherStore = create<WeatherStore>()(
 
       getFilters: (filterType: FilterType) => {
         const state = get()
-        return filterType === "home" ? state.homeFilters : state.bookmarkFilters
+        return filterType === FILTER_TYPES.HOME ? state.homeFilters : state.bookmarkFilters
       },
 
       getSearchFilter: (filterType: FilterType) => {
         const state = get()
-        return filterType === "home" ? state.homeSearchFilter : state.bookmarkSearchFilter
+        return filterType === FILTER_TYPES.HOME ? state.homeSearchFilter : state.bookmarkSearchFilter
       },
 
       getSortFilter: (filterType: FilterType) => {
         const state = get()
-        return filterType === "home" ? state.homeSortFilter : state.bookmarkSortFilter
+        return filterType === FILTER_TYPES.HOME ? state.homeSortFilter : state.bookmarkSortFilter
       },
 
       setMemoSearch: (searchTerm: string, filterType: FilterType) =>
         set({
-          [filterType === "home" ? "homeSearchFilter" : "bookmarkSearchFilter"]: {
+          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SEARCH_FILTER : FILTER_KEYS.BOOKMARK_SEARCH_FILTER]: {
             memoSearch: searchTerm,
           },
         }),
 
       setSortBy: (sortBy, filterType: FilterType) =>
         set({
-          [filterType === "home" ? "homeSortFilter" : "bookmarkSortFilter"]: {
+          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SORT_FILTER : FILTER_KEYS.BOOKMARK_SORT_FILTER]: {
             sortBy,
           },
         }),
 
       setSelectedYear: (year: string, filterType: FilterType) =>
         set({
-          [filterType === "home" ? "homeFilters" : "bookmarkFilters"]: {
+          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
             selectedYear: year,
             selectedMonth: "",
             selectedDay: "",
@@ -165,9 +165,9 @@ export const useWeatherStore = create<WeatherStore>()(
 
       setSelectedMonth: (month: string, filterType: FilterType) =>
         set((state) => {
-          const filters = filterType === "home" ? state.homeFilters : state.bookmarkFilters
+          const filters = filterType === FILTER_TYPES.HOME ? state.homeFilters : state.bookmarkFilters
           return {
-            [filterType === "home" ? "homeFilters" : "bookmarkFilters"]: {
+            [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
               ...filters,
               selectedMonth: month,
               selectedDay: "",
@@ -177,9 +177,9 @@ export const useWeatherStore = create<WeatherStore>()(
 
       setSelectedDay: (day: string, filterType: FilterType) =>
         set((state) => {
-          const filters = filterType === "home" ? state.homeFilters : state.bookmarkFilters
+          const filters = filterType === FILTER_TYPES.HOME ? state.homeFilters : state.bookmarkFilters
           return {
-            [filterType === "home" ? "homeFilters" : "bookmarkFilters"]: {
+            [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
               ...filters,
               selectedDay: day,
             },
@@ -188,10 +188,25 @@ export const useWeatherStore = create<WeatherStore>()(
 
       clearDateFilter: (filterType: FilterType) =>
         set({
-          [filterType === "home" ? "homeFilters" : "bookmarkFilters"]: {
+          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
             selectedYear: "",
             selectedMonth: "",
             selectedDay: "",
+          },
+        }),
+
+      clearAllFilters: (filterType: FilterType) =>
+        set({
+          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
+            selectedYear: "",
+            selectedMonth: "",
+            selectedDay: "",
+          },
+          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SEARCH_FILTER : FILTER_KEYS.BOOKMARK_SEARCH_FILTER]: {
+            memoSearch: "",
+          },
+          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SORT_FILTER : FILTER_KEYS.BOOKMARK_SORT_FILTER]: {
+            sortBy: DEFAULT_SORT_OPTION,
           },
         }),
     }),
