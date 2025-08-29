@@ -19,10 +19,16 @@ export interface DateFilter {
   selectedDay: string
 }
 
+export interface SearchFilter {
+  memoSearch: string
+}
+
 export interface WeatherStore {
   cards: WeatherCardType[]
   homeFilters: DateFilter
   bookmarkFilters: DateFilter
+  homeSearchFilter: SearchFilter
+  bookmarkSearchFilter: SearchFilter
   addCard: (card: WeatherCardType) => void
   updateCard: (id: string, updatedCard: WeatherCardType) => void
   deleteCard: (id: string) => void
@@ -34,6 +40,8 @@ export interface WeatherStore {
   setSelectedDay: (day: string, filterType: FilterType) => void
   clearDateFilter: (filterType: FilterType) => void
   getFilters: (filterType: FilterType) => DateFilter
+  getSearchFilter: (filterType: FilterType) => SearchFilter
+  setMemoSearch: (searchTerm: string, filterType: FilterType) => void
 }
 
 export interface WeatherApiResponse {

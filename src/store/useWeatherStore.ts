@@ -16,6 +16,12 @@ export const useWeatherStore = create<WeatherStore>()(
         selectedMonth: "",
         selectedDay: "",
       },
+      homeSearchFilter: {
+        memoSearch: "",
+      },
+      bookmarkSearchFilter: {
+        memoSearch: "",
+      },
 
       addCard: (card) =>
         set((state) => ({
@@ -44,11 +50,14 @@ export const useWeatherStore = create<WeatherStore>()(
       getFilteredCards: (filterType: FilterType) => {
         const { cards } = get()
         const filters = get().getFilters(filterType)
+        const searchFilter = get().getSearchFilter(filterType)
         const { selectedYear, selectedMonth, selectedDay } = filters
+        const { memoSearch } = searchFilter
         
         return cards.filter((card) => {
           const cardDate = new Date(card.date)
           
+          // Date filtering
           if (selectedYear && cardDate.getFullYear().toString() !== selectedYear) {
             return false
           }
@@ -61,6 +70,11 @@ export const useWeatherStore = create<WeatherStore>()(
             return false
           }
           
+          // Memo search filtering
+          if (memoSearch && !card.memo.toLowerCase().includes(memoSearch.toLowerCase())) {
+            return false
+          }
+          
           return true
         })
       },
@@ -69,6 +83,18 @@ export const useWeatherStore = create<WeatherStore>()(
         const state = get()
         return filterType === 'home' ? state.homeFilters : state.bookmarkFilters
       },
+
+      getSearchFilter: (filterType: FilterType) => {
+        const state = get()
+        return filterType === 'home' ? state.homeSearchFilter : state.bookmarkSearchFilter
+      },
+
+      setMemoSearch: (searchTerm: string, filterType: FilterType) =>
+        set({
+          [filterType === 'home' ? 'homeSearchFilter' : 'bookmarkSearchFilter']: {
+            memoSearch: searchTerm,
+          }
+        }),
 
       setSelectedYear: (year: string, filterType: FilterType) =>
         set({

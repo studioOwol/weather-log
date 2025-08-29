@@ -5,17 +5,15 @@ import DateSearch from "./filter/DateSearch"
 import MemoSearch from "./filter/MemoSearch"
 import SortGroup from "./filter/SortGroup"
 import { useWeatherStore } from "@/store/useWeatherStore"
-import { useLocation } from "react-router"
-import { ROUTES } from "@/lib/routes"
+import { usePageType } from "@/hooks/usePageType"
 
 export default function FilterBar() {
-  const location = useLocation()
-  const isBookmarkPage = location.pathname === ROUTES.BOOKMARKS
-  const filterType = isBookmarkPage ? 'bookmarks' : 'home'
-  
-  const { cards, getFilters, clearDateFilter, getFilteredCards, getBookmarkedCards } = useWeatherStore()
+  const filterType = usePageType()
+  const isBookmarkPage = filterType === "bookmarks"
+  const { cards, getFilters, clearDateFilter, getFilteredCards, getBookmarkedCards } =
+    useWeatherStore()
   const filters = getFilters(filterType)
-  const filteredCards = isBookmarkPage ? getBookmarkedCards() : getFilteredCards('home')
+  const filteredCards = isBookmarkPage ? getBookmarkedCards() : getFilteredCards("home")
 
   return (
     <div className="space-y-4 mb-6 p-4 rounded-xl bg-inner border border-border-default">
