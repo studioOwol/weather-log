@@ -5,6 +5,8 @@ import { useMemo } from "react"
 import { getDaysInMonth } from "../../lib/dateUtils"
 import { useWeatherStore } from "@/store/useWeatherStore"
 import type { FilterType } from "@/types"
+import { MONTHS, YEAR_RANGE } from "@/constants/filters"
+import { PLACEHOLDERS } from "@/constants/messages"
 
 interface DateSearchProps {
   filterType: FilterType
@@ -14,27 +16,9 @@ export default function DateSearch({ filterType }: DateSearchProps) {
   const { getFilters, setSelectedYear, setSelectedMonth, setSelectedDay } = useWeatherStore()
   const { selectedYear, selectedMonth, selectedDay } = getFilters(filterType)
 
-  const months = useMemo(
-    () => [
-      { value: "1", label: "Jan" },
-      { value: "2", label: "Feb" },
-      { value: "3", label: "Mar" },
-      { value: "4", label: "Apr" },
-      { value: "5", label: "May" },
-      { value: "6", label: "Jun" },
-      { value: "7", label: "Jul" },
-      { value: "8", label: "Aug" },
-      { value: "9", label: "Sep" },
-      { value: "10", label: "Oct" },
-      { value: "11", label: "Nov" },
-      { value: "12", label: "Dec" },
-    ],
-    []
-  )
-
   const years = useMemo(() => {
     const currentYear = new Date().getFullYear()
-    return Array.from({ length: 6 }, (_, i) => currentYear - i)
+    return Array.from({ length: YEAR_RANGE }, (_, i) => currentYear - i)
   }, [])
 
   const days = useMemo(
@@ -49,7 +33,7 @@ export default function DateSearch({ filterType }: DateSearchProps) {
 
         <Select value={selectedYear} onValueChange={(year) => setSelectedYear(year, filterType)}>
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
-            <SelectValue placeholder="Year" />
+            <SelectValue placeholder={PLACEHOLDERS.YEAR} />
           </SelectTrigger>
 
           <SelectContent className="bg-inner text-muted-foreground border-border-default">
@@ -63,10 +47,10 @@ export default function DateSearch({ filterType }: DateSearchProps) {
 
         <Select value={selectedMonth} onValueChange={(month) => setSelectedMonth(month, filterType)} disabled={!selectedYear}>
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
-            <SelectValue placeholder="Month" />
+            <SelectValue placeholder={PLACEHOLDERS.MONTH} />
           </SelectTrigger>
           <SelectContent className="bg-inner text-muted-foreground border-border-default">
-            {months.map((month) => (
+            {MONTHS.map((month) => (
               <SelectItem key={month.value} value={month.value} className="focus:text-primary">
                 {month.label}
               </SelectItem>
@@ -76,7 +60,7 @@ export default function DateSearch({ filterType }: DateSearchProps) {
 
         <Select value={selectedDay} onValueChange={(day) => setSelectedDay(day, filterType)} disabled={!selectedMonth}>
           <SelectTrigger className="min-w-16 w-16 border border-border-default">
-            <SelectValue placeholder="Day" />
+            <SelectValue placeholder={PLACEHOLDERS.DAY} />
           </SelectTrigger>
           <SelectContent className="bg-inner text-muted-foreground border-border-default">
             {days.map((day) => (

@@ -1,5 +1,6 @@
 import type { WeatherCardType } from "@/types"
 import WeatherCard from "./WeatherCard"
+import { EMPTY_MESSAGE, SUB_MESSAGE } from "@/constants/messages"
 
 interface WeatherGridProps {
   cards: WeatherCardType[]
@@ -9,8 +10,8 @@ interface WeatherGridProps {
 
 export default function WeatherGrid({
   cards,
-  emptyMessage = "No records yet.",
-  subMessage = " Click the + button in the bottom right to add your first entry!",
+  emptyMessage = EMPTY_MESSAGE.HOME,
+  subMessage = SUB_MESSAGE.HOME,
 }: WeatherGridProps) {
   if (cards.length === 0) {
     return (

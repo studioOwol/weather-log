@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useWeatherStore } from "@/store/useWeatherStore"
 import { usePageType } from "@/hooks/usePageType"
+import { DEBOUNCE_DELAY } from "@/constants/filters"
+import { PLACEHOLDERS } from "@/constants/messages"
 
 export default function MemoSearch() {
   const filterType = usePageType()
@@ -12,7 +14,7 @@ export default function MemoSearch() {
   const searchFilter = getSearchFilter(filterType)
 
   const [inputValue, setInputValue] = useState(searchFilter.memoSearch)
-  const debouncedSearchTerm = useDebounce(inputValue, 300)
+  const debouncedSearchTerm = useDebounce(inputValue, DEBOUNCE_DELAY)
 
   useEffect(() => {
     setMemoSearch(debouncedSearchTerm, filterType)
@@ -28,7 +30,7 @@ export default function MemoSearch() {
       <Input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Search notes..."
+        placeholder={PLACEHOLDERS.SEARCH_NOTES}
         className="border-border-default pl-10 text-muted-foreground focus:placeholder-transparent"
       />
     </div>

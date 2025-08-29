@@ -1,5 +1,6 @@
 import FilterBar from "@/components/FilterBar"
 import WeatherGrid from "@/components/WeatherGrid"
+import { EMPTY_MESSAGE, SUB_MESSAGE } from "@/constants/messages"
 import { useWeatherStore } from "@/store/useWeatherStore"
 
 export default function Bookmarks() {
@@ -17,8 +18,8 @@ export default function Bookmarks() {
       <FilterBar />
       <WeatherGrid
         cards={bookmarkedCards}
-        emptyMessage="No bookmarked records yet."
-        subMessage="You can bookmark from the All Records list."
+        emptyMessage={EMPTY_MESSAGE.BOOKMARKS}
+        subMessage={SUB_MESSAGE.BOOKMARKS}
       />
     </div>
   )

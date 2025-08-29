@@ -2,6 +2,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useWeatherStore } from "@/store/useWeatherStore"
 import { usePageType } from "@/hooks/usePageType"
 import type { SortOption } from "@/types"
+import { SORT_OPTIONS, SORT_LABELS } from "@/constants/filters"
 
 export default function SortGroup() {
   const filterType = usePageType()
@@ -20,19 +21,23 @@ export default function SortGroup() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="border-border-default bg-inner text-muted-foreground">
-          <SelectItem value="date-desc">Latest</SelectItem>
-          <SelectItem value="date-asc">Oldest</SelectItem>
-          <SelectItem value="maxTemp-desc">
-            <div className="flex items-center">Max Temp (High)</div>
+          <SelectItem value={SORT_OPTIONS.DATE_DESC}>
+            {SORT_LABELS[SORT_OPTIONS.DATE_DESC]}
           </SelectItem>
-          <SelectItem value="maxTemp-asc">
-            <div className="flex items-center">Max Temp (Low)</div>
+          <SelectItem value={SORT_OPTIONS.DATE_ASC}>
+            {SORT_LABELS[SORT_OPTIONS.DATE_ASC]}
           </SelectItem>
-          <SelectItem value="minTemp-desc">
-            <div className="flex items-center">Min Temp (High)</div>
+          <SelectItem value={SORT_OPTIONS.MAX_TEMP_DESC}>
+            <div className="flex items-center">{SORT_LABELS[SORT_OPTIONS.MAX_TEMP_DESC]}</div>
           </SelectItem>
-          <SelectItem value="minTemp-asc">
-            <div className="flex items-center">Min Temp (Low)</div>
+          <SelectItem value={SORT_OPTIONS.MAX_TEMP_ASC}>
+            <div className="flex items-center">{SORT_LABELS[SORT_OPTIONS.MAX_TEMP_ASC]}</div>
+          </SelectItem>
+          <SelectItem value={SORT_OPTIONS.MIN_TEMP_DESC}>
+            <div className="flex items-center">{SORT_LABELS[SORT_OPTIONS.MIN_TEMP_DESC]}</div>
+          </SelectItem>
+          <SelectItem value={SORT_OPTIONS.MIN_TEMP_ASC}>
+            <div className="flex items-center">{SORT_LABELS[SORT_OPTIONS.MIN_TEMP_ASC]}</div>
           </SelectItem>
         </SelectContent>
       </Select>
