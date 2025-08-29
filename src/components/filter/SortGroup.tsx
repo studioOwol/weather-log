@@ -1,10 +1,21 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { useWeatherStore } from "@/store/useWeatherStore"
+import { usePageType } from "@/hooks/usePageType"
+import type { SortOption } from "@/types"
 
 export default function SortGroup() {
+  const filterType = usePageType()
+  const { getSortFilter, setSortBy } = useWeatherStore()
+  const sortFilter = getSortFilter(filterType)
+
+  const handleSortChange = (value: SortOption) => {
+    setSortBy(value, filterType)
+  }
+
   return (
     <div className="flex items-center gap-2">
       <span className="text-sm font-medium text-muted-foreground">Sort:</span>
-      <Select defaultValue="date-desc">
+      <Select value={sortFilter.sortBy} onValueChange={handleSortChange}>
         <SelectTrigger className="w-[11.25rem] border-border-default text-muted-foreground">
           <SelectValue />
         </SelectTrigger>

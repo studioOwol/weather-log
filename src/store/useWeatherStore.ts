@@ -22,6 +22,12 @@ export const useWeatherStore = create<WeatherStore>()(
       bookmarkSearchFilter: {
         memoSearch: "",
       },
+      homeSortFilter: {
+        sortBy: "date-desc",
+      },
+      bookmarkSortFilter: {
+        sortBy: "date-desc",
+      },
 
       addCard: (card) =>
         set((state) => ({
@@ -51,10 +57,13 @@ export const useWeatherStore = create<WeatherStore>()(
         const { cards } = get()
         const filters = get().getFilters(filterType)
         const searchFilter = get().getSearchFilter(filterType)
+        const sortFilter = get().getSortFilter(filterType)
         const { selectedYear, selectedMonth, selectedDay } = filters
         const { memoSearch } = searchFilter
+        const { sortBy } = sortFilter
         
-        return cards.filter((card) => {
+        // Filter cards
+        let filteredCards = cards.filter((card) => {
           const cardDate = new Date(card.date)
           
           // Date filtering
@@ -77,6 +86,39 @@ export const useWeatherStore = create<WeatherStore>()(
           
           return true
         })
+        
+        // Sort cards
+        return filteredCards.sort((a, b) => {
+          let result = 0
+          
+          switch (sortBy) {
+            case 'date-desc':
+              return new Date(b.date).getTime() - new Date(a.date).getTime()
+            case 'date-asc':
+              return new Date(a.date).getTime() - new Date(b.date).getTime()
+            case 'maxTemp-desc':
+              result = b.maxTemp - a.maxTemp
+              break
+            case 'maxTemp-asc':
+              result = a.maxTemp - b.maxTemp
+              break
+            case 'minTemp-desc':
+              result = b.minTemp - a.minTemp
+              break
+            case 'minTemp-asc':
+              result = a.minTemp - b.minTemp
+              break
+            default:
+              return new Date(b.date).getTime() - new Date(a.date).getTime()
+          }
+          
+          // 같은 값이면 날짜 최신순으로 정렬
+          if (result === 0) {
+            return new Date(b.date).getTime() - new Date(a.date).getTime()
+          }
+          
+          return result
+        })
       },
 
       getFilters: (filterType: FilterType) => {
@@ -89,10 +131,22 @@ export const useWeatherStore = create<WeatherStore>()(
         return filterType === 'home' ? state.homeSearchFilter : state.bookmarkSearchFilter
       },
 
+      getSortFilter: (filterType: FilterType) => {
+        const state = get()
+        return filterType === 'home' ? state.homeSortFilter : state.bookmarkSortFilter
+      },
+
       setMemoSearch: (searchTerm: string, filterType: FilterType) =>
         set({
           [filterType === 'home' ? 'homeSearchFilter' : 'bookmarkSearchFilter']: {
             memoSearch: searchTerm,
+          }
+        }),
+
+      setSortBy: (sortBy, filterType: FilterType) =>
+        set({
+          [filterType === 'home' ? 'homeSortFilter' : 'bookmarkSortFilter']: {
+            sortBy,
           }
         }),
 

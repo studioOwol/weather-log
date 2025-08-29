@@ -23,12 +23,20 @@ export interface SearchFilter {
   memoSearch: string
 }
 
+export type SortOption = 'date-desc' | 'date-asc' | 'maxTemp-desc' | 'maxTemp-asc' | 'minTemp-desc' | 'minTemp-asc'
+
+export interface SortFilter {
+  sortBy: SortOption
+}
+
 export interface WeatherStore {
   cards: WeatherCardType[]
   homeFilters: DateFilter
   bookmarkFilters: DateFilter
   homeSearchFilter: SearchFilter
   bookmarkSearchFilter: SearchFilter
+  homeSortFilter: SortFilter
+  bookmarkSortFilter: SortFilter
   addCard: (card: WeatherCardType) => void
   updateCard: (id: string, updatedCard: WeatherCardType) => void
   deleteCard: (id: string) => void
@@ -41,7 +49,9 @@ export interface WeatherStore {
   clearDateFilter: (filterType: FilterType) => void
   getFilters: (filterType: FilterType) => DateFilter
   getSearchFilter: (filterType: FilterType) => SearchFilter
+  getSortFilter: (filterType: FilterType) => SortFilter
   setMemoSearch: (searchTerm: string, filterType: FilterType) => void
+  setSortBy: (sortBy: SortOption, filterType: FilterType) => void
 }
 
 export interface WeatherApiResponse {
