@@ -13,11 +13,19 @@ export interface WeatherCardType {
 
 export interface WeatherStore {
   cards: WeatherCardType[]
+  selectedYear: string
+  selectedMonth: string
+  selectedDay: string
   addCard: (card: WeatherCardType) => void
   updateCard: (id: string, updatedCard: WeatherCardType) => void
   deleteCard: (id: string) => void
   toggleBookmark: (id: string) => void
   getBookmarkedCards: () => WeatherCardType[]
+  getFilteredCards: () => WeatherCardType[]
+  setSelectedYear: (year: string) => void
+  setSelectedMonth: (month: string) => void
+  setSelectedDay: (day: string) => void
+  clearDateFilter: () => void
 }
 
 export interface WeatherApiResponse {

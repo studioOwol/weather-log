@@ -64,6 +64,7 @@ export default function AddCardModal() {
       memo: memo,
       minTemp: Math.ceil(weatherData.daily.temperature_2m_min[0]),
       maxTemp: Math.ceil(weatherData.daily.temperature_2m_max[0]),
+      isBookmarked: false,
     }
 
     addCard(newCard)

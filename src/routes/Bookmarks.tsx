@@ -14,7 +14,7 @@ export default function Bookmarks() {
         </h1>
       </div>
 
-      <FilterBar />
+      <FilterBar getCards={getBookmarkedCards} />
       <WeatherGrid
         cards={bookmarkedCards}
         emptyMessage="No bookmarked records yet."

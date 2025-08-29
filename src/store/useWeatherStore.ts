@@ -6,6 +6,9 @@ export const useWeatherStore = create<WeatherStore>()(
   persist(
     (set, get) => ({
       cards: [],
+      selectedYear: "",
+      selectedMonth: "",
+      selectedDay: "",
 
       addCard: (card) =>
         set((state) => ({
@@ -29,7 +32,52 @@ export const useWeatherStore = create<WeatherStore>()(
           ),
         })),
 
-      getBookmarkedCards: () => get().cards.filter((card) => card.isBookmarked),
+      getBookmarkedCards: () => get().getFilteredCards().filter((card) => card.isBookmarked),
+
+      getFilteredCards: () => {
+        const { cards, selectedYear, selectedMonth, selectedDay } = get()
+        
+        return cards.filter((card) => {
+          const cardDate = new Date(card.date)
+          
+          if (selectedYear && cardDate.getFullYear().toString() !== selectedYear) {
+            return false
+          }
+          
+          if (selectedMonth && (cardDate.getMonth() + 1).toString() !== selectedMonth) {
+            return false
+          }
+          
+          if (selectedDay && cardDate.getDate().toString() !== selectedDay) {
+            return false
+          }
+          
+          return true
+        })
+      },
+
+      setSelectedYear: (year) =>
+        set({
+          selectedYear: year,
+          selectedMonth: "",
+          selectedDay: "",
+        }),
+
+      setSelectedMonth: (month) =>
+        set({
+          selectedMonth: month,
+          selectedDay: "",
+        }),
+
+      setSelectedDay: (day) =>
+        set({ selectedDay: day }),
+
+      clearDateFilter: () =>
+        set({
+          selectedYear: "",
+          selectedMonth: "",
+          selectedDay: "",
+        }),
     }),
     { name: "weather-cards" }
   )

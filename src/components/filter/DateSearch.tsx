@@ -1,13 +1,12 @@
 import { Calendar } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select"
 import { SelectValue } from "@radix-ui/react-select"
-import { useState, useMemo } from "react"
+import { useMemo } from "react"
 import { getDaysInMonth } from "../../lib/dateUtils"
+import { useWeatherStore } from "@/store/useWeatherStore"
 
 export default function DateSearch() {
-  const [selectedYear, setSelectedYear] = useState<string>("")
-  const [selectedMonth, setSelectedMonth] = useState<string>("")
-  const [selectedDay, setSelectedDay] = useState<string>("")
+  const { selectedYear, selectedMonth, selectedDay, setSelectedYear, setSelectedMonth, setSelectedDay } = useWeatherStore()
 
   const months = useMemo(
     () => [
