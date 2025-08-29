@@ -4,9 +4,15 @@ import { SelectValue } from "@radix-ui/react-select"
 import { useMemo } from "react"
 import { getDaysInMonth } from "../../lib/dateUtils"
 import { useWeatherStore } from "@/store/useWeatherStore"
+import type { FilterType } from "@/types"
 
-export default function DateSearch() {
-  const { selectedYear, selectedMonth, selectedDay, setSelectedYear, setSelectedMonth, setSelectedDay } = useWeatherStore()
+interface DateSearchProps {
+  filterType: FilterType
+}
+
+export default function DateSearch({ filterType }: DateSearchProps) {
+  const { getFilters, setSelectedYear, setSelectedMonth, setSelectedDay } = useWeatherStore()
+  const { selectedYear, selectedMonth, selectedDay } = getFilters(filterType)
 
   const months = useMemo(
     () => [
@@ -41,7 +47,7 @@ export default function DateSearch() {
       <div className="flex items-center gap-2 min-w-0">
         <Calendar className="size-4 text-muted-foreground" />
 
-        <Select value={selectedYear} onValueChange={setSelectedYear}>
+        <Select value={selectedYear} onValueChange={(year) => setSelectedYear(year, filterType)}>
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
             <SelectValue placeholder="Year" />
           </SelectTrigger>
@@ -55,7 +61,7 @@ export default function DateSearch() {
           </SelectContent>
         </Select>
 
-        <Select value={selectedMonth} onValueChange={setSelectedMonth} disabled={!selectedYear}>
+        <Select value={selectedMonth} onValueChange={(month) => setSelectedMonth(month, filterType)} disabled={!selectedYear}>
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
             <SelectValue placeholder="Month" />
           </SelectTrigger>
@@ -68,7 +74,7 @@ export default function DateSearch() {
           </SelectContent>
         </Select>
 
-        <Select value={selectedDay} onValueChange={setSelectedDay} disabled={!selectedMonth}>
+        <Select value={selectedDay} onValueChange={(day) => setSelectedDay(day, filterType)} disabled={!selectedMonth}>
           <SelectTrigger className="min-w-16 w-16 border border-border-default">
             <SelectValue placeholder="Day" />
           </SelectTrigger>

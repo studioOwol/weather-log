@@ -5,15 +5,17 @@ import DateSearch from "./filter/DateSearch"
 import MemoSearch from "./filter/MemoSearch"
 import SortGroup from "./filter/SortGroup"
 import { useWeatherStore } from "@/store/useWeatherStore"
-import type { WeatherCardType } from "@/types"
+import { useLocation } from "react-router"
+import { ROUTES } from "@/lib/routes"
 
-interface FilterBarProps {
-  getCards: () => WeatherCardType[]
-}
-
-export default function FilterBar({ getCards }: FilterBarProps) {
-  const { cards, selectedYear, clearDateFilter } = useWeatherStore()
-  const filteredCards = getCards()
+export default function FilterBar() {
+  const location = useLocation()
+  const isBookmarkPage = location.pathname === ROUTES.BOOKMARKS
+  const filterType = isBookmarkPage ? 'bookmarks' : 'home'
+  
+  const { cards, getFilters, clearDateFilter, getFilteredCards, getBookmarkedCards } = useWeatherStore()
+  const filters = getFilters(filterType)
+  const filteredCards = isBookmarkPage ? getBookmarkedCards() : getFilteredCards('home')
 
   return (
     <div className="space-y-4 mb-6 p-4 rounded-xl bg-inner border border-border-default">
@@ -36,13 +38,13 @@ export default function FilterBar({ getCards }: FilterBarProps) {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
-        <DateSearch />
-        {selectedYear && (
+        <DateSearch filterType={filterType} />
+        {filters.selectedYear && (
           <Button
             variant="outline"
             size="sm"
             className="bg-inner border border-border-default text-xs text-muted-foreground rounded-lg w-fit"
-            onClick={clearDateFilter}
+            onClick={() => clearDateFilter(filterType)}
           >
             Clear
           </Button>

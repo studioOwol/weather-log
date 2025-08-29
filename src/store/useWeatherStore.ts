@@ -1,4 +1,4 @@
-import type { WeatherStore } from "@/types"
+import type { WeatherStore, FilterType } from "@/types"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
@@ -6,9 +6,16 @@ export const useWeatherStore = create<WeatherStore>()(
   persist(
     (set, get) => ({
       cards: [],
-      selectedYear: "",
-      selectedMonth: "",
-      selectedDay: "",
+      homeFilters: {
+        selectedYear: "",
+        selectedMonth: "",
+        selectedDay: "",
+      },
+      bookmarkFilters: {
+        selectedYear: "",
+        selectedMonth: "",
+        selectedDay: "",
+      },
 
       addCard: (card) =>
         set((state) => ({
@@ -32,10 +39,12 @@ export const useWeatherStore = create<WeatherStore>()(
           ),
         })),
 
-      getBookmarkedCards: () => get().getFilteredCards().filter((card) => card.isBookmarked),
+      getBookmarkedCards: () => get().getFilteredCards('bookmarks').filter((card) => card.isBookmarked),
 
-      getFilteredCards: () => {
-        const { cards, selectedYear, selectedMonth, selectedDay } = get()
+      getFilteredCards: (filterType: FilterType) => {
+        const { cards } = get()
+        const filters = get().getFilters(filterType)
+        const { selectedYear, selectedMonth, selectedDay } = filters
         
         return cards.filter((card) => {
           const cardDate = new Date(card.date)
@@ -56,27 +65,50 @@ export const useWeatherStore = create<WeatherStore>()(
         })
       },
 
-      setSelectedYear: (year) =>
+      getFilters: (filterType: FilterType) => {
+        const state = get()
+        return filterType === 'home' ? state.homeFilters : state.bookmarkFilters
+      },
+
+      setSelectedYear: (year: string, filterType: FilterType) =>
         set({
-          selectedYear: year,
-          selectedMonth: "",
-          selectedDay: "",
+          [filterType === 'home' ? 'homeFilters' : 'bookmarkFilters']: {
+            selectedYear: year,
+            selectedMonth: "",
+            selectedDay: "",
+          }
         }),
 
-      setSelectedMonth: (month) =>
-        set({
-          selectedMonth: month,
-          selectedDay: "",
+      setSelectedMonth: (month: string, filterType: FilterType) =>
+        set((state) => {
+          const filters = filterType === 'home' ? state.homeFilters : state.bookmarkFilters
+          return {
+            [filterType === 'home' ? 'homeFilters' : 'bookmarkFilters']: {
+              ...filters,
+              selectedMonth: month,
+              selectedDay: "",
+            }
+          }
         }),
 
-      setSelectedDay: (day) =>
-        set({ selectedDay: day }),
+      setSelectedDay: (day: string, filterType: FilterType) =>
+        set((state) => {
+          const filters = filterType === 'home' ? state.homeFilters : state.bookmarkFilters
+          return {
+            [filterType === 'home' ? 'homeFilters' : 'bookmarkFilters']: {
+              ...filters,
+              selectedDay: day,
+            }
+          }
+        }),
 
-      clearDateFilter: () =>
+      clearDateFilter: (filterType: FilterType) =>
         set({
-          selectedYear: "",
-          selectedMonth: "",
-          selectedDay: "",
+          [filterType === 'home' ? 'homeFilters' : 'bookmarkFilters']: {
+            selectedYear: "",
+            selectedMonth: "",
+            selectedDay: "",
+          }
         }),
     }),
     { name: "weather-cards" }

@@ -5,7 +5,7 @@ import { useWeatherStore } from "@/store/useWeatherStore"
 
 export default function Home() {
   const { getFilteredCards } = useWeatherStore()
-  const cards = getFilteredCards()
+  const cards = getFilteredCards('home')
 
   return (
     <div>
@@ -15,7 +15,7 @@ export default function Home() {
         </h1>
       </div>
 
-      <FilterBar getCards={getFilteredCards} />
+      <FilterBar />
       <WeatherGrid cards={cards} />
       <AddCardModal />
     </div>

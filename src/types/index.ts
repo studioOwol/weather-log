@@ -11,21 +11,29 @@ export interface WeatherCardType {
   isBookmarked: boolean
 }
 
-export interface WeatherStore {
-  cards: WeatherCardType[]
+export type FilterType = 'home' | 'bookmarks'
+
+export interface DateFilter {
   selectedYear: string
   selectedMonth: string
   selectedDay: string
+}
+
+export interface WeatherStore {
+  cards: WeatherCardType[]
+  homeFilters: DateFilter
+  bookmarkFilters: DateFilter
   addCard: (card: WeatherCardType) => void
   updateCard: (id: string, updatedCard: WeatherCardType) => void
   deleteCard: (id: string) => void
   toggleBookmark: (id: string) => void
   getBookmarkedCards: () => WeatherCardType[]
-  getFilteredCards: () => WeatherCardType[]
-  setSelectedYear: (year: string) => void
-  setSelectedMonth: (month: string) => void
-  setSelectedDay: (day: string) => void
-  clearDateFilter: () => void
+  getFilteredCards: (filterType: FilterType) => WeatherCardType[]
+  setSelectedYear: (year: string, filterType: FilterType) => void
+  setSelectedMonth: (month: string, filterType: FilterType) => void
+  setSelectedDay: (day: string, filterType: FilterType) => void
+  clearDateFilter: (filterType: FilterType) => void
+  getFilters: (filterType: FilterType) => DateFilter
 }
 
 export interface WeatherApiResponse {
