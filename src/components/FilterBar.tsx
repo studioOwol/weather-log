@@ -10,8 +10,14 @@ import { usePageType } from "@/hooks/usePageType"
 export default function FilterBar() {
   const filterType = usePageType()
   const isBookmarkPage = filterType === "bookmarks"
-  const { cards, getFilters, clearDateFilter, clearAllFilters, getFilteredCards, getBookmarkedCards } =
-    useWeatherStore()
+  const {
+    cards,
+    getFilters,
+    clearDateFilter,
+    clearAllFilters,
+    getFilteredCards,
+    getBookmarkedCards,
+  } = useWeatherStore()
   const filters = getFilters(filterType)
   const filteredCards = isBookmarkPage ? getBookmarkedCards() : getFilteredCards("home")
 
@@ -36,13 +42,13 @@ export default function FilterBar() {
         </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 text-muted-foreground">
         <DateSearch filterType={filterType} />
         {filters.selectedYear && (
           <Button
             variant="outline"
             size="sm"
-            className="bg-inner border border-border-default text-xs text-muted-foreground rounded-lg w-fit"
+            className="bg-inner border border-border-default text-xs rounded-lg w-fit"
             onClick={() => clearDateFilter(filterType)}
           >
             Clear

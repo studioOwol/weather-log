@@ -11,7 +11,7 @@ export interface WeatherCardType {
   isBookmarked: boolean
 }
 
-export type FilterType = 'home' | 'bookmarks'
+export type FilterType = "home" | "bookmarks"
 
 export interface DateFilter {
   selectedYear: string
@@ -23,7 +23,13 @@ export interface SearchFilter {
   memoSearch: string
 }
 
-export type SortOption = 'date-desc' | 'date-asc' | 'maxTemp-desc' | 'maxTemp-asc' | 'minTemp-desc' | 'minTemp-asc'
+export type SortOption =
+  | "date-desc"
+  | "date-asc"
+  | "maxTemp-desc"
+  | "maxTemp-asc"
+  | "minTemp-desc"
+  | "minTemp-asc"
 
 export interface SortFilter {
   sortBy: SortOption
@@ -37,6 +43,7 @@ export interface WeatherStore {
   bookmarkSearchFilter: SearchFilter
   homeSortFilter: SortFilter
   bookmarkSortFilter: SortFilter
+
   addCard: (card: WeatherCardType) => void
   updateCard: (id: string, updatedCard: WeatherCardType) => void
   deleteCard: (id: string) => void

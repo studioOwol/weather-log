@@ -17,7 +17,15 @@
   --text-12: 12px;
 }
 
-@media (prefers-color-scheme: dark) {
-  @theme {
-  }
+.dark {
+  --color-background: #0f0e0e;
+  --color-foreground: #b8c5d1;
+  --color-inner: #1a1a1d;
+  --color-primary: #7d91ac;
+  --color-secondary: #6f9ba8;
+  --color-border-default: #2d3748;
+  --color-muted-foreground: #a0aec0;
+  --color-muted: #2d3748;
+  --color-ring: #5b9bd5;
+  --color-destructive: #f56565;
 }

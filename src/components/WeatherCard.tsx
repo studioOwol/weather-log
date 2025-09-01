@@ -60,7 +60,7 @@ export default function WeatherCard({ card }: WeatherProps) {
           <div className="flex items-center justify-between">
             <div className="text-center">
               <p className="text-md font-semibold text-muted-foreground">Min Temp</p>
-              <p className="text-lg font-semibold text-primary">{card.minTemp}°C</p>
+              <p className="text-lg font-semibold text-[#5b9bd5]/90">{card.minTemp}°C</p>
             </div>
             <div className="text-3xl text-muted-foreground/30">/</div>
             <div className="text-center">

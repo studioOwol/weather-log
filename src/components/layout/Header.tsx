@@ -1,7 +1,15 @@
-import { Bookmark, Cloud, Home } from "lucide-react"
+import { Bookmark, Cloud, Home, Moon, Sun } from "lucide-react"
 import { NavLink } from "react-router"
+import { useThemeStore } from "../../store/useThemeStore"
+import { Button } from "../ui/button"
 
 export default function Header() {
+  const { resolvedTheme, setTheme } = useThemeStore()
+
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark")
+  }
+
   return (
     <header className="sticky bg-background top-0 z-50 w-full border-b border-border-default">
       <div className="h-16 px-4 py-2 flex items-center justify-between text-primary">
@@ -34,6 +42,20 @@ export default function Header() {
             <Bookmark className="size-4 sm:size-5" />
             <span className="hidden sm:inline">Bookmarks</span>
           </NavLink>
+
+          <Button
+            onClick={toggleTheme}
+            variant="ghost"
+            size="icon"
+            className="text-primary hover:bg-muted"
+            aria-label="Toggle theme"
+          >
+            {resolvedTheme === "dark" ? (
+              <Sun className="size-4 sm:size-5" />
+            ) : (
+              <Moon className="size-4 sm:size-5" />
+            )}
+          </Button>
         </nav>
       </div>
     </header>
