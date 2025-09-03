@@ -157,10 +157,10 @@ export default function AddCardModal() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="memo">Notes</Label>
+            <Label htmlFor="memo">Note</Label>
             <Textarea
               id="memo"
-              className="resize-none bg-inner border-border-default"
+              className="resize-none bg-inner border-border-default w-full break-all"
               rows={3}
               value={memo}
               onChange={(e) => setMemo(e.target.value)}

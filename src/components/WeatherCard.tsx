@@ -77,7 +77,7 @@ export default function WeatherCard({ card }: WeatherProps) {
             <p className="text-md font-semibold text-muted-foreground">Note:</p>
             <p
               className={cn(
-                "text-sm rounded-lg p-2 bg-secondary/10",
+                "text-sm rounded-lg p-2 bg-secondary/10 whitespace-pre-wrap",
                 card.memo ? "text-muted-foreground" : "text-muted-foreground/50 italic"
               )}
             >
