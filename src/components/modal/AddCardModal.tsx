@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "../ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogDescription,
+} from "../ui/dialog"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Plus, Loader2 } from "lucide-react"
@@ -9,6 +16,7 @@ import { useWeatherStore } from "@/store/useWeatherStore"
 import { getCurrentLocation } from "@/lib/apiUtils"
 import { reverseGeocode } from "@/api/api"
 import { formatDate } from "@/lib/dateUtils"
+import { RULES } from "../../constants/rules"
 
 export default function AddCardModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -95,9 +103,7 @@ export default function AddCardModal() {
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
         <DialogHeader>
           <DialogTitle>Add New Record</DialogTitle>
-          <DialogDescription>
-            Create a new weather record for today.
-          </DialogDescription>
+          <DialogDescription>Create a new weather record for today.</DialogDescription>
         </DialogHeader>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -135,10 +141,11 @@ export default function AddCardModal() {
                 </div>
               ) : weatherData ? (
                 <div className="text-sm">
-                  {Math.ceil(weatherData.daily.temperature_2m_min[0])}°C
+                  {Math.ceil(weatherData.daily.temperature_2m_min[0])}
+                  {RULES.TEMP_UNIT}
                 </div>
               ) : (
-                <div className="text-sm text-muted-foreground">--°C</div>
+                <div className="text-sm text-muted-foreground">--{RULES.TEMP_UNIT}</div>
               )}
             </div>
 
@@ -151,10 +158,11 @@ export default function AddCardModal() {
                 </div>
               ) : weatherData ? (
                 <div className="text-sm">
-                  {Math.ceil(weatherData.daily.temperature_2m_max[0])}°C
+                  {Math.ceil(weatherData.daily.temperature_2m_max[0])}
+                  {RULES.TEMP_UNIT}
                 </div>
               ) : (
-                <div className="text-sm text-muted-foreground">--°C</div>
+                <div className="text-sm text-muted-foreground">--{RULES.TEMP_UNIT}</div>
               )}
             </div>
           </div>
@@ -163,11 +171,17 @@ export default function AddCardModal() {
             <Label htmlFor="memo">Note</Label>
             <Textarea
               id="memo"
-              className="resize-none bg-inner border-border-default w-full break-all"
+              className="resize-none bg-inner border-border-default w-full h-28 break-all  overflow-y-auto"
               rows={3}
               value={memo}
+              maxLength={300}
               onChange={(e) => setMemo(e.target.value)}
             />
+            <div className="flex justify-end">
+              <span className="text-xs text-muted-foreground/70">
+                {memo.length}/{RULES.NOTE_LENGTH}
+              </span>
+            </div>
           </div>
 
           <div className="flex gap-2 pt-4">

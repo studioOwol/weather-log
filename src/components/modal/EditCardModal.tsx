@@ -6,6 +6,7 @@ import { Textarea } from "../ui/textarea"
 import { useWeatherStore } from "@/store/useWeatherStore"
 import type { WeatherCardType } from "@/types"
 import { formatDate } from "@/lib/dateUtils"
+import { RULES } from "@/constants/rules"
 
 interface EditCardModalProps {
   card: WeatherCardType
@@ -50,9 +51,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
         <DialogHeader>
           <DialogTitle>Edit Record</DialogTitle>
-          <DialogDescription>
-            Update the note for this weather record.
-          </DialogDescription>
+          <DialogDescription>Update the note for this weather record.</DialogDescription>
         </DialogHeader>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -74,12 +73,18 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Min Temp</Label>
-              <div className="text-sm">{card.minTemp}°C</div>
+              <div className="text-sm">
+                {card.minTemp}
+                {RULES.TEMP_UNIT}
+              </div>
             </div>
 
             <div className="space-y-2">
               <Label>Max Temp</Label>
-              <div className="text-sm">{card.maxTemp}°C</div>
+              <div className="text-sm">
+                {card.maxTemp}
+                {RULES.TEMP_UNIT}
+              </div>
             </div>
           </div>
 
@@ -88,12 +93,18 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
             <Textarea
               ref={textareaRef}
               id="memo"
-              className="resize-none bg-inner border-border-default w-full break-all"
+              className="resize-none bg-inner border-border-default w-full break-all h-28 overflow-y-auto"
               rows={3}
               value={memo}
+              maxLength={300}
               onChange={(e) => setMemo(e.target.value)}
               onFocus={handleTextareaFocus}
             />
+            <div className="flex justify-end">
+              <span className="text-xs text-muted-foreground/70">
+                {memo.length}/{RULES.NOTE_LENGTH}
+              </span>
+            </div>
           </div>
 
           <div className="flex gap-2 pt-4">
