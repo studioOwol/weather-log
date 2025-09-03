@@ -19,9 +19,11 @@ export const useWeatherStore = create<WeatherStore>()(
       },
       homeSearchFilter: {
         memoSearch: "",
+        locationSearch: "",
       },
       bookmarkSearchFilter: {
         memoSearch: "",
+        locationSearch: "",
       },
       homeSortFilter: {
         sortBy: DEFAULT_SORT_OPTION,
@@ -63,7 +65,7 @@ export const useWeatherStore = create<WeatherStore>()(
         const searchFilter = get().getSearchFilter(filterType)
         const sortFilter = get().getSortFilter(filterType)
         const { selectedYear, selectedMonth, selectedDay } = filters
-        const { memoSearch } = searchFilter
+        const { memoSearch, locationSearch } = searchFilter
         const { sortBy } = sortFilter
 
         // Filter cards
@@ -86,6 +88,14 @@ export const useWeatherStore = create<WeatherStore>()(
           // Memo search filtering
           if (memoSearch && !card.memo.toLowerCase().includes(memoSearch.toLowerCase())) {
             return false
+          }
+
+          // Location search filtering
+          if (locationSearch) {
+            const locationString = `${card.country} ${card.state} ${card.city}`.toLowerCase()
+            if (!locationString.includes(locationSearch.toLowerCase())) {
+              return false
+            }
           }
 
           return true
@@ -153,10 +163,25 @@ export const useWeatherStore = create<WeatherStore>()(
       },
 
       setMemoSearch: (searchTerm: string, filterType: FilterType) =>
-        set({
-          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SEARCH_FILTER : FILTER_KEYS.BOOKMARK_SEARCH_FILTER]: {
-            memoSearch: searchTerm,
-          },
+        set((state) => {
+          const currentFilter = filterType === FILTER_TYPES.HOME ? state.homeSearchFilter : state.bookmarkSearchFilter
+          return {
+            [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SEARCH_FILTER : FILTER_KEYS.BOOKMARK_SEARCH_FILTER]: {
+              ...currentFilter,
+              memoSearch: searchTerm,
+            },
+          }
+        }),
+
+      setLocationSearch: (searchTerm: string, filterType: FilterType) =>
+        set((state) => {
+          const currentFilter = filterType === FILTER_TYPES.HOME ? state.homeSearchFilter : state.bookmarkSearchFilter
+          return {
+            [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SEARCH_FILTER : FILTER_KEYS.BOOKMARK_SEARCH_FILTER]: {
+              ...currentFilter,
+              locationSearch: searchTerm,
+            },
+          }
         }),
 
       setSortBy: (sortBy, filterType: FilterType) =>
@@ -217,6 +242,7 @@ export const useWeatherStore = create<WeatherStore>()(
           },
           [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SEARCH_FILTER : FILTER_KEYS.BOOKMARK_SEARCH_FILTER]: {
             memoSearch: "",
+            locationSearch: "",
           },
           [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_SORT_FILTER : FILTER_KEYS.BOOKMARK_SORT_FILTER]: {
             sortBy: DEFAULT_SORT_OPTION,

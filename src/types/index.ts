@@ -22,6 +22,7 @@ export interface DateFilter {
 
 export interface SearchFilter {
   memoSearch: string
+  locationSearch: string
 }
 
 export type SortOption =
@@ -60,6 +61,7 @@ export interface WeatherStore {
   getSearchFilter: (filterType: FilterType) => SearchFilter
   getSortFilter: (filterType: FilterType) => SortFilter
   setMemoSearch: (searchTerm: string, filterType: FilterType) => void
+  setLocationSearch: (searchTerm: string, filterType: FilterType) => void
   setSortBy: (sortBy: SortOption, filterType: FilterType) => void
 }
 

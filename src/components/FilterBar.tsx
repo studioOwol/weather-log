@@ -2,6 +2,7 @@ import { FilterIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import DateSearch from "./filter/DateSearch"
+import LocationSearch from "./filter/LocationSearch"
 import MemoSearch from "./filter/MemoSearch"
 import SortGroup from "./filter/SortGroup"
 import { useWeatherStore } from "@/store/useWeatherStore"
@@ -55,6 +56,7 @@ export default function FilterBar() {
             Clear
           </Button>
         )}
+        <LocationSearch />
         <MemoSearch />
         <SortGroup />
       </div>
