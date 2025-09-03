@@ -51,9 +51,9 @@ export default function Header() {
             aria-label="Toggle theme"
           >
             {resolvedTheme === "dark" ? (
-              <Sun className="size-4 sm:size-5" />
-            ) : (
               <Moon className="size-4 sm:size-5" />
+            ) : (
+              <Sun className="size-4 sm:size-5" />
             )}
           </Button>
         </nav>
