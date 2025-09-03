@@ -9,6 +9,7 @@ export interface WeatherCardType {
   minTemp: number
   maxTemp: number
   isBookmarked: boolean
+  createdAt: number
 }
 
 export type FilterType = "home" | "bookmarks"

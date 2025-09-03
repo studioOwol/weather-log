@@ -97,9 +97,17 @@ export const useWeatherStore = create<WeatherStore>()(
 
           switch (sortBy) {
             case SORT_OPTIONS.DATE_DESC:
-              return new Date(b.date).getTime() - new Date(a.date).getTime()
+              result = new Date(b.date).getTime() - new Date(a.date).getTime()
+              if (result === 0) {
+                return b.createdAt - a.createdAt
+              }
+              return result
             case SORT_OPTIONS.DATE_ASC:
-              return new Date(a.date).getTime() - new Date(b.date).getTime()
+              result = new Date(a.date).getTime() - new Date(b.date).getTime()
+              if (result === 0) {
+                return a.createdAt - b.createdAt
+              }
+              return result
             case SORT_OPTIONS.MAX_TEMP_DESC:
               result = b.maxTemp - a.maxTemp
               break
@@ -113,12 +121,16 @@ export const useWeatherStore = create<WeatherStore>()(
               result = a.minTemp - b.minTemp
               break
             default:
-              return new Date(b.date).getTime() - new Date(a.date).getTime()
+              result = new Date(b.date).getTime() - new Date(a.date).getTime()
+              if (result === 0) {
+                return b.createdAt - a.createdAt
+              }
+              return result
           }
 
-          // 같은 값이면 날짜 최신순으로 정렬
+          // 같은 값이면 생성시간 최신순으로 정렬
           if (result === 0) {
-            return new Date(b.date).getTime() - new Date(a.date).getTime()
+            return b.createdAt - a.createdAt
           }
 
           return result
