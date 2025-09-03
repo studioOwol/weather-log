@@ -1,4 +1,5 @@
 import type { WeatherApiResponse } from "@/types"
+import { RULES } from "@/constants/rules"
 
 export const fetchWeather = async (lat: number, lon: number): Promise<WeatherApiResponse> => {
   const API_URL = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_min,temperature_2m_max&forecast_days=1&timezone=auto`
@@ -22,7 +23,7 @@ export const fetchWeather = async (lat: number, lon: number): Promise<WeatherApi
 }
 
 export const reverseGeocode = async (lat: number, lon: number) => {
-  const API_URL = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+  const API_URL = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=${RULES.LOCALE}`
 
   const res = await fetch(API_URL)
   if (!res.ok) throw new Error("주소 변환 실패")
