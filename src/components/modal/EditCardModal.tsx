@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
@@ -17,6 +17,10 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
   const [memo, setMemo] = useState(card.memo || "")
   const { updateCard } = useWeatherStore()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    setMemo(card.memo || "")
+  }, [card.memo])
 
   // Cursor moves to the end on textarea focus.
   const handleTextareaFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
