@@ -24,9 +24,10 @@ export default function WeatherCard({ card }: WeatherProps) {
   return (
     <>
       <Card className="bg-inner border-border-default">
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-semibold text-muted-foreground">{card.date}</h3>
+
             <div className="">
               <Button
                 variant="ghost"
@@ -54,6 +55,9 @@ export default function WeatherCard({ card }: WeatherProps) {
               </Button>
             </div>
           </div>
+          <p className="text-sm text-muted-foreground/70">
+            {card.country} {card.state} {card.city}
+          </p>
         </CardHeader>
 
         <CardContent className="space-y-4">
