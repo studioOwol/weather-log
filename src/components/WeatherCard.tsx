@@ -75,14 +75,16 @@ export default function WeatherCard({ card }: WeatherProps) {
 
           <div className="space-y-1">
             <p className="text-md font-semibold text-muted-foreground">Note:</p>
-            <p
+            <div
               className={cn(
-                "text-sm rounded-lg p-2 bg-secondary/10 whitespace-pre-wrap",
+                "text-sm rounded-lg p-2 bg-secondary/10 max-h-20 overflow-hidden",
                 card.memo ? "text-muted-foreground" : "text-muted-foreground/50 italic"
               )}
             >
-              {card.memo || "Add a note to remember this day..."}
-            </p>
+              <p className="line-clamp-1 whitespace-pre-wrap break-words">
+                {card.memo || "Add a note to remember this day..."}
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>
