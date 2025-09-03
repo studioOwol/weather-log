@@ -36,8 +36,8 @@ export default function DeleteCardModal({
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Record</AlertDialogTitle>
           <AlertDialogDescription>
-            <p>Are you sure you want to delete the record for {cardDate}? </p>
-            <span>This action cannot be undone.</span>
+            Are you sure you want to delete the record for {cardDate}? <br />
+            This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

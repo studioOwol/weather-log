@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Plus, Loader2 } from "lucide-react"
@@ -95,6 +95,9 @@ export default function AddCardModal() {
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
         <DialogHeader>
           <DialogTitle>Add New Record</DialogTitle>
+          <DialogDescription>
+            Create a new weather record for today.
+          </DialogDescription>
         </DialogHeader>
 
         <form className="space-y-4" onSubmit={handleSubmit}>

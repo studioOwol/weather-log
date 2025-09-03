@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
@@ -50,6 +50,9 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
         <DialogHeader>
           <DialogTitle>Edit Record</DialogTitle>
+          <DialogDescription>
+            Update the note for this weather record.
+          </DialogDescription>
         </DialogHeader>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
