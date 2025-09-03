@@ -20,6 +20,7 @@ export default function FilterBar() {
   } = useWeatherStore()
   const filters = getFilters(filterType)
   const filteredCards = isBookmarkPage ? getBookmarkedCards() : getFilteredCards("home")
+  const totalCards = isBookmarkPage ? cards.filter(card => card.isBookmarked).length : cards.length
 
   return (
     <div className="space-y-4 mb-6 p-4 rounded-xl bg-inner border border-border-default">
@@ -29,7 +30,7 @@ export default function FilterBar() {
           <FilterIcon className="size-4 text-muted-foreground" />
           <span className="text-sm font-medium text-muted-foreground">Filter & Search</span>
           <Badge className="bg-foreground rounded-xl text-sm text-inner">
-            {filteredCards.length} / {cards.length}
+            {filteredCards.length} / {totalCards}
           </Badge>
         </div>
 
