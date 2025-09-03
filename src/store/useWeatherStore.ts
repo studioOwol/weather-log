@@ -167,12 +167,14 @@ export const useWeatherStore = create<WeatherStore>()(
         }),
 
       setSelectedYear: (year: string, filterType: FilterType) =>
-        set({
-          [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
-            selectedYear: year,
-            selectedMonth: "",
-            selectedDay: "",
-          },
+        set((state) => {
+          const filters = filterType === FILTER_TYPES.HOME ? state.homeFilters : state.bookmarkFilters
+          return {
+            [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
+              ...filters,
+              selectedYear: year,
+            },
+          }
         }),
 
       setSelectedMonth: (month: string, filterType: FilterType) =>
@@ -182,7 +184,6 @@ export const useWeatherStore = create<WeatherStore>()(
             [filterType === FILTER_TYPES.HOME ? FILTER_KEYS.HOME_FILTERS : FILTER_KEYS.BOOKMARK_FILTERS]: {
               ...filters,
               selectedMonth: month,
-              selectedDay: "",
             },
           }
         }),

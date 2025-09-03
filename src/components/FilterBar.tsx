@@ -44,7 +44,7 @@ export default function FilterBar() {
 
       <div className="flex flex-col sm:flex-row gap-3 text-muted-foreground">
         <DateSearch filterType={filterType} />
-        {filters.selectedYear && (
+        {(filters.selectedYear || filters.selectedMonth || filters.selectedDay) && (
           <Button
             variant="outline"
             size="sm"

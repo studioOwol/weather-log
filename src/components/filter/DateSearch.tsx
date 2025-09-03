@@ -21,10 +21,16 @@ export default function DateSearch({ filterType }: DateSearchProps) {
     return Array.from({ length: YEAR_RANGE }, (_, i) => currentYear - i)
   }, [])
 
-  const days = useMemo(
-    () => getDaysInMonth(selectedYear, selectedMonth),
-    [selectedYear, selectedMonth]
-  )
+  const days = useMemo(() => {
+    // 연도나 월이 선택되지 않은 경우 31일까지 모두 표시
+    if (!selectedYear || !selectedMonth) {
+      return Array.from({ length: 31 }, (_, i) => ({
+        value: (i + 1).toString(),
+        label: (i + 1).toString(),
+      }))
+    }
+    return getDaysInMonth(selectedYear, selectedMonth)
+  }, [selectedYear, selectedMonth])
 
   return (
     <div className="flex flex-col items-start">
@@ -45,7 +51,7 @@ export default function DateSearch({ filterType }: DateSearchProps) {
           </SelectContent>
         </Select>
 
-        <Select value={selectedMonth} onValueChange={(month) => setSelectedMonth(month, filterType)} disabled={!selectedYear}>
+        <Select value={selectedMonth} onValueChange={(month) => setSelectedMonth(month, filterType)}>
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
             <SelectValue placeholder={PLACEHOLDERS.MONTH} />
           </SelectTrigger>
@@ -58,7 +64,7 @@ export default function DateSearch({ filterType }: DateSearchProps) {
           </SelectContent>
         </Select>
 
-        <Select value={selectedDay} onValueChange={(day) => setSelectedDay(day, filterType)} disabled={!selectedMonth}>
+        <Select value={selectedDay} onValueChange={(day) => setSelectedDay(day, filterType)}>
           <SelectTrigger className="min-w-16 w-16 border border-border-default">
             <SelectValue placeholder={PLACEHOLDERS.DAY} />
           </SelectTrigger>
