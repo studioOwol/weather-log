@@ -12,9 +12,9 @@ import { Button } from "../ui/button"
 import { Plus, Loader2 } from "lucide-react"
 import { Textarea } from "../ui/textarea"
 import { useWeather } from "@/hooks/useWeather"
+import { useGeocode } from "@/hooks/useGeocode"
 import { useWeatherStore } from "@/stores/useWeatherStore"
 import { getCurrentLocation } from "@/lib/apiUtils"
-import { reverseGeocode } from "@/api/api"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "../../constants/rules"
 
@@ -22,14 +22,13 @@ export default function AddCardModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [memo, setMemo] = useState("")
   const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null)
-  const [locationInfo, setLocationInfo] = useState<{
-    country: string
-    city: string
-    state: string
-  } | null>(null)
   const [isGettingLocation, setIsGettingLocation] = useState(false)
 
   const { data: weatherData, isLoading: isWeatherLoading } = useWeather(
+    location?.lat,
+    location?.lon
+  )
+  const { data: locationInfo, isLoading: isGeocodeLoading } = useGeocode(
     location?.lat,
     location?.lon
   )
@@ -48,8 +47,6 @@ export default function AddCardModal() {
     try {
       const coords = await getCurrentLocation()
       setLocation(coords)
-      const locationData = await reverseGeocode(coords.lat, coords.lon)
-      setLocationInfo(locationData)
     } catch (error) {
       console.error("위치 정보 가져오기 실패:", error)
     } finally {
@@ -84,7 +81,6 @@ export default function AddCardModal() {
     setIsOpen(false)
     setMemo("")
     setLocation(null)
-    setLocationInfo(null)
   }
 
   return (
@@ -116,7 +112,7 @@ export default function AddCardModal() {
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               Location:{" "}
-              {isGettingLocation ? (
+              {isGettingLocation || isGeocodeLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
                   Getting location...
