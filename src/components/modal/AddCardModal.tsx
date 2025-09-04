@@ -17,6 +17,7 @@ import { useWeatherStore } from "@/stores/useWeatherStore"
 import { getCurrentLocation } from "@/lib/apiUtils"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "../../constants/rules"
+import { DISPLAY_MESSAGES, ERRORS } from "@/constants/messages"
 
 export default function AddCardModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -24,14 +25,18 @@ export default function AddCardModal() {
   const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null)
   const [isGettingLocation, setIsGettingLocation] = useState(false)
 
-  const { data: weatherData, isLoading: isWeatherLoading } = useWeather(
-    location?.lat,
-    location?.lon
-  )
-  const { data: locationInfo, isLoading: isGeocodeLoading } = useGeocode(
-    location?.lat,
-    location?.lon
-  )
+  const {
+    data: weatherData,
+    isLoading: isWeatherLoading,
+    isError: isWeatherError,
+    error: weatherError,
+  } = useWeather(location?.lat, location?.lon)
+  const {
+    data: locationInfo,
+    isLoading: isGeocodeLoading,
+    isError: isGeocodeError,
+    error: geocodeError,
+  } = useGeocode(location?.lat, location?.lon)
   const { addCard } = useWeatherStore()
 
   const today = formatDate(new Date().toISOString())
@@ -42,13 +47,23 @@ export default function AddCardModal() {
     }
   }, [isOpen])
 
+  // For debugging
+  useEffect(() => {
+    if (isWeatherError && weatherError) {
+      console.error(weatherError.message, weatherError)
+    }
+    if (isGeocodeError && geocodeError) {
+      console.error(geocodeError.message, geocodeError)
+    }
+  }, [isWeatherError, weatherError, isGeocodeError, geocodeError])
+
   const handleGetLocation = async () => {
     setIsGettingLocation(true)
     try {
       const coords = await getCurrentLocation()
       setLocation(coords)
     } catch (error) {
-      console.error("위치 정보 가져오기 실패:", error)
+      console.error(ERRORS.GEOCODE.UNKNOWN, error)
     } finally {
       setIsGettingLocation(false)
     }
@@ -115,14 +130,20 @@ export default function AddCardModal() {
               {isGettingLocation || isGeocodeLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
-                  Getting location...
+                  {DISPLAY_MESSAGES.LOADING.LOCATION}
+                </div>
+              ) : isGeocodeError ? (
+                <div className="text-sm text-red-500">
+                  {DISPLAY_MESSAGES.ERROR.LOCATION_NOT_FOUND}
                 </div>
               ) : locationInfo ? (
                 <div className="text-sm">
                   {locationInfo.country} {locationInfo.state} {locationInfo.city}
                 </div>
               ) : (
-                <div className="text-sm text-muted-foreground">Location not available</div>
+                <div className="text-sm text-muted-foreground">
+                  {DISPLAY_MESSAGES.ERROR.LOCATION_NOT_FOUND}
+                </div>
               )}
             </Label>
           </div>
@@ -133,7 +154,11 @@ export default function AddCardModal() {
               {isWeatherLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
-                  Loading...
+                  {DISPLAY_MESSAGES.LOADING.WEATHER}
+                </div>
+              ) : isWeatherError ? (
+                <div className="text-sm text-red-500">
+                  {DISPLAY_MESSAGES.ERROR.WEATHER_NOT_FOUND}
                 </div>
               ) : weatherData ? (
                 <div className="text-sm">
@@ -150,7 +175,11 @@ export default function AddCardModal() {
               {isWeatherLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
-                  Loading...
+                  {DISPLAY_MESSAGES.LOADING.WEATHER}
+                </div>
+              ) : isWeatherError ? (
+                <div className="text-sm text-red-500">
+                  {DISPLAY_MESSAGES.ERROR.WEATHER_NOT_FOUND}
                 </div>
               ) : weatherData ? (
                 <div className="text-sm">
