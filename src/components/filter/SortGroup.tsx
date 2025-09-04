@@ -1,5 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { useWeatherStore } from "@/store/useWeatherStore"
+import { useWeatherStore } from "@/stores/useWeatherStore"
 import { usePageType } from "@/hooks/usePageType"
 import type { SortOption } from "@/types"
 import { SORT_OPTIONS, SORT_LABELS } from "@/constants/filters"

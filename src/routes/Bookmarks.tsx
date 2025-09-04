@@ -1,7 +1,7 @@
 import FilterBar from "@/components/FilterBar"
 import WeatherGrid from "@/components/WeatherGrid"
 import { EMPTY_MESSAGE, SUB_MESSAGE } from "@/constants/messages"
-import { useWeatherStore } from "@/store/useWeatherStore"
+import { useWeatherStore } from "@/stores/useWeatherStore"
 
 export default function Bookmarks() {
   const { getBookmarkedCards } = useWeatherStore()

@@ -1,6 +1,6 @@
 import { Bookmark, Cloud, Home, Moon, Sun } from "lucide-react"
 import { NavLink } from "react-router"
-import { useThemeStore } from "../../store/useThemeStore"
+import { useThemeStore } from "../../stores/useThemeStore"
 import { Button } from "../ui/button"
 
 export default function Header() {

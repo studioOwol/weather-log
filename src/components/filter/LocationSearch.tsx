@@ -2,7 +2,7 @@ import { MapPin } from "lucide-react"
 import { Input } from "../ui/input"
 import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useWeatherStore } from "@/store/useWeatherStore"
+import { useWeatherStore } from "@/stores/useWeatherStore"
 import { usePageType } from "@/hooks/usePageType"
 import { DEBOUNCE_DELAY } from "@/constants/filters"
 

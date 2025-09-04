@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select"
 import { SelectValue } from "@radix-ui/react-select"
 import { useMemo } from "react"
 import { getDaysInMonth } from "../../lib/dateUtils"
-import { useWeatherStore } from "@/store/useWeatherStore"
+import { useWeatherStore } from "@/stores/useWeatherStore"
 import type { FilterType } from "@/types"
 import { MONTHS, YEAR_RANGE } from "@/constants/filters"
 import { PLACEHOLDERS } from "@/constants/messages"
@@ -51,7 +51,10 @@ export default function DateSearch({ filterType }: DateSearchProps) {
           </SelectContent>
         </Select>
 
-        <Select value={selectedMonth} onValueChange={(month) => setSelectedMonth(month, filterType)}>
+        <Select
+          value={selectedMonth}
+          onValueChange={(month) => setSelectedMonth(month, filterType)}
+        >
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
             <SelectValue placeholder={PLACEHOLDERS.MONTH} />
           </SelectTrigger>

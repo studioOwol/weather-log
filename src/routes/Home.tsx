@@ -1,11 +1,11 @@
 import FilterBar from "@/components/FilterBar"
 import AddCardModal from "@/components/modal/AddCardModal"
 import WeatherGrid from "@/components/WeatherGrid"
-import { useWeatherStore } from "@/store/useWeatherStore"
+import { useWeatherStore } from "@/stores/useWeatherStore"
 
 export default function Home() {
   const { getFilteredCards } = useWeatherStore()
-  const cards = getFilteredCards('home')
+  const cards = getFilteredCards("home")
 
   return (
     <div>

@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
-import { useWeatherStore } from "@/store/useWeatherStore"
+import { useWeatherStore } from "@/stores/useWeatherStore"
 import type { WeatherCardType } from "@/types"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "@/constants/rules"

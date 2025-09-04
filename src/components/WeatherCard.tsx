@@ -6,7 +6,7 @@ import { Bookmark, BookmarkCheck, Edit2, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
-import { useWeatherStore } from "@/store/useWeatherStore"
+import { useWeatherStore } from "@/stores/useWeatherStore"
 import { RULES } from "@/constants/rules"
 
 interface WeatherProps {
