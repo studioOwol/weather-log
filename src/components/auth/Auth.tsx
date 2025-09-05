@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { signInWithMagicLink, signInWithPassword } from "../../lib/supabase"
+import { signInWithMagicLink, signInWithPassword } from "../../api/supabase"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 
