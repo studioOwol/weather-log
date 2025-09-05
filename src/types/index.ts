@@ -46,10 +46,11 @@ export interface WeatherStore {
   homeSortFilter: SortFilter
   bookmarkSortFilter: SortFilter
 
-  addCard: (card: WeatherCardType) => void
-  updateCard: (id: string, updatedCard: WeatherCardType) => void
-  deleteCard: (id: string) => void
-  toggleBookmark: (id: string) => void
+  loadCards: () => Promise<void>
+  addCard: (card: WeatherCardType) => Promise<void>
+  updateCard: (id: string, updatedCard: WeatherCardType) => Promise<void>
+  deleteCard: (id: string) => Promise<void>
+  toggleBookmark: (id: string) => Promise<void>
   getBookmarkedCards: () => WeatherCardType[]
   getFilteredCards: (filterType: FilterType) => WeatherCardType[]
   setSelectedYear: (year: string, filterType: FilterType) => void

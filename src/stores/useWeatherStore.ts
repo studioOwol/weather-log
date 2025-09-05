@@ -1,11 +1,9 @@
 import type { WeatherStore, FilterType } from "@/types"
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
 import { DEFAULT_SORT_OPTION, SORT_OPTIONS, FILTER_KEYS, FILTER_TYPES } from "@/constants/filters"
+import { getAllCards, addCard, updateCard, deleteCard, toggleBookmark } from "@/api/supabaseApi"
 
-export const useWeatherStore = create<WeatherStore>()(
-  persist(
-    (set, get) => ({
+export const useWeatherStore = create<WeatherStore>((set, get) => ({
       cards: [],
       homeFilters: {
         selectedYear: "",
@@ -32,27 +30,63 @@ export const useWeatherStore = create<WeatherStore>()(
         sortBy: DEFAULT_SORT_OPTION,
       },
 
-      addCard: (card) =>
-        set((state) => ({
-          cards: [...state.cards, card],
-        })),
+      // Load cards from Supabase
+      loadCards: async () => {
+        try {
+          const cards = await getAllCards()
+          set({ cards })
+        } catch (error) {
+          console.error('Error loading cards:', error)
+        }
+      },
 
-      updateCard: (id, updatedCard) =>
-        set((state) => ({
-          cards: state.cards.map((card) => (card.id === id ? updatedCard : card)),
-        })),
+      addCard: async (card) => {
+        try {
+          const newCard = await addCard(card)
+          set((state) => ({
+            cards: [newCard, ...state.cards],
+          }))
+        } catch (error) {
+          console.error('Error adding card:', error)
+          throw error
+        }
+      },
 
-      deleteCard: (id) =>
-        set((state) => ({
-          cards: state.cards.filter((card) => card.id !== id),
-        })),
+      updateCard: async (id, updatedCard) => {
+        try {
+          const updated = await updateCard(id, updatedCard)
+          set((state) => ({
+            cards: state.cards.map((card) => (card.id === id ? updated : card)),
+          }))
+        } catch (error) {
+          console.error('Error updating card:', error)
+          throw error
+        }
+      },
 
-      toggleBookmark: (id) =>
-        set((state) => ({
-          cards: state.cards.map((card) =>
-            card.id === id ? { ...card, isBookmarked: !card.isBookmarked } : card
-          ),
-        })),
+      deleteCard: async (id) => {
+        try {
+          await deleteCard(id)
+          set((state) => ({
+            cards: state.cards.filter((card) => card.id !== id),
+          }))
+        } catch (error) {
+          console.error('Error deleting card:', error)
+          throw error
+        }
+      },
+
+      toggleBookmark: async (id) => {
+        try {
+          const updated = await toggleBookmark(id)
+          set((state) => ({
+            cards: state.cards.map((card) => (card.id === id ? updated : card)),
+          }))
+        } catch (error) {
+          console.error('Error toggling bookmark:', error)
+          throw error
+        }
+      },
 
       getBookmarkedCards: () =>
         get()
@@ -248,7 +282,13 @@ export const useWeatherStore = create<WeatherStore>()(
             sortBy: DEFAULT_SORT_OPTION,
           },
         }),
-    }),
-    { name: "weather-cards" }
-  )
-)
+}))
+
+// Initialize store by loading cards when first used
+let initialized = false
+export const initializeStore = async () => {
+  if (!initialized) {
+    initialized = true
+    await useWeatherStore.getState().loadCards()
+  }
+}

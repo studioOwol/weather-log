@@ -1,11 +1,26 @@
 import FilterBar from "@/components/FilterBar"
 import AddCardModal from "@/components/modal/AddCardModal"
 import WeatherGrid from "@/components/WeatherGrid"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useFilteredCards } from "@/hooks/useFilteredCards"
 
 export default function Home() {
-  const { getFilteredCards } = useWeatherStore()
-  const cards = getFilteredCards("home")
+  const { cards, isLoading, error } = useFilteredCards("home")
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-foreground">Loading cards...</div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-destructive">Error loading cards: {error.message}</div>
+      </div>
+    )
+  }
 
   return (
     <div>
