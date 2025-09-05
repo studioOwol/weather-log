@@ -13,7 +13,7 @@ import { Plus, Loader2 } from "lucide-react"
 import { Textarea } from "../ui/textarea"
 import { useWeather } from "@/hooks/useWeather"
 import { useGeocode } from "@/hooks/useGeocode"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useAddCard } from "@/hooks/useWeatherMutations"
 import { getCurrentLocation } from "@/lib/apiUtils"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "../../constants/rules"
@@ -37,7 +37,7 @@ export default function AddCardModal() {
     isError: isGeocodeError,
     error: geocodeError,
   } = useGeocode(location?.lat, location?.lon)
-  const { addCard } = useWeatherStore()
+  const addCardMutation = useAddCard()
 
   const today = formatDate(new Date().toISOString())
 
@@ -69,7 +69,7 @@ export default function AddCardModal() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!location || !weatherData || !locationInfo) return
@@ -88,8 +88,12 @@ export default function AddCardModal() {
       createdAt: Date.now(),
     }
 
-    addCard(newCard)
-    handleClose()
+    try {
+      await addCardMutation.mutateAsync(newCard)
+      handleClose()
+    } catch (error) {
+      console.error('Failed to add card:', error)
+    }
   }
 
   const handleClose = () => {
@@ -221,9 +225,9 @@ export default function AddCardModal() {
             <Button
               type="submit"
               className="flex-1 text-inner"
-              disabled={!location || !weatherData}
+              disabled={!location || !weatherData || addCardMutation.isPending}
             >
-              Save
+{addCardMutation.isPending ? 'Saving...' : 'Save'}
             </Button>
           </div>
         </form>

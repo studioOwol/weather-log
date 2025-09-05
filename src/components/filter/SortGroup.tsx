@@ -1,12 +1,12 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useFilterStore } from "@/stores/useFilterStore"
 import { usePageType } from "@/hooks/usePageType"
 import type { SortOption } from "@/types"
 import { SORT_OPTIONS, SORT_LABELS } from "@/constants/filters"
 
 export default function SortGroup() {
   const filterType = usePageType()
-  const { getSortFilter, setSortBy } = useWeatherStore()
+  const { getSortFilter, setSortBy } = useFilterStore()
   const sortFilter = getSortFilter(filterType)
 
   const handleSortChange = (value: SortOption) => {

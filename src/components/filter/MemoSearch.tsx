@@ -2,7 +2,7 @@ import { Search } from "lucide-react"
 import { Input } from "../ui/input"
 import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useFilterStore } from "@/stores/useFilterStore"
 import { usePageType } from "@/hooks/usePageType"
 import { DEBOUNCE_DELAY } from "@/constants/filters"
 import { PLACEHOLDERS } from "@/constants/messages"
@@ -10,7 +10,7 @@ import { PLACEHOLDERS } from "@/constants/messages"
 export default function MemoSearch() {
   const filterType = usePageType()
 
-  const { getSearchFilter, setMemoSearch } = useWeatherStore()
+  const { getSearchFilter, setMemoSearch } = useFilterStore()
   const searchFilter = getSearchFilter(filterType)
 
   const [inputValue, setInputValue] = useState(searchFilter.memoSearch)

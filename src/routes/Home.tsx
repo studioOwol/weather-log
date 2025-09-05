@@ -9,7 +9,7 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="text-foreground">Loading cards...</div>
+        <div className="text-foreground">Loading records...</div>
       </div>
     )
   }
@@ -17,7 +17,7 @@ export default function Home() {
   if (error) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="text-destructive">Error loading cards: {error.message}</div>
+        <div className="text-destructive">Error loading records: {error.message}</div>
       </div>
     )
   }

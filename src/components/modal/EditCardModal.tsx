@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useUpdateCard } from "@/hooks/useWeatherMutations"
 import type { WeatherCardType } from "@/types"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "@/constants/rules"
@@ -16,7 +16,7 @@ interface EditCardModalProps {
 
 export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardModalProps) {
   const [memo, setMemo] = useState(card.memo || "")
-  const { updateCard } = useWeatherStore()
+  const updateCardMutation = useUpdateCard()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
     textarea.setSelectionRange(textarea.value.length, textarea.value.length)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     const updatedCard = {
@@ -37,8 +37,12 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
       memo: memo,
     }
 
-    updateCard(card.id, updatedCard)
-    handleClose()
+    try {
+      await updateCardMutation.mutateAsync({ id: card.id, updatedCard })
+      handleClose()
+    } catch (error) {
+      console.error('Failed to update card:', error)
+    }
   }
 
   const handleClose = () => {
@@ -116,8 +120,12 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
             >
               Cancel
             </Button>
-            <Button type="submit" className="flex-1 text-inner">
-              Update
+            <Button 
+              type="submit" 
+              className="flex-1 text-inner"
+              disabled={updateCardMutation.isPending}
+            >
+              {updateCardMutation.isPending ? 'Updating...' : 'Update'}
             </Button>
           </div>
         </form>

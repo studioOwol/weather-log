@@ -5,25 +5,22 @@ import DateSearch from "./filter/DateSearch"
 import LocationSearch from "./filter/LocationSearch"
 import MemoSearch from "./filter/MemoSearch"
 import SortGroup from "./filter/SortGroup"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useFilterStore } from "@/stores/useFilterStore"
 import { usePageType } from "@/hooks/usePageType"
+import { useFilteredCards } from "@/hooks/useFilteredCards"
+import { useWeatherCards } from "@/hooks/useWeatherCards"
 
 export default function FilterBar() {
   const filterType = usePageType()
   const isBookmarkPage = filterType === "bookmarks"
-  const {
-    cards,
-    getFilters,
-    clearDateFilter,
-    clearAllFilters,
-    getFilteredCards,
-    getBookmarkedCards,
-  } = useWeatherStore()
+  const { getFilters, clearDateFilter, clearAllFilters } = useFilterStore()
+  const { data: allCards = [] } = useWeatherCards()
+  const { cards: filteredCards } = useFilteredCards(filterType)
+  
   const filters = getFilters(filterType)
-  const filteredCards = isBookmarkPage ? getBookmarkedCards() : getFilteredCards("home")
   const totalCards = isBookmarkPage
-    ? cards.filter((card) => card.isBookmarked).length
-    : cards.length
+    ? allCards.filter((card) => card.isBookmarked).length
+    : allCards.length
 
   return (
     <div className="space-y-4 mb-6 p-4 rounded-xl bg-inner border border-border-default">

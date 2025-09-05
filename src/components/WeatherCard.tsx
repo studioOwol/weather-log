@@ -6,7 +6,7 @@ import { Bookmark, BookmarkCheck, Edit2, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useToggleBookmark } from "@/hooks/useWeatherMutations"
 import { RULES } from "@/constants/rules"
 
 interface WeatherProps {
@@ -16,10 +16,14 @@ interface WeatherProps {
 export default function WeatherCard({ card }: WeatherProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const toggleBookmark = useWeatherStore((state) => state.toggleBookmark)
+  const toggleBookmarkMutation = useToggleBookmark()
 
-  const handleToggleBookmark = () => {
-    toggleBookmark(card.id)
+  const handleToggleBookmark = async () => {
+    try {
+      await toggleBookmarkMutation.mutateAsync(card.id)
+    } catch (error) {
+      console.error('Failed to toggle bookmark:', error)
+    }
   }
 
   return (
@@ -34,7 +38,8 @@ export default function WeatherCard({ card }: WeatherProps) {
                 variant="ghost"
                 size="sm"
                 onClick={handleToggleBookmark}
-                className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer"
+                disabled={toggleBookmarkMutation.isPending}
+                className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer disabled:opacity-50"
               >
                 {card.isBookmarked ? <BookmarkCheck /> : <Bookmark />}
               </Button>

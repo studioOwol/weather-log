@@ -2,14 +2,14 @@ import { MapPin } from "lucide-react"
 import { Input } from "../ui/input"
 import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useWeatherStore } from "@/stores/useWeatherStore"
+import { useFilterStore } from "@/stores/useFilterStore"
 import { usePageType } from "@/hooks/usePageType"
 import { DEBOUNCE_DELAY } from "@/constants/filters"
 
 export default function LocationSearch() {
   const filterType = usePageType()
 
-  const { getSearchFilter, setLocationSearch } = useWeatherStore()
+  const { getSearchFilter, setLocationSearch } = useFilterStore()
   const searchFilter = getSearchFilter(filterType)
 
   const [inputValue, setInputValue] = useState(searchFilter.locationSearch)
