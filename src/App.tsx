@@ -1,8 +1,13 @@
-import './App.css'
-import AppRoutes from './router'
+import "./App.css"
+import AuthWrapper from "./components/auth/AuthWrapper"
+import AppRoutes from "./router"
 
 function App() {
-  return <AppRoutes />
+  return (
+    <AuthWrapper>
+      <AppRoutes />
+    </AuthWrapper>
+  )
 }
 
 export default App
