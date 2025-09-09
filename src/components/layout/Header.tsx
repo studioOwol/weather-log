@@ -1,13 +1,21 @@
-import { Bookmark, Cloud, Home, Moon, Sun } from "lucide-react"
+import { Bookmark, Cloud, Home, Moon, Sun, LogOut } from "lucide-react"
 import { NavLink } from "react-router"
+import { useQueryClient } from "@tanstack/react-query"
 import { useThemeStore } from "../../stores/useThemeStore"
 import { Button } from "../ui/button"
+import { signOut } from "../../api/supabase"
 
 export default function Header() {
   const { resolvedTheme, setTheme } = useThemeStore()
+  const queryClient = useQueryClient()
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark")
+  }
+
+  const handleSignOut = async () => {
+    await signOut()
+    queryClient.clear()
   }
 
   return (
@@ -18,7 +26,7 @@ export default function Header() {
           <h1 className="text-lg sm:text-2xl font-bold">Weather Log</h1>
         </div>
 
-        <nav className="flex items-center gap-2 sm:gap-4">
+        <nav className="flex items-center gap-2 sm:gap-3">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -55,6 +63,16 @@ export default function Header() {
             ) : (
               <Sun className="size-4 sm:size-5" />
             )}
+          </Button>
+
+          <Button
+            onClick={handleSignOut}
+            variant="ghost"
+            size="icon"
+            className="text-primary hover:bg-muted"
+            aria-label="Sign out"
+          >
+            <LogOut className="size-4 sm:size-5" />
           </Button>
         </nav>
       </div>
