@@ -1,5 +1,5 @@
 import { supabase } from './supabase'
-import type { WeatherCardType } from '../types'
+import type { WeatherCardType, ServerFilterParams } from '../types'
 
 // Table name (DB table is weather_card)
 const TABLE_NAME = 'weather_card'
@@ -51,6 +51,24 @@ export const getAllCards = async (): Promise<WeatherCardType[]> => {
     .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
+
+  if (error) throw error
+  return data?.map(fromDbFormat) || []
+}
+
+// Get cards with server-side filtering
+export const getFilteredCards = async (filters: ServerFilterParams = {}): Promise<WeatherCardType[]> => {
+  const userId = await getCurrentUserId()
+  
+  const { data, error } = await supabase.rpc('filter_weather_cards', {
+    p_user_id: userId,
+    p_year: filters.year || null,
+    p_month: filters.month || null,
+    p_day: filters.day || null,
+    p_memo_search: filters.memoSearch || null,
+    p_location_search: filters.locationSearch || null,
+    p_sort_by: filters.sortBy || 'date-desc'
+  })
 
   if (error) throw error
   return data?.map(fromDbFormat) || []
