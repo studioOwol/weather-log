@@ -3,18 +3,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select"
 import { SelectValue } from "@radix-ui/react-select"
 import { useMemo } from "react"
 import { getDaysInMonth } from "../../lib/dateUtils"
-import { useFilterStore } from "@/stores/useFilterStore"
-import type { FilterType } from "@/types"
+import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { MONTHS, YEAR_RANGE } from "@/constants/filters"
 import { PLACEHOLDERS } from "@/constants/messages"
 
-interface DateSearchProps {
-  filterType: FilterType
-}
-
-export default function DateSearch({ filterType }: DateSearchProps) {
-  const { getFilters, setSelectedYear, setSelectedMonth, setSelectedDay } = useFilterStore()
-  const { selectedYear, selectedMonth, selectedDay } = getFilters(filterType)
+export default function DateSearch() {
+  const { filters, setYear, setMonth, setDay } = useUrlFilters()
+  const { year: selectedYear, month: selectedMonth, day: selectedDay } = filters
 
   const years = useMemo(() => {
     const currentYear = new Date().getFullYear()
@@ -36,8 +31,7 @@ export default function DateSearch({ filterType }: DateSearchProps) {
     <div className="flex flex-col items-start">
       <div className="flex items-center gap-2 min-w-0">
         <Calendar className="size-4 text-muted-foreground" />
-
-        <Select value={selectedYear} onValueChange={(year) => setSelectedYear(year, filterType)}>
+        <Select value={selectedYear || ''} onValueChange={(year) => setYear(year || undefined)}>
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
             <SelectValue placeholder={PLACEHOLDERS.YEAR} />
           </SelectTrigger>
@@ -50,10 +44,9 @@ export default function DateSearch({ filterType }: DateSearchProps) {
             ))}
           </SelectContent>
         </Select>
-
         <Select
-          value={selectedMonth}
-          onValueChange={(month) => setSelectedMonth(month, filterType)}
+          value={selectedMonth || ''}
+          onValueChange={(month) => setMonth(month || undefined)}
         >
           <SelectTrigger className="min-w-20 w-20 border border-border-default">
             <SelectValue placeholder={PLACEHOLDERS.MONTH} />
@@ -66,8 +59,7 @@ export default function DateSearch({ filterType }: DateSearchProps) {
             ))}
           </SelectContent>
         </Select>
-
-        <Select value={selectedDay} onValueChange={(day) => setSelectedDay(day, filterType)}>
+        <Select value={selectedDay || ''} onValueChange={(day) => setDay(day || undefined)}>
           <SelectTrigger className="min-w-16 w-16 border border-border-default">
             <SelectValue placeholder={PLACEHOLDERS.DAY} />
           </SelectTrigger>

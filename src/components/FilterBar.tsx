@@ -5,7 +5,7 @@ import DateSearch from "./filter/DateSearch"
 import LocationSearch from "./filter/LocationSearch"
 import MemoSearch from "./filter/MemoSearch"
 import SortGroup from "./filter/SortGroup"
-import { useFilterStore } from "@/stores/useFilterStore"
+import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { usePageType } from "@/hooks/usePageType"
 import { useFilteredCards } from "@/hooks/useFilteredCards"
 import { useWeatherCards } from "@/hooks/useWeatherCards"
@@ -13,11 +13,9 @@ import { useWeatherCards } from "@/hooks/useWeatherCards"
 export default function FilterBar() {
   const filterType = usePageType()
   const isBookmarkPage = filterType === "bookmarks"
-  const { getFilters, clearDateFilter, clearAllFilters } = useFilterStore()
+  const { filters, clearFilters, updateFilters } = useUrlFilters()
   const { data: allCards = [] } = useWeatherCards()
   const { cards: filteredCards } = useFilteredCards(filterType)
-  
-  const filters = getFilters(filterType)
   const totalCards = isBookmarkPage
     ? allCards.filter((card) => card.isBookmarked).length
     : allCards.length
@@ -37,20 +35,20 @@ export default function FilterBar() {
         <Button
           variant="outline"
           className="bg-inner border border-border-default text-sm text-muted-foreground rounded-2xl cursor-pointer"
-          onClick={() => clearAllFilters(filterType)}
+          onClick={() => clearFilters()}
         >
           Clear All
         </Button>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 text-muted-foreground">
-        <DateSearch filterType={filterType} />
-        {(filters.selectedYear || filters.selectedMonth || filters.selectedDay) && (
+        <DateSearch />
+        {(filters.year || filters.month || filters.day) && (
           <Button
             variant="outline"
             size="sm"
             className="bg-inner border border-border-default text-xs rounded-lg w-fit"
-            onClick={() => clearDateFilter(filterType)}
+            onClick={() => updateFilters({ year: undefined, month: undefined, day: undefined })}
           >
             Clear
           </Button>

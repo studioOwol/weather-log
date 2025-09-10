@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { useCallback } from 'react'
 import type { ServerFilterParams } from '@/types'
 
@@ -8,9 +8,9 @@ export const useUrlFilters = () => {
   // Get current filters from URL
   const getFilters = useCallback((): ServerFilterParams => {
     return {
-      year: searchParams.get('year') ? Number(searchParams.get('year')) : undefined,
-      month: searchParams.get('month') ? Number(searchParams.get('month')) : undefined,
-      day: searchParams.get('day') ? Number(searchParams.get('day')) : undefined,
+      year: searchParams.get('year') || undefined,
+      month: searchParams.get('month') || undefined,
+      day: searchParams.get('day') || undefined,
       memoSearch: searchParams.get('memoSearch') || undefined,
       locationSearch: searchParams.get('locationSearch') || undefined,
       sortBy: (searchParams.get('sortBy') as ServerFilterParams['sortBy']) || 'date-desc'
@@ -39,15 +39,15 @@ export const useUrlFilters = () => {
   }, [setSearchParams])
 
   // Individual filter setters
-  const setYear = useCallback((year: number | undefined) => {
+  const setYear = useCallback((year: string | undefined) => {
     updateFilters({ year })
   }, [updateFilters])
 
-  const setMonth = useCallback((month: number | undefined) => {
+  const setMonth = useCallback((month: string | undefined) => {
     updateFilters({ month })
   }, [updateFilters])
 
-  const setDay = useCallback((day: number | undefined) => {
+  const setDay = useCallback((day: string | undefined) => {
     updateFilters({ day })
   }, [updateFilters])
 
