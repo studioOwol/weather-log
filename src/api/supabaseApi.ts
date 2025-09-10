@@ -62,9 +62,9 @@ export const getFilteredCards = async (filters: ServerFilterParams = {}): Promis
   
   const { data, error } = await supabase.rpc('filter_weather_cards', {
     p_user_id: userId,
-    p_year: filters.year || null,
-    p_month: filters.month || null,
-    p_day: filters.day || null,
+    p_year: filters.year ? Number(filters.year) : null,
+    p_month: filters.month ? Number(filters.month) : null,
+    p_day: filters.day ? Number(filters.day) : null,
     p_memo_search: filters.memoSearch || null,
     p_location_search: filters.locationSearch || null,
     p_sort_by: filters.sortBy || 'date-desc'

@@ -8,8 +8,9 @@ export const useAddCard = () => {
   return useMutation({
     mutationFn: addCard,
     onSuccess: () => {
-      // Invalidate and refetch cards
+      // Invalidate both old and new query keys
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
     },
   })
 }
@@ -22,6 +23,7 @@ export const useUpdateCard = () => {
       updateCard(id, updatedCard),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
     },
   })
 }
@@ -33,6 +35,7 @@ export const useDeleteCard = () => {
     mutationFn: deleteCard,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
     },
   })
 }
@@ -71,6 +74,7 @@ export const useToggleBookmark = () => {
     onSettled: () => {
       // Always refetch after mutation
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
     },
   })
 }
