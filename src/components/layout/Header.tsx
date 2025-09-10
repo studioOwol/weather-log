@@ -1,5 +1,5 @@
 import { Bookmark, Cloud, Home, Moon, Sun, LogOut } from "lucide-react"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import { useQueryClient } from "@tanstack/react-query"
 import { useThemeStore } from "../../stores/useThemeStore"
 import { Button } from "../ui/button"
@@ -8,6 +8,7 @@ import { signOut } from "../../api/supabase"
 export default function Header() {
   const { resolvedTheme, setTheme } = useThemeStore()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark")
@@ -16,6 +17,8 @@ export default function Header() {
   const handleSignOut = async () => {
     await signOut()
     queryClient.clear()
+    // Clear URL parameters when signing out
+    navigate('/', { replace: true })
   }
 
   return (

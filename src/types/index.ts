@@ -14,21 +14,21 @@ export interface WeatherCardType {
 
 export type FilterType = "home" | "bookmarks"
 
-// Client-side filter types (will be removed)
-// export interface DateFilter {
-//   selectedYear: string
-//   selectedMonth: string
-//   selectedDay: string
-// }
+// Client-side filter types (temporarily kept for compatibility)
+export interface DateFilter {
+  selectedYear: string
+  selectedMonth: string
+  selectedDay: string
+}
 
-// export interface SearchFilter {
-//   memoSearch: string
-//   locationSearch: string
-// }
+export interface SearchFilter {
+  memoSearch: string
+  locationSearch: string
+}
 
-// export interface SortFilter {
-//   sortBy: SortOption
-// }
+export interface SortFilter {
+  sortBy: SortOption
+}
 
 export type SortOption =
   | "date-desc"
@@ -40,9 +40,9 @@ export type SortOption =
 
 // Server-side filtering types for URL parameters and API calls
 export interface DateFilterParams {
-  year?: number
-  month?: number  
-  day?: number
+  year?: string
+  month?: string
+  day?: string
 }
 
 export interface SearchFilterParams {
