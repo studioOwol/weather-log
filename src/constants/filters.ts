@@ -38,19 +38,3 @@ export const MONTHS = [
 ] as const
 
 export const YEAR_RANGE = 6
-
-// Filter store keys
-export const FILTER_KEYS = {
-  HOME_FILTERS: 'homeFilters',
-  BOOKMARK_FILTERS: 'bookmarkFilters',
-  HOME_SEARCH_FILTER: 'homeSearchFilter',
-  BOOKMARK_SEARCH_FILTER: 'bookmarkSearchFilter',
-  HOME_SORT_FILTER: 'homeSortFilter',
-  BOOKMARK_SORT_FILTER: 'bookmarkSortFilter',
-} as const
-
-// Filter type values
-export const FILTER_TYPES = {
-  HOME: 'home',
-  BOOKMARKS: 'bookmarks',
-} as const
