@@ -1,22 +1,20 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { useFilterStore } from "@/stores/useFilterStore"
-import { usePageType } from "@/hooks/usePageType"
+import { useUrlFilters } from "@/hooks/useUrlFilters"
 import type { SortOption } from "@/types"
 import { SORT_OPTIONS, SORT_LABELS } from "@/constants/filters"
 
 export default function SortGroup() {
-  const filterType = usePageType()
-  const { getSortFilter, setSortBy } = useFilterStore()
-  const sortFilter = getSortFilter(filterType)
+  const { filters, setSortBy } = useUrlFilters()
+  const { sortBy } = filters
 
   const handleSortChange = (value: SortOption) => {
-    setSortBy(value, filterType)
+    setSortBy(value)
   }
 
   return (
     <div className="flex items-center gap-2">
       <span className="text-sm font-medium text-muted-foreground">Sort:</span>
-      <Select value={sortFilter.sortBy} onValueChange={handleSortChange}>
+      <Select value={sortBy || 'date-desc'} onValueChange={handleSortChange}>
         <SelectTrigger className="w-[11.25rem] border-border-default text-muted-foreground">
           <SelectValue />
         </SelectTrigger>

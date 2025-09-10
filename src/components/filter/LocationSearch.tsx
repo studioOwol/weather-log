@@ -2,26 +2,23 @@ import { MapPin } from "lucide-react"
 import { Input } from "../ui/input"
 import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useFilterStore } from "@/stores/useFilterStore"
-import { usePageType } from "@/hooks/usePageType"
+import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { DEBOUNCE_DELAY } from "@/constants/filters"
 
 export default function LocationSearch() {
-  const filterType = usePageType()
+  const { filters, setLocationSearch } = useUrlFilters()
+  const { locationSearch } = filters
 
-  const { getSearchFilter, setLocationSearch } = useFilterStore()
-  const searchFilter = getSearchFilter(filterType)
-
-  const [inputValue, setInputValue] = useState(searchFilter.locationSearch)
+  const [inputValue, setInputValue] = useState(locationSearch || "")
   const debouncedSearchTerm = useDebounce(inputValue, DEBOUNCE_DELAY)
 
   useEffect(() => {
-    setLocationSearch(debouncedSearchTerm, filterType)
-  }, [debouncedSearchTerm, filterType, setLocationSearch])
+    setLocationSearch(debouncedSearchTerm || undefined)
+  }, [debouncedSearchTerm, setLocationSearch])
 
   useEffect(() => {
-    setInputValue(searchFilter.locationSearch)
-  }, [searchFilter.locationSearch])
+    setInputValue(locationSearch || "")
+  }, [locationSearch])
 
   return (
     <div className="relative w-full sm:w-44 md:w-48 lg:w-50">

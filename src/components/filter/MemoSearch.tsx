@@ -2,27 +2,24 @@ import { Search } from "lucide-react"
 import { Input } from "../ui/input"
 import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useFilterStore } from "@/stores/useFilterStore"
-import { usePageType } from "@/hooks/usePageType"
+import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { DEBOUNCE_DELAY } from "@/constants/filters"
 import { PLACEHOLDERS } from "@/constants/messages"
 
 export default function MemoSearch() {
-  const filterType = usePageType()
+  const { filters, setMemoSearch } = useUrlFilters()
+  const { memoSearch } = filters
 
-  const { getSearchFilter, setMemoSearch } = useFilterStore()
-  const searchFilter = getSearchFilter(filterType)
-
-  const [inputValue, setInputValue] = useState(searchFilter.memoSearch)
+  const [inputValue, setInputValue] = useState(memoSearch || "")
   const debouncedSearchTerm = useDebounce(inputValue, DEBOUNCE_DELAY)
 
   useEffect(() => {
-    setMemoSearch(debouncedSearchTerm, filterType)
-  }, [debouncedSearchTerm, filterType, setMemoSearch])
+    setMemoSearch(debouncedSearchTerm || undefined)
+  }, [debouncedSearchTerm, setMemoSearch])
 
   useEffect(() => {
-    setInputValue(searchFilter.memoSearch)
-  }, [searchFilter.memoSearch])
+    setInputValue(memoSearch || "")
+  }, [memoSearch])
 
   return (
     <div className="relative flex-1">
