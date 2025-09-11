@@ -1,13 +1,16 @@
-import { supabase } from './supabase'
-import type { WeatherCardType, ServerFilterParams } from '../types'
+import { supabase } from "./supabase"
+import type { WeatherCardType, ServerFilterParams } from "../types"
+import { RULES } from "@/constants/rules"
 
 // Table name (DB table is weather_card)
-const TABLE_NAME = 'weather_card'
+const TABLE_NAME = "weather_card"
 
 // Get current user ID
 const getCurrentUserId = async () => {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('User not authenticated')
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) throw new Error("User not authenticated")
   return user.id
 }
 
@@ -24,7 +27,7 @@ const toDbFormat = (card: WeatherCardType) => ({
   min_temp: card.minTemp,
   max_temp: card.maxTemp,
   is_bookmarked: card.isBookmarked,
-  created_at: new Date(card.createdAt).toISOString()
+  created_at: new Date(card.createdAt).toISOString(),
 })
 
 // Convert DB format to WeatherCardType
@@ -39,35 +42,62 @@ const fromDbFormat = (dbCard: any): WeatherCardType => ({
   minTemp: dbCard.min_temp,
   maxTemp: dbCard.max_temp,
   isBookmarked: dbCard.is_bookmarked,
-  createdAt: new Date(dbCard.created_at).getTime()
+  createdAt: new Date(dbCard.created_at).getTime(),
 })
 
 // Get all cards for current user
 export const getAllCards = async (): Promise<WeatherCardType[]> => {
   const userId = await getCurrentUserId()
-  
+
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
 
   if (error) throw error
   return data?.map(fromDbFormat) || []
 }
 
 // Get cards with server-side filtering
-export const getFilteredCards = async (filters: ServerFilterParams = {}): Promise<WeatherCardType[]> => {
+export const getFilteredCards = async (
+  filters: ServerFilterParams = {}
+): Promise<WeatherCardType[]> => {
   const userId = await getCurrentUserId()
-  
-  const { data, error } = await supabase.rpc('filter_weather_cards', {
+
+  const { data, error } = await supabase.rpc("filter_weather_cards", {
     p_user_id: userId,
-    p_year: filters.year ? Number(filters.year) : null,
-    p_month: filters.month ? Number(filters.month) : null,
-    p_day: filters.day ? Number(filters.day) : null,
+    p_year: filters.year || null,
+    p_month: filters.month || null,
+    p_day: filters.day || null,
     p_memo_search: filters.memoSearch || null,
     p_location_search: filters.locationSearch || null,
-    p_sort_by: filters.sortBy || 'date-desc'
+    p_sort_by: filters.sortBy || "date-desc",
+  })
+
+  if (error) throw error
+  return data?.map(fromDbFormat) || []
+}
+
+// Get cards with pagination (무한 스크롤용)
+export const getFilteredCardsPaginated = async (
+  filters: ServerFilterParams = {},
+  offset: number = 0,
+  bookmarksOnly: boolean = false
+): Promise<WeatherCardType[]> => {
+  const userId = await getCurrentUserId()
+
+  const { data, error } = await supabase.rpc("filter_weather_cards_paginated", {
+    p_user_id: userId,
+    p_year: filters.year || null,
+    p_month: filters.month || null,
+    p_day: filters.day || null,
+    p_memo_search: filters.memoSearch || null,
+    p_location_search: filters.locationSearch || null,
+    p_sort_by: filters.sortBy || "date-desc",
+    p_bookmarks_only: bookmarksOnly,
+    p_offset: offset,
+    p_limit: RULES.PAGE_SIZE,
   })
 
   if (error) throw error
@@ -77,33 +107,32 @@ export const getFilteredCards = async (filters: ServerFilterParams = {}): Promis
 // Add new card
 export const addCard = async (card: WeatherCardType): Promise<WeatherCardType> => {
   const userId = await getCurrentUserId()
-  
+
   const dbCard = {
     ...toDbFormat(card),
-    user_id: userId
+    user_id: userId,
   }
-  
-  const { data, error } = await supabase
-    .from(TABLE_NAME)
-    .insert(dbCard)
-    .select()
-    .single()
+
+  const { data, error } = await supabase.from(TABLE_NAME).insert(dbCard).select().single()
 
   if (error) throw error
   return fromDbFormat(data)
 }
 
 // Update existing card
-export const updateCard = async (id: string, updatedCard: WeatherCardType): Promise<WeatherCardType> => {
+export const updateCard = async (
+  id: string,
+  updatedCard: WeatherCardType
+): Promise<WeatherCardType> => {
   const userId = await getCurrentUserId()
-  
+
   const dbCard = toDbFormat(updatedCard)
-  
+
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .update(dbCard)
-    .eq('id', id)
-    .eq('user_id', userId)
+    .eq("id", id)
+    .eq("user_id", userId)
     .select()
     .single()
 
@@ -114,12 +143,8 @@ export const updateCard = async (id: string, updatedCard: WeatherCardType): Prom
 // Delete card
 export const deleteCard = async (id: string): Promise<void> => {
   const userId = await getCurrentUserId()
-  
-  const { error } = await supabase
-    .from(TABLE_NAME)
-    .delete()
-    .eq('id', id)
-    .eq('user_id', userId)
+
+  const { error } = await supabase.from(TABLE_NAME).delete().eq("id", id).eq("user_id", userId)
 
   if (error) throw error
 }
@@ -127,13 +152,13 @@ export const deleteCard = async (id: string): Promise<void> => {
 // Toggle bookmark status
 export const toggleBookmark = async (id: string): Promise<WeatherCardType> => {
   const userId = await getCurrentUserId()
-  
+
   // Get current bookmark status
   const { data: currentCard, error: fetchError } = await supabase
     .from(TABLE_NAME)
-    .select('is_bookmarked')
-    .eq('id', id)
-    .eq('user_id', userId)
+    .select("is_bookmarked")
+    .eq("id", id)
+    .eq("user_id", userId)
     .single()
 
   if (fetchError) throw fetchError
@@ -142,8 +167,8 @@ export const toggleBookmark = async (id: string): Promise<WeatherCardType> => {
   const { data, error } = await supabase
     .from(TABLE_NAME)
     .update({ is_bookmarked: !currentCard.is_bookmarked })
-    .eq('id', id)
-    .eq('user_id', userId)
+    .eq("id", id)
+    .eq("user_id", userId)
     .select()
     .single()
 

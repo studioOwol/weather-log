@@ -1,10 +1,22 @@
 import FilterBar from "@/components/FilterBar"
 import AddCardModal from "@/components/modal/AddCardModal"
 import WeatherGrid from "@/components/WeatherGrid"
-import { useFilteredCards } from "@/hooks/useFilteredCards"
+import { useInfiniteCards } from "@/hooks/useInfiniteCards"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 export default function Home() {
-  const { cards, isLoading, error } = useFilteredCards("home")
+  const { cards, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteCards("home")
+
+  // Intersection Observer for infinite scroll
+  const { ref } = useIntersectionObserver({
+    onIntersect: () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage()
+      }
+    },
+    enabled: hasNextPage && !isFetchingNextPage,
+  })
 
   if (isLoading) {
     return (
@@ -32,6 +44,13 @@ export default function Home() {
 
       <FilterBar />
       <WeatherGrid cards={cards} />
+
+      <div ref={ref} className="h-20 flex items-center justify-center">
+        {hasNextPage && isFetchingNextPage && (
+          <div className="text-muted-foreground">Loading more...</div>
+        )}
+      </div>
+
       <AddCardModal />
     </div>
   )

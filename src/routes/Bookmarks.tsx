@@ -1,10 +1,28 @@
 import FilterBar from "@/components/FilterBar"
 import WeatherGrid from "@/components/WeatherGrid"
 import { EMPTY_MESSAGE, SUB_MESSAGE } from "@/constants/messages"
-import { useFilteredCards } from "@/hooks/useFilteredCards"
+import { useInfiniteCards } from "@/hooks/useInfiniteCards"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 export default function Bookmarks() {
-  const { cards: bookmarkedCards, isLoading, error } = useFilteredCards("bookmarks")
+  const {
+    cards: bookmarkedCards,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteCards("bookmarks")
+
+  // Intersection Observer for infinite scroll
+  const { ref } = useIntersectionObserver({
+    onIntersect: () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage()
+      }
+    },
+    enabled: hasNextPage && !isFetchingNextPage,
+  })
 
   if (isLoading) {
     return (
@@ -36,6 +54,12 @@ export default function Bookmarks() {
         emptyMessage={EMPTY_MESSAGE.BOOKMARKS}
         subMessage={SUB_MESSAGE.BOOKMARKS}
       />
+
+      <div ref={ref} className="h-20 flex items-center justify-center">
+        {hasNextPage && isFetchingNextPage && (
+          <div className="text-muted-foreground">Loading more...</div>
+        )}
+      </div>
     </div>
   )
 }

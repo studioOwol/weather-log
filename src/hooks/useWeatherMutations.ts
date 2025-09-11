@@ -8,9 +8,10 @@ export const useAddCard = () => {
   return useMutation({
     mutationFn: addCard,
     onSuccess: () => {
-      // Invalidate both old and new query keys
+      // Invalidate all query keys
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
     },
   })
 }
@@ -24,6 +25,7 @@ export const useUpdateCard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
     },
   })
 }
@@ -36,6 +38,7 @@ export const useDeleteCard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
     },
   })
 }
@@ -75,6 +78,7 @@ export const useToggleBookmark = () => {
       // Always refetch after mutation
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
     },
   })
 }
