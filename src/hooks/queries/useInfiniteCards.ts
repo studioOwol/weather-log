@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInfiniteQuery, keepPreviousData } from "@tanstack/react-query"
 import { getFilteredCardsPaginated } from "@/api/supabaseApi"
 import { useUrlFilters } from "../useUrlFilters"
 import type { FilterType, WeatherCardType } from "@/types"
@@ -9,7 +9,7 @@ export const useInfiniteCards = (filterType: FilterType) => {
   const { filters } = useUrlFilters()
   const bookmarksOnly = filterType === "bookmarks"
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isPlaceholderData } =
     useInfiniteQuery({
       queryKey: ["infinite-cards", filters, filterType],
       queryFn: async ({ pageParam = 0 }: { pageParam?: number }) => {
@@ -26,6 +26,7 @@ export const useInfiniteCards = (filterType: FilterType) => {
         const nextOffset = allPages.flat().length
         return nextOffset
       },
+      placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000, // 5 minutes
       gcTime: 30 * 60 * 1000, // 30 minutes
       refetchOnWindowFocus: false,
@@ -45,7 +46,7 @@ export const useInfiniteCards = (filterType: FilterType) => {
 
   return {
     cards: allCards,
-    isLoading,
+    isLoading: isLoading || (isFetching && !isPlaceholderData && allCards.length === 0),
     error,
     fetchNextPage,
     hasNextPage,
