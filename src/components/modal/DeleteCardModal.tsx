@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog"
-import { useDeleteCard } from "@/hooks/useWeatherMutations"
+import { useDeleteCard } from "@/hooks/queries/useWeatherMutations"
 
 interface DeleteCardModalProps {
   cardId: string
@@ -30,7 +30,7 @@ export default function DeleteCardModal({
       await deleteCardMutation.mutateAsync(cardId)
       onOpenChange(false)
     } catch (error) {
-      console.error('Failed to delete card:', error)
+      console.error("Failed to delete card:", error)
     }
   }
 
@@ -52,7 +52,7 @@ export default function DeleteCardModal({
             disabled={deleteCardMutation.isPending}
           >
             <span className="text-white">
-              {deleteCardMutation.isPending ? 'Deleting...' : 'Delete'}
+              {deleteCardMutation.isPending ? "Deleting..." : "Delete"}
             </span>
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -1,7 +1,7 @@
 import { useMemo } from "react"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { getFilteredCardsPaginated } from "@/api/supabaseApi"
-import { useUrlFilters } from "./useUrlFilters"
+import { useUrlFilters } from "../useUrlFilters"
 import type { FilterType, WeatherCardType } from "@/types"
 import { RULES } from "@/constants/rules"
 

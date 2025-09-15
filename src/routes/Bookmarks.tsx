@@ -1,7 +1,7 @@
 import FilterBar from "@/components/FilterBar"
 import WeatherGrid from "@/components/WeatherGrid"
 import { EMPTY_MESSAGE, SUB_MESSAGE } from "@/constants/messages"
-import { useInfiniteCards } from "@/hooks/useInfiniteCards"
+import { useInfiniteCards } from "@/hooks/queries/useInfiniteCards"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 export default function Bookmarks() {

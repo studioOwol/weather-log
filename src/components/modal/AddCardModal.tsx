@@ -11,9 +11,9 @@ import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Plus, Loader2 } from "lucide-react"
 import { Textarea } from "../ui/textarea"
-import { useWeather } from "@/hooks/useWeather"
-import { useGeocode } from "@/hooks/useGeocode"
-import { useAddCard } from "@/hooks/useWeatherMutations"
+import { useWeather } from "@/hooks/queries/useWeather"
+import { useGeocode } from "@/hooks/queries/useGeocode"
+import { useAddCard } from "@/hooks/queries/useWeatherMutations"
 import { getCurrentLocation } from "@/lib/apiUtils"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "../../constants/rules"
@@ -92,7 +92,7 @@ export default function AddCardModal() {
       await addCardMutation.mutateAsync(newCard)
       handleClose()
     } catch (error) {
-      console.error('Failed to add card:', error)
+      console.error("Failed to add card:", error)
     }
   }
 
@@ -227,7 +227,7 @@ export default function AddCardModal() {
               className="flex-1 text-inner"
               disabled={!location || !weatherData || addCardMutation.isPending}
             >
-{addCardMutation.isPending ? 'Saving...' : 'Save'}
+              {addCardMutation.isPending ? "Saving..." : "Save"}
             </Button>
           </div>
         </form>

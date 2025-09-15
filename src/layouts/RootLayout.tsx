@@ -1,4 +1,4 @@
-import Layout from "@/components/layout/Layout"
+import Layout from "@/components/common/Layout"
 import { Outlet } from "react-router"
 
 export default function RootLayout() {

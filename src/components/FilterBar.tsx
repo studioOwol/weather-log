@@ -7,7 +7,7 @@ import MemoSearch from "./filter/MemoSearch"
 import SortGroup from "./filter/SortGroup"
 import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { usePageType } from "@/hooks/usePageType"
-import { useCardsStats } from "@/hooks/useCardsStats"
+import { useCardsStats } from "@/hooks/queries/useCardsStats"
 
 export default function FilterBar() {
   const filterType = usePageType()

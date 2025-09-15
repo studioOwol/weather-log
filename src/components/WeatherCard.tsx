@@ -6,7 +6,7 @@ import { Bookmark, BookmarkCheck, Edit2, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
-import { useToggleBookmark } from "@/hooks/useWeatherMutations"
+import { useToggleBookmark } from "@/hooks/queries/useWeatherMutations"
 import { RULES } from "@/constants/rules"
 
 interface WeatherProps {
@@ -22,7 +22,7 @@ export default function WeatherCard({ card }: WeatherProps) {
     try {
       await toggleBookmarkMutation.mutateAsync(card.id)
     } catch (error) {
-      console.error('Failed to toggle bookmark:', error)
+      console.error("Failed to toggle bookmark:", error)
     }
   }
 

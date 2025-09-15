@@ -1,7 +1,7 @@
 import FilterBar from "@/components/FilterBar"
 import AddCardModal from "@/components/modal/AddCardModal"
 import WeatherGrid from "@/components/WeatherGrid"
-import { useInfiniteCards } from "@/hooks/useInfiniteCards"
+import { useInfiniteCards } from "@/hooks/queries/useInfiniteCards"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 export default function Home() {

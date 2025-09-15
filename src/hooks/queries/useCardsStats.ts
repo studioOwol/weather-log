@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getCardsStats } from "@/api/supabaseApi"
-import { useUrlFilters } from "./useUrlFilters"
+import { useUrlFilters } from "../useUrlFilters"
 
 export const useCardsStats = () => {
   const { filters } = useUrlFilters()

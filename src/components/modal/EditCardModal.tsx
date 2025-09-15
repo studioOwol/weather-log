@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
-import { useUpdateCard } from "@/hooks/useWeatherMutations"
+import { useUpdateCard } from "@/hooks/queries/useWeatherMutations"
 import type { WeatherCardType } from "@/types"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "@/constants/rules"
@@ -41,7 +41,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
       await updateCardMutation.mutateAsync({ id: card.id, updatedCard })
       handleClose()
     } catch (error) {
-      console.error('Failed to update card:', error)
+      console.error("Failed to update card:", error)
     }
   }
 
@@ -120,12 +120,12 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="flex-1 text-inner"
               disabled={updateCardMutation.isPending}
             >
-              {updateCardMutation.isPending ? 'Updating...' : 'Update'}
+              {updateCardMutation.isPending ? "Updating..." : "Update"}
             </Button>
           </div>
         </form>

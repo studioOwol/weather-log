@@ -45,40 +45,7 @@ const fromDbFormat = (dbCard: any): WeatherCardType => ({
   createdAt: new Date(dbCard.created_at).getTime(),
 })
 
-export const getAllCards = async (): Promise<WeatherCardType[]> => {
-  const userId = await getCurrentUserId()
-
-  const { data, error } = await supabase
-    .from(TABLE_NAME)
-    .select("*")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false })
-
-  if (error) throw error
-  return data?.map(fromDbFormat) || []
-}
-
-// Get cards with server-side filtering
-export const getFilteredCards = async (
-  filters: ServerFilterParams = {}
-): Promise<WeatherCardType[]> => {
-  const userId = await getCurrentUserId()
-
-  const { data, error } = await supabase.rpc("filter_weather_cards", {
-    p_user_id: userId,
-    p_year: filters.year || null,
-    p_month: filters.month || null,
-    p_day: filters.day || null,
-    p_memo_search: filters.memoSearch || null,
-    p_location_search: filters.locationSearch || null,
-    p_sort_by: filters.sortBy || "date-desc",
-  })
-
-  if (error) throw error
-  return data?.map(fromDbFormat) || []
-}
-
-// Get cards with pagination (무한 스크롤용)
+// Get cards with pagination (Infinite Scroll)
 export const getFilteredCardsPaginated = async (
   filters: ServerFilterParams = {},
   offset: number = 0,
@@ -124,7 +91,7 @@ export const getCardsStats = async (
   })
 
   if (error) throw error
-  
+
   const result = data?.[0] || {}
   return {
     totalCards: result.total_cards || 0,
