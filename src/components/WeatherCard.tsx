@@ -20,7 +20,7 @@ export default function WeatherCard({ card }: WeatherProps) {
 
   const handleToggleBookmark = async () => {
     try {
-      await toggleBookmarkMutation.mutateAsync(card.id)
+      await toggleBookmarkMutation.mutateAsync({ cardId: card.id, newBookmarkStatus: !card.isBookmarked })
     } catch (error) {
       console.error("Failed to toggle bookmark:", error)
     }

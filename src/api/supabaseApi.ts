@@ -147,23 +147,12 @@ export const deleteCard = async (id: string): Promise<void> => {
 }
 
 // Toggle bookmark status
-export const toggleBookmark = async (id: string): Promise<WeatherCardType> => {
+export const toggleBookmark = async (id: string, isBookmarked: boolean): Promise<WeatherCardType> => {
   const userId = await getCurrentUserId()
 
-  // Get current bookmark status
-  const { data: currentCard, error: fetchError } = await supabase
-    .from(TABLE_NAME)
-    .select("is_bookmarked")
-    .eq("id", id)
-    .eq("user_id", userId)
-    .single()
-
-  if (fetchError) throw fetchError
-
-  // Toggle bookmark status
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .update({ is_bookmarked: !currentCard.is_bookmarked })
+    .update({ is_bookmarked: isBookmarked })
     .eq("id", id)
     .eq("user_id", userId)
     .select()

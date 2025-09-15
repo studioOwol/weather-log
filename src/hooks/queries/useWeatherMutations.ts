@@ -44,35 +44,71 @@ export const useToggleBookmark = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: toggleBookmark,
-    onMutate: async (cardId: string) => {
+    mutationFn: ({ cardId, newBookmarkStatus }: { cardId: string; newBookmarkStatus: boolean }) =>
+      toggleBookmark(cardId, newBookmarkStatus),
+    onMutate: async ({ cardId, newBookmarkStatus }: { cardId: string; newBookmarkStatus: boolean }) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["weather-cards"] })
+      await queryClient.cancelQueries({ queryKey: ["infinite-cards"] })
+      await queryClient.cancelQueries({ queryKey: ["cards-stats"] })
 
-      // Get current data
-      const previousCards = queryClient.getQueryData<WeatherCardType[]>(["weather-cards"])
+      // Backup previous data for rollback
+      const previousInfiniteData = queryClient.getQueriesData({ queryKey: ["infinite-cards"] })
+      const previousStatsData = queryClient.getQueriesData({ queryKey: ["cards-stats"] })
 
-      // Optimistically update
-      if (previousCards) {
-        queryClient.setQueryData<WeatherCardType[]>(
-          ["weather-cards"],
-          (old) =>
-            old?.map((card) =>
-              card.id === cardId ? { ...card, isBookmarked: !card.isBookmarked } : card
-            ) || []
-        )
-      }
+      // Optimistically update ALL infinite query data (home, bookmarks, etc.)
+      queryClient.setQueriesData(
+        { queryKey: ["infinite-cards"] },
+        (oldData: any) => {
+          if (!oldData?.pages) return oldData
+          
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page: WeatherCardType[]) =>
+              page.map((card: WeatherCardType) =>
+                card.id === cardId ? { ...card, isBookmarked: newBookmarkStatus } : card
+              )
+            ),
+          }
+        }
+      )
 
-      return { previousCards }
+      // Optimistically update stats
+      queryClient.setQueriesData(
+        { queryKey: ["cards-stats"] },
+        (oldData: any) => {
+          if (!oldData) return oldData
+          
+          const delta = newBookmarkStatus ? 1 : -1
+          return {
+            ...oldData,
+            totalBookmarks: oldData.totalBookmarks + delta,
+            filteredBookmarks: oldData.filteredBookmarks + delta,
+          }
+        }
+      )
+
+      return { previousInfiniteData, previousStatsData }
     },
-    onError: (err, cardId, context) => {
-      // Rollback on error
-      if (context?.previousCards) {
-        queryClient.setQueryData(["weather-cards"], context.previousCards)
+    onError: (err, variables, context) => {
+      // Rollback optimistic updates
+      if (context?.previousInfiniteData) {
+        context.previousInfiniteData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data)
+        })
       }
+      if (context?.previousStatsData) {
+        context.previousStatsData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data)
+        })
+      }
+    },
+    onSuccess: () => {
+      // Force refetch all infinite cards queries immediately
+      queryClient.refetchQueries({ queryKey: ["infinite-cards"] })
+      queryClient.refetchQueries({ queryKey: ["cards-stats"] })
     },
     onSettled: () => {
-      // Always refetch after mutation
+      // Backup invalidation
       queryClient.invalidateQueries({ queryKey: ["infinite-cards"] })
       queryClient.invalidateQueries({ queryKey: ["cards-stats"] })
     },
