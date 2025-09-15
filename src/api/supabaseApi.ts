@@ -45,7 +45,6 @@ const fromDbFormat = (dbCard: any): WeatherCardType => ({
   createdAt: new Date(dbCard.created_at).getTime(),
 })
 
-// Get all cards for current user
 export const getAllCards = async (): Promise<WeatherCardType[]> => {
   const userId = await getCurrentUserId()
 
@@ -102,6 +101,37 @@ export const getFilteredCardsPaginated = async (
 
   if (error) throw error
   return data?.map(fromDbFormat) || []
+}
+
+// Get cards statistics (all counts in one query)
+export const getCardsStats = async (
+  filters: ServerFilterParams = {}
+): Promise<{
+  totalCards: number
+  totalBookmarks: number
+  filteredCards: number
+  filteredBookmarks: number
+}> => {
+  const userId = await getCurrentUserId()
+
+  const { data, error } = await supabase.rpc("get_cards_stats", {
+    p_user_id: userId,
+    p_year: filters.year || null,
+    p_month: filters.month || null,
+    p_day: filters.day || null,
+    p_memo_search: filters.memoSearch || null,
+    p_location_search: filters.locationSearch || null,
+  })
+
+  if (error) throw error
+  
+  const result = data?.[0] || {}
+  return {
+    totalCards: result.total_cards || 0,
+    totalBookmarks: result.total_bookmarks || 0,
+    filteredCards: result.filtered_cards || 0,
+    filteredBookmarks: result.filtered_bookmarks || 0,
+  }
 }
 
 // Add new card

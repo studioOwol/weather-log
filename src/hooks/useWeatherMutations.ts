@@ -12,6 +12,7 @@ export const useAddCard = () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['cards-stats'] })
     },
   })
 }
@@ -26,6 +27,7 @@ export const useUpdateCard = () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['cards-stats'] })
     },
   })
 }
@@ -39,6 +41,7 @@ export const useDeleteCard = () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['cards-stats'] })
     },
   })
 }
@@ -79,6 +82,7 @@ export const useToggleBookmark = () => {
       queryClient.invalidateQueries({ queryKey: ['weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['filtered-weather-cards'] })
       queryClient.invalidateQueries({ queryKey: ['infinite-cards'] })
+      queryClient.invalidateQueries({ queryKey: ['cards-stats'] })
     },
   })
 }

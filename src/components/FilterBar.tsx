@@ -7,18 +7,16 @@ import MemoSearch from "./filter/MemoSearch"
 import SortGroup from "./filter/SortGroup"
 import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { usePageType } from "@/hooks/usePageType"
-import { useFilteredCards } from "@/hooks/useFilteredCards"
-import { useWeatherCards } from "@/hooks/useWeatherCards"
+import { useCardsStats } from "@/hooks/useCardsStats"
 
 export default function FilterBar() {
   const filterType = usePageType()
   const isBookmarkPage = filterType === "bookmarks"
   const { filters, clearFilters, updateFilters } = useUrlFilters()
-  const { data: allCards = [] } = useWeatherCards()
-  const { cards: filteredCards } = useFilteredCards(filterType)
-  const totalCards = isBookmarkPage
-    ? allCards.filter((card) => card.isBookmarked).length
-    : allCards.length
+  const { data: stats } = useCardsStats()
+
+  const filteredCount = isBookmarkPage ? stats?.filteredBookmarks || 0 : stats?.filteredCards || 0
+  const totalCards = isBookmarkPage ? stats?.totalBookmarks || 0 : stats?.totalCards || 0
 
   return (
     <div className="space-y-4 mb-6 p-4 rounded-xl bg-inner border border-border-default">
@@ -28,7 +26,7 @@ export default function FilterBar() {
           <FilterIcon className="size-4 text-muted-foreground" />
           <span className="text-sm font-medium text-muted-foreground">Filter & Search</span>
           <Badge className="bg-foreground rounded-xl text-sm text-inner">
-            {filteredCards.length} / {totalCards}
+            {filteredCount} / {totalCards}
           </Badge>
         </div>
 
