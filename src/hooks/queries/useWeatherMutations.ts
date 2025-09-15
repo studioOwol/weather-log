@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { addCard, updateCard, deleteCard, toggleBookmark } from "@/api/supabaseApi"
+import { weatherQueryFactory } from "../../lib/weatherQueryFactory"
 import type { WeatherCardType } from "@/types"
 
 export const useAddCard = () => {
@@ -8,9 +9,9 @@ export const useAddCard = () => {
   return useMutation({
     mutationFn: addCard,
     onSuccess: () => {
-      // Invalidate all query keys
-      queryClient.invalidateQueries({ queryKey: ["infinite-cards"] })
-      queryClient.invalidateQueries({ queryKey: ["cards-stats"] })
+      // Invalidate all query keys using Query Factory
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.stats() })
     },
   })
 }
@@ -22,8 +23,8 @@ export const useUpdateCard = () => {
     mutationFn: ({ id, updatedCard }: { id: string; updatedCard: WeatherCardType }) =>
       updateCard(id, updatedCard),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["infinite-cards"] })
-      queryClient.invalidateQueries({ queryKey: ["cards-stats"] })
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.stats() })
     },
   })
 }
@@ -34,8 +35,8 @@ export const useDeleteCard = () => {
   return useMutation({
     mutationFn: deleteCard,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["infinite-cards"] })
-      queryClient.invalidateQueries({ queryKey: ["cards-stats"] })
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.stats() })
     },
   })
 }
@@ -46,21 +47,33 @@ export const useToggleBookmark = () => {
   return useMutation({
     mutationFn: ({ cardId, newBookmarkStatus }: { cardId: string; newBookmarkStatus: boolean }) =>
       toggleBookmark(cardId, newBookmarkStatus),
-    onMutate: async ({ cardId, newBookmarkStatus }: { cardId: string; newBookmarkStatus: boolean }) => {
+    onMutate: async ({
+      cardId,
+      newBookmarkStatus,
+    }: {
+      cardId: string
+      newBookmarkStatus: boolean
+    }) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["infinite-cards"] })
-      await queryClient.cancelQueries({ queryKey: ["cards-stats"] })
+      await queryClient.cancelQueries({ queryKey: weatherQueryFactory.cards() })
+      await queryClient.cancelQueries({ queryKey: weatherQueryFactory.stats() })
 
       // Backup previous data for rollback
-      const previousInfiniteData = queryClient.getQueriesData({ queryKey: ["infinite-cards"] })
-      const previousStatsData = queryClient.getQueriesData({ queryKey: ["cards-stats"] })
+      const previousInfiniteData = queryClient.getQueriesData({ queryKey: weatherQueryFactory.cards() })
+      const previousStatsData = queryClient.getQueriesData({ queryKey: weatherQueryFactory.stats() })
 
-      // Optimistically update ALL infinite query data (home, bookmarks, etc.)
+      // Optimistically update infinite query data for each page type
+      // Update home page data (just change bookmark status)
       queryClient.setQueriesData(
-        { queryKey: ["infinite-cards"] },
+        {
+          queryKey: [...weatherQueryFactory.cards(), "infinite"],
+          predicate: (query) => {
+            return query.queryKey[4] === "home" // filterType position
+          },
+        },
         (oldData: any) => {
           if (!oldData?.pages) return oldData
-          
+
           return {
             ...oldData,
             pages: oldData.pages.map((page: WeatherCardType[]) =>
@@ -72,20 +85,45 @@ export const useToggleBookmark = () => {
         }
       )
 
-      // Optimistically update stats
+      // Update bookmarks page data (remove card if unbookmarked)
       queryClient.setQueriesData(
-        { queryKey: ["cards-stats"] },
+        {
+          queryKey: [...weatherQueryFactory.cards(), "infinite"],
+          predicate: (query) => {
+            return query.queryKey[4] === "bookmarks" // filterType position
+          },
+        },
         (oldData: any) => {
-          if (!oldData) return oldData
-          
-          const delta = newBookmarkStatus ? 1 : -1
+          if (!oldData?.pages) return oldData
+
           return {
             ...oldData,
-            totalBookmarks: oldData.totalBookmarks + delta,
-            filteredBookmarks: oldData.filteredBookmarks + delta,
+            pages: oldData.pages.map((page: WeatherCardType[]) => {
+              if (!newBookmarkStatus) {
+                // Remove card from bookmarks page when unbookmarked
+                return page.filter((card: WeatherCardType) => card.id !== cardId)
+              } else {
+                // Add/update card when bookmarked
+                return page.map((card: WeatherCardType) =>
+                  card.id === cardId ? { ...card, isBookmarked: newBookmarkStatus } : card
+                )
+              }
+            }),
           }
         }
       )
+
+      // Optimistically update stats
+      queryClient.setQueriesData({ queryKey: weatherQueryFactory.stats() }, (oldData: any) => {
+        if (!oldData) return oldData
+
+        const delta = newBookmarkStatus ? 1 : -1
+        return {
+          ...oldData,
+          totalBookmarks: oldData.totalBookmarks + delta,
+          filteredBookmarks: oldData.filteredBookmarks + delta,
+        }
+      })
 
       return { previousInfiniteData, previousStatsData }
     },
@@ -104,13 +142,13 @@ export const useToggleBookmark = () => {
     },
     onSuccess: () => {
       // Force refetch all infinite cards queries immediately
-      queryClient.refetchQueries({ queryKey: ["infinite-cards"] })
-      queryClient.refetchQueries({ queryKey: ["cards-stats"] })
+      queryClient.refetchQueries({ queryKey: weatherQueryFactory.cards() })
+      queryClient.refetchQueries({ queryKey: weatherQueryFactory.stats() })
     },
     onSettled: () => {
       // Backup invalidation
-      queryClient.invalidateQueries({ queryKey: ["infinite-cards"] })
-      queryClient.invalidateQueries({ queryKey: ["cards-stats"] })
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
+      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.stats() })
     },
   })
 }

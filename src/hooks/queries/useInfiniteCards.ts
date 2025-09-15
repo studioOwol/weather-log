@@ -1,38 +1,22 @@
 import { useMemo } from "react"
-import { useInfiniteQuery, keepPreviousData } from "@tanstack/react-query"
-import { getFilteredCardsPaginated } from "@/api/supabaseApi"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { useUrlFilters } from "../useUrlFilters"
-import type { FilterType, WeatherCardType } from "@/types"
-import { RULES } from "@/constants/rules"
+import { weatherQueryFactory } from "../../lib/weatherQueryFactory"
+import type { FilterType } from "@/types"
 
 export const useInfiniteCards = (filterType: FilterType) => {
   const { filters } = useUrlFilters()
-  const bookmarksOnly = filterType === "bookmarks"
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isPlaceholderData } =
-    useInfiniteQuery({
-      queryKey: ["infinite-cards", filters, filterType],
-      queryFn: async ({ pageParam = 0 }: { pageParam?: number }) => {
-        return getFilteredCardsPaginated(filters, pageParam, bookmarksOnly)
-      },
-      initialPageParam: 0,
-      getNextPageParam: (lastPage: WeatherCardType[], allPages) => {
-        // 마지막 페이지가 PAGE_SIZE보다 작으면 더 이상 페이지가 없음
-        if (lastPage.length < RULES.PAGE_SIZE) {
-          return undefined
-        }
-
-        // 다음 오프셋 계산
-        const nextOffset = allPages.flat().length
-        return nextOffset
-      },
-      placeholderData: keepPreviousData,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 30 * 60 * 1000, // 30 minutes
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-    })
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+    isPlaceholderData,
+  } = useInfiniteQuery(weatherQueryFactory.infiniteCards(filters, filterType))
 
   const allCards = useMemo(() => {
     if (!data) return []
