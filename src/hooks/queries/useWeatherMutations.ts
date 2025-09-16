@@ -127,7 +127,7 @@ export const useToggleBookmark = () => {
 
       return { previousInfiniteData, previousStatsData }
     },
-    onError: (err, variables, context) => {
+    onError: (_err, _variables, context) => {
       // Rollback optimistic updates
       if (context?.previousInfiniteData) {
         context.previousInfiniteData.forEach(([queryKey, data]) => {
