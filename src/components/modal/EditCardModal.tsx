@@ -7,7 +7,6 @@ import { useUpdateCard } from "@/hooks/queries/useWeatherMutations"
 import type { WeatherCardType } from "@/types"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "@/constants/rules"
-import { cn } from "@/lib/utils"
 
 interface EditCardModalProps {
   card: WeatherCardType
@@ -19,32 +18,15 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
   const [memo, setMemo] = useState(card.memo || "")
   const updateCardMutation = useUpdateCard()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
-  const dialogRef = useRef<HTMLDivElement>(null)
-  const isClosingRef = useRef(false)
 
   useEffect(() => {
     setMemo(card.memo || "")
   }, [card.memo])
 
-  useEffect(() => {
-    if (isOpen) {
-      isClosingRef.current = false
-      setIsKeyboardVisible(false)
-    }
-  }, [isOpen])
-
   // Cursor moves to the end on textarea focus.
   const handleTextareaFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
     const textarea = e.target
     textarea.setSelectionRange(textarea.value.length, textarea.value.length)
-    setIsKeyboardVisible(true)
-  }
-
-  const handleTextareaBlur = () => {
-    if (!isClosingRef.current) {
-      setIsKeyboardVisible(false)
-    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,17 +46,13 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
   }
 
   const handleClose = () => {
-    isClosingRef.current = true
     onOpenChange(false)
     setMemo(card.memo || "")
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent
-        ref={dialogRef}
-        className="border-none sm:max-w-md text-muted-foreground transition-all duration-300"
-      >
+      <DialogContent className="border-none sm:max-w-md text-muted-foreground">
         <DialogHeader>
           <DialogTitle>Edit Record</DialogTitle>
           <DialogDescription>Update the note for this weather record.</DialogDescription>
@@ -125,7 +103,6 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
               maxLength={300}
               onChange={(e) => setMemo(e.target.value)}
               onFocus={handleTextareaFocus}
-              onBlur={handleTextareaBlur}
               tabIndex={-1}
             />
             <div className="flex justify-end">
