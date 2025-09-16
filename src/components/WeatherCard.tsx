@@ -2,7 +2,7 @@ import { useState } from "react"
 import type { WeatherCardType } from "@/types"
 import { Card, CardContent, CardHeader } from "./ui/card"
 import { Button } from "./ui/button"
-import { Bookmark, BookmarkCheck, Edit2, Trash2 } from "lucide-react"
+import { Bookmark, BookmarkCheck, Edit2, Trash2, ChevronDown, ChevronUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
@@ -16,11 +16,18 @@ interface WeatherProps {
 export default function WeatherCard({ card }: WeatherProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isMemoExpanded, setIsMemoExpanded] = useState(false)
   const toggleBookmarkMutation = useToggleBookmark()
+
+  // 메모가 길면 아이콘 표시
+  const shouldToggleMemo = card.memo && card.memo.length > RULES.MEMO_TOGGLE_LENGTH
 
   const handleToggleBookmark = async () => {
     try {
-      await toggleBookmarkMutation.mutateAsync({ cardId: card.id, newBookmarkStatus: !card.isBookmarked })
+      await toggleBookmarkMutation.mutateAsync({
+        cardId: card.id,
+        newBookmarkStatus: !card.isBookmarked,
+      })
     } catch (error) {
       console.error("Failed to toggle bookmark:", error)
     }
@@ -28,7 +35,7 @@ export default function WeatherCard({ card }: WeatherProps) {
 
   return (
     <>
-      <Card className="bg-inner border-border-default">
+      <Card className="bg-inner border-border-default relative">
         <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-semibold text-muted-foreground">{card.date}</h3>
@@ -86,16 +93,40 @@ export default function WeatherCard({ card }: WeatherProps) {
           </div>
 
           <div className="space-y-1">
-            <p className="text-md font-semibold text-muted-foreground">Note:</p>
-            <div
-              className={cn(
-                "text-sm rounded-lg p-2 bg-secondary/10 max-h-20 overflow-hidden",
-                card.memo ? "text-muted-foreground" : "text-muted-foreground/50 italic"
+            <div className="flex items-center justify-between">
+              <p className="text-md font-semibold text-muted-foreground">Note:</p>
+              {shouldToggleMemo && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-5 w-5 p-0 text-muted-foreground/50 hover:text-muted-foreground"
+                  onClick={() => setIsMemoExpanded(!isMemoExpanded)}
+                >
+                  {isMemoExpanded ? (
+                    <ChevronUp className="size-4" />
+                  ) : (
+                    <ChevronDown className="size-4" />
+                  )}
+                </Button>
               )}
-            >
-              <p className="line-clamp-1 whitespace-pre-wrap break-words">
-                {card.memo || "Add a note to remember this day..."}
-              </p>
+            </div>
+            <div className="relative">
+              <div
+                className={cn(
+                  "text-sm p-2 bg-memo transition-all duration-200 rounded-lg border border-border-default/50",
+                  card.memo ? "text-muted-foreground" : "text-muted-foreground/50 italic",
+                  "max-h-20 overflow-hidden"
+                )}
+              >
+                <p className="line-clamp-1 whitespace-pre-wrap break-words">
+                  {card.memo || "Add a note to remember this day..."}
+                </p>
+              </div>
+              {isMemoExpanded && card.memo && (
+                <div className="absolute top-0 left-0 right-0 z-10 text-sm p-2 bg-memo rounded-lg border border-border-default/50 shadow-lg text-muted-foreground">
+                  <p className="whitespace-pre-wrap break-words">{card.memo}</p>
+                </div>
+              )}
             </div>
           </div>
         </CardContent>

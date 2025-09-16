@@ -11,6 +11,7 @@
   --color-muted: #e8e5dd;
   --color-ring: #6a87b3;
   --color-destructive: #dc2626;
+  --color-memo: #f0f4f3;
 
   --text-16: 16px;
   --text-14: 14px;
@@ -28,4 +29,5 @@
   --color-muted: #2d3748;
   --color-ring: #5b9bd5;
   --color-destructive: #f56565;
+  --color-memo: #22272b;
 }
