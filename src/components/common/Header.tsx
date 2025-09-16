@@ -18,7 +18,7 @@ export default function Header() {
     await signOut()
     queryClient.clear()
     // Clear URL parameters when signing out
-    navigate('/', { replace: true })
+    navigate("/", { replace: true })
   }
 
   return (
@@ -58,7 +58,7 @@ export default function Header() {
             onClick={toggleTheme}
             variant="ghost"
             size="icon"
-            className="text-primary hover:bg-muted"
+            className="text-primary hover:bg-muted cursor-pointer"
             aria-label="Toggle theme"
           >
             {resolvedTheme === "dark" ? (
@@ -72,7 +72,7 @@ export default function Header() {
             onClick={handleSignOut}
             variant="ghost"
             size="icon"
-            className="text-primary hover:bg-muted"
+            className="text-primary hover:bg-muted cursor-pointer"
             aria-label="Sign out"
           >
             <LogOut className="size-4 sm:size-5" />

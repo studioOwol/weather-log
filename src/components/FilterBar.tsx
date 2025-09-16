@@ -32,7 +32,7 @@ export default function FilterBar() {
 
         <Button
           variant="outline"
-          className="bg-inner border border-border-default text-sm text-muted-foreground rounded-2xl cursor-pointer"
+          className="bg-inner border border-border-default text-sm text-muted-foreground rounded-2xl cursor-pointer hover:bg-muted active:scale-95 transition-all"
           onClick={() => clearFilters()}
         >
           Clear All
@@ -46,7 +46,7 @@ export default function FilterBar() {
             <Button
               variant="outline"
               size="sm"
-              className="bg-inner border border-border-default text-xs rounded-lg w-fit sm:px-3 px-2"
+              className="bg-inner border border-border-default text-xs rounded-lg w-fit sm:px-3 px-2 cursor-pointer hover:bg-muted active:scale-95 transition-all"
               onClick={() => updateFilters({ year: undefined, month: undefined, day: undefined })}
             >
               <span className="sm:inline hidden">Clear</span>
