@@ -1,4 +1,4 @@
-import { FilterIcon } from "lucide-react"
+import { FilterIcon, RotateCcw } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import DateSearch from "./filter/DateSearch"
@@ -40,17 +40,20 @@ export default function FilterBar() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3 text-muted-foreground">
-        <DateSearch />
-        {(filters.year || filters.month || filters.day) && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="bg-inner border border-border-default text-xs rounded-lg w-fit"
-            onClick={() => updateFilters({ year: undefined, month: undefined, day: undefined })}
-          >
-            Clear
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <DateSearch />
+          {(filters.year || filters.month || filters.day) && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-inner border border-border-default text-xs rounded-lg w-fit sm:px-3 px-2"
+              onClick={() => updateFilters({ year: undefined, month: undefined, day: undefined })}
+            >
+              <span className="sm:inline hidden">Clear</span>
+              <RotateCcw className="size-3 sm:hidden text-muted-foreground" />
+            </Button>
+          )}
+        </div>
         <LocationSearch />
         <MemoSearch />
         <SortGroup />
