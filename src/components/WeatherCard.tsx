@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
 import { useToggleBookmark } from "@/hooks/queries/useWeatherMutations"
+import { useScreenSize } from "@/hooks/useScreenSize"
 import { RULES } from "@/constants/rules"
 
 interface WeatherProps {
@@ -18,9 +19,9 @@ export default function WeatherCard({ card }: WeatherProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isMemoExpanded, setIsMemoExpanded] = useState(false)
   const toggleBookmarkMutation = useToggleBookmark()
+  const charLimit = useScreenSize()
 
-  // 메모가 길면 아이콘 표시
-  const shouldToggleMemo = card.memo && card.memo.length > RULES.MEMO_TOGGLE_LENGTH
+  const shouldToggleMemo = card.memo && card.memo.length >= charLimit
 
   const handleToggleBookmark = async () => {
     try {
@@ -123,7 +124,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 </p>
               </div>
               {isMemoExpanded && card.memo && (
-                <div className="absolute top-0 left-0 right-0 z-10 text-sm p-2 bg-memo rounded-lg border border-border-default/50 shadow-lg text-muted-foreground">
+                <div className="absolute top-0 left-0 right-0 z-10 text-sm p-2 bg-memo rounded-lg border border-border-default/50 text-muted-foreground">
                   <p className="whitespace-pre-wrap break-words">{card.memo}</p>
                 </div>
               )}
