@@ -3,7 +3,6 @@ import { Link } from "react-router"
 import { signInWithPassword } from "../api/supabase"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
-import { Cloud } from "lucide-react"
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -28,7 +27,11 @@ export default function Login() {
       <div className="max-w-md w-full space-y-7">
         <div className="text-center">
           <div className="flex justify-center">
-            <Cloud className="size-12 text-primary" />
+            <img
+              src="https://res.cloudinary.com/durvfabtg/image/upload/w_96,h_96,f_webp,q_90,c_fit/v1758015446/weather-log-logo_xvovfd.png"
+              alt="Weather Log Logo"
+              className="size-15"
+            />
           </div>
           <h1 className="mt-2 text-3xl font-bold text-foreground">Weather Log</h1>
           <p className="mt-3 text-muted-foreground">Sign in to start tracking your weather</p>
