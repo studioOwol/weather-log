@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import {
   Dialog,
   DialogContent,
@@ -18,12 +18,16 @@ import { getCurrentLocation } from "@/lib/apiUtils"
 import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "../../constants/rules"
 import { DISPLAY_MESSAGES, ERRORS } from "@/constants/messages"
+import { cn } from "@/lib/utils"
 
 export default function AddCardModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [memo, setMemo] = useState("")
   const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null)
   const [isGettingLocation, setIsGettingLocation] = useState(false)
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const isClosingRef = useRef(false)
 
   const {
     data: weatherData,
@@ -44,6 +48,10 @@ export default function AddCardModal() {
   useEffect(() => {
     if (isOpen && !location) {
       handleGetLocation()
+    }
+    if (isOpen) {
+      isClosingRef.current = false
+      setIsKeyboardVisible(false)
     }
   }, [isOpen])
 
@@ -97,9 +105,21 @@ export default function AddCardModal() {
   }
 
   const handleClose = () => {
+    isClosingRef.current = true
     setIsOpen(false)
     setMemo("")
     setLocation(null)
+  }
+
+  const handleTextareaFocus = () => {
+    setIsKeyboardVisible(true)
+  }
+
+  const handleTextareaBlur = () => {
+    // 다이얼로그가 닫히는 중이 아닐 때만 키보드 상태 변경
+    if (!isClosingRef.current) {
+      setIsKeyboardVisible(false)
+    }
   }
 
   return (
@@ -115,7 +135,13 @@ export default function AddCardModal() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="border-none sm:max-w-md text-muted-foreground">
+      <DialogContent
+        ref={dialogRef}
+        className={cn(
+          "border-none sm:max-w-md text-muted-foreground transition-all duration-300",
+          isKeyboardVisible && "max-sm:!top-[10vh] max-sm:!max-h-[70vh]"
+        )}
+      >
         <DialogHeader>
           <DialogTitle>Add New Record</DialogTitle>
           <DialogDescription>Create a new weather record for today.</DialogDescription>
@@ -205,6 +231,9 @@ export default function AddCardModal() {
               value={memo}
               maxLength={300}
               onChange={(e) => setMemo(e.target.value)}
+              onFocus={handleTextareaFocus}
+              onBlur={handleTextareaBlur}
+              tabIndex={-1}
             />
             <div className="flex justify-end">
               <span className="text-xs text-muted-foreground/70">
