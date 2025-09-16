@@ -73,10 +73,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
         ref={dialogRef}
-        className={cn(
-          "border-none sm:max-w-md text-muted-foreground transition-all duration-300",
-          isKeyboardVisible && "max-sm:!top-[10vh] max-sm:!max-h-[70vh]"
-        )}
+        className="border-none sm:max-w-md text-muted-foreground transition-all duration-300"
       >
         <DialogHeader>
           <DialogTitle>Edit Record</DialogTitle>
