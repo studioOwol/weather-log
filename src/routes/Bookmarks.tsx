@@ -1,6 +1,6 @@
 import FilterBar from "@/components/FilterBar"
 import WeatherGrid from "@/components/WeatherGrid"
-import { EMPTY_MESSAGE, SUB_MESSAGE } from "@/constants/messages"
+import { EMPTY_MESSAGE } from "@/constants/messages"
 import { useInfiniteCards } from "@/hooks/queries/useInfiniteCards"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
@@ -49,11 +49,7 @@ export default function Bookmarks() {
       </div>
 
       <FilterBar />
-      <WeatherGrid
-        cards={bookmarkedCards}
-        emptyMessage={EMPTY_MESSAGE.BOOKMARKS}
-        subMessage={SUB_MESSAGE.BOOKMARKS}
-      />
+      <WeatherGrid cards={bookmarkedCards} emptyMessage={EMPTY_MESSAGE.BOOKMARKS} />
 
       <div ref={ref} className="h-20 flex items-center justify-center">
         {hasNextPage && isFetchingNextPage && (

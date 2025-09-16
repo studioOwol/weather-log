@@ -1,6 +1,6 @@
 import type { WeatherCardType } from "@/types"
 import WeatherCard from "./WeatherCard"
-import { EMPTY_MESSAGE, SUB_MESSAGE } from "@/constants/messages"
+import { EMPTY_MESSAGE } from "@/constants/messages"
 
 interface WeatherGridProps {
   cards: WeatherCardType[]
@@ -11,13 +11,11 @@ interface WeatherGridProps {
 export default function WeatherGrid({
   cards,
   emptyMessage = EMPTY_MESSAGE.HOME,
-  subMessage = SUB_MESSAGE.HOME,
 }: WeatherGridProps) {
   if (cards.length === 0) {
     return (
       <div className="text-center py-12">
         <h3 className="text-lg font-medium text-muted-foreground mb-2">{emptyMessage}</h3>
-        <p className="text-sm text-muted-foreground">{subMessage}</p>
       </div>
     )
   }

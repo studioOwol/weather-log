@@ -1,11 +1,6 @@
 export const EMPTY_MESSAGE = {
-  HOME: "No records yet.",
-  BOOKMARKS: "No bookmarked records yet.",
-}
-
-export const SUB_MESSAGE = {
-  HOME: "Click the + button in the bottom right to add your first entry!",
-  BOOKMARKS: "You can bookmark from the All Records list.",
+  HOME: "No records",
+  BOOKMARKS: "No bookmarked records",
 }
 
 export const PLACEHOLDERS = {
