@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { signUp } from "../api/supabase"
-import { supabase } from "../api/supabase"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 
@@ -35,8 +34,6 @@ export default function Signup() {
     if (error) {
       setError(error.message)
     } else {
-      // 회원가입 성공 후 로그아웃하여 로그인 페이지로
-      await supabase.auth.signOut()
       navigate("/", { replace: true })
     }
     setLoading(false)
