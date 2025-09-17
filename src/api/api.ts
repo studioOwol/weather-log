@@ -48,10 +48,14 @@ export const reverseGeocode = async (lat: number, lon: number) => {
       throw new Error(ERRORS.GEOCODE.NO_RESULTS)
     }
 
+    const state = data.address?.state || data.address?.province || ""
+    const borough = data.address?.borough || ""
+    const city = data.address?.city || data.address?.town || data.address?.village || ""
+
     return {
       country: data.address?.country || "",
-      state: data.address?.state || data.address?.province || "",
-      city: data.address?.city || data.address?.town || data.address?.village || "",
+      state: state || city,
+      city: state ? city : (borough || ""),
     }
   } catch (error) {
     if (error instanceof Error) {
