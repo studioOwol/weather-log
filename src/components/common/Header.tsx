@@ -1,5 +1,5 @@
 import { Bookmark, Home, Moon, Sun, LogOut } from "lucide-react"
-import { NavLink, useNavigate } from "react-router"
+import { NavLink, useNavigate, Link } from "react-router"
 import { useQueryClient } from "@tanstack/react-query"
 import { useThemeStore } from "../../stores/useThemeStore"
 import { Button } from "../ui/button"
@@ -24,14 +24,14 @@ export default function Header() {
   return (
     <header className="sticky bg-background top-0 z-50 w-full border-b border-border-default">
       <div className="h-16 px-4 py-2 flex items-center justify-between text-primary">
-        <div className="flex items-center gap-1">
+        <Link to="/" className="flex items-center gap-1">
           <img
             src="https://res.cloudinary.com/durvfabtg/image/upload/w_80,h_80,f_webp,q_90,c_fit/v1758015446/weather-log-logo_xvovfd.png"
             alt="Weather Log Logo"
             className="size-9 sm:size-10"
           />
           <h1 className="text-lg sm:text-2xl font-bold">Weather Log</h1>
-        </div>
+        </Link>
 
         <nav className="flex items-center gap-2 sm:gap-3">
           <NavLink
