@@ -4,8 +4,8 @@ export const RULES = {
   LOCALE: "en",
   PAGE_SIZE: 20,
   MEMO_TOGGLE_LENGTH: {
-    DESK: 44,
-    LAPTOP: 31,
+    DESKTOP: 32,
+    LAPTOP: 22,
     MOBILE: 23,
   },
 }

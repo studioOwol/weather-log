@@ -5,7 +5,7 @@ export const useScreenSize = () => {
   const getCharLimit = () => {
     if (typeof window === "undefined") return RULES.MEMO_TOGGLE_LENGTH.MOBILE
     const width = window.innerWidth
-    if (width >= 1600) return RULES.MEMO_TOGGLE_LENGTH.DESK
+    if (width >= 1600) return RULES.MEMO_TOGGLE_LENGTH.DESKTOP
     if (width >= 1024) return RULES.MEMO_TOGGLE_LENGTH.LAPTOP
     return RULES.MEMO_TOGGLE_LENGTH.MOBILE
   }
