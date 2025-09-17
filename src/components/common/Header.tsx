@@ -1,14 +1,17 @@
+import { useState } from "react"
 import { Bookmark, Home, Moon, Sun, LogOut } from "lucide-react"
 import { NavLink, useNavigate, Link } from "react-router"
 import { useQueryClient } from "@tanstack/react-query"
 import { useThemeStore } from "../../stores/useThemeStore"
 import { Button } from "../ui/button"
 import { signOut } from "../../api/supabase"
+import SignOutModal from "../modal/SignoutModal"
 
 export default function Header() {
   const { resolvedTheme, setTheme } = useThemeStore()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false)
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark")
@@ -73,7 +76,7 @@ export default function Header() {
           </Button>
 
           <Button
-            onClick={handleSignOut}
+            onClick={() => setIsSignOutModalOpen(true)}
             variant="ghost"
             size="icon"
             className="text-primary hover:bg-muted cursor-pointer"
@@ -83,6 +86,12 @@ export default function Header() {
           </Button>
         </nav>
       </div>
+
+      <SignOutModal
+        isOpen={isSignOutModalOpen}
+        onOpenChange={setIsSignOutModalOpen}
+        onConfirm={handleSignOut}
+      />
     </header>
   )
 }
