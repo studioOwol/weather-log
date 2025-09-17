@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useThemeStore } from "../../stores/useThemeStore"
 import { Button } from "../ui/button"
 import { signOut } from "../../api/supabase"
-import SignOutModal from "../modal/SignoutModal"
+import SignOutModal from "../modal/SignOutModal"
 
 export default function Header() {
   const { resolvedTheme, setTheme } = useThemeStore()
