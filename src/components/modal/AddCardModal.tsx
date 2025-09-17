@@ -76,7 +76,7 @@ export default function AddCardModal() {
 
     const newCard = {
       id: crypto.randomUUID(),
-      date: new Date().toISOString().split("T")[0],
+      date: new Date().toLocaleDateString("sv-SE"),
       location: location,
       country: locationInfo.country,
       city: locationInfo.city,
