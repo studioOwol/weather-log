@@ -19,6 +19,8 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
   const updateCardMutation = useUpdateCard()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  const hasChanges = memo !== (card.memo || "")
+
   useEffect(() => {
     setMemo(card.memo || "")
   }, [card.memo])
@@ -124,7 +126,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
             <Button
               type="submit"
               className="flex-1 text-inner"
-              disabled={updateCardMutation.isPending}
+              disabled={updateCardMutation.isPending || !hasChanges}
             >
               {updateCardMutation.isPending ? "Updating..." : "Update"}
             </Button>
