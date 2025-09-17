@@ -23,7 +23,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
 
   useEffect(() => {
     setMemo(card.memo || "")
-  }, [card.memo])
+  }, [card.memo, isOpen])
 
   // Cursor moves to the end on textarea focus.
   const handleTextareaFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -49,7 +49,6 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
 
   const handleClose = () => {
     onOpenChange(false)
-    setMemo(card.memo || "")
   }
 
   return (
