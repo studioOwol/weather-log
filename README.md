@@ -7,8 +7,7 @@
 </p>
 
 <img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/e5ef75ad-b501-4046-96d3-55560b0811b2" />
-<img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/438e2c01-108e-45b8-bab1-e88af3ba90ca" />
-
+<img width="1000" height="600" alt="weather-log-about2" src="https://github.com/user-attachments/assets/1bb817c7-7f56-4e03-8c93-f998552fb5dc" />
 <br>
 
 ## 🌟 Features
@@ -40,3 +39,4 @@
 ## 📄 License
 
 MIT License - Copyright (c) 2025 studioOwol
+
