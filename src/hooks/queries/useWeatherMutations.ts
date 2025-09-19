@@ -27,7 +27,9 @@ export const useUpdateCard = () => {
       await queryClient.cancelQueries({ queryKey: weatherQueryFactory.cards() })
 
       // Backup previous data for rollback
-      const previousInfiniteData = queryClient.getQueriesData({ queryKey: weatherQueryFactory.cards() })
+      const previousInfiniteData = queryClient.getQueriesData({
+        queryKey: weatherQueryFactory.cards(),
+      })
 
       // Optimistically update all infinite query data
       queryClient.setQueriesData(
@@ -95,8 +97,12 @@ export const useToggleBookmark = () => {
       await queryClient.cancelQueries({ queryKey: weatherQueryFactory.stats() })
 
       // Backup previous data for rollback
-      const previousInfiniteData = queryClient.getQueriesData({ queryKey: weatherQueryFactory.cards() })
-      const previousStatsData = queryClient.getQueriesData({ queryKey: weatherQueryFactory.stats() })
+      const previousInfiniteData = queryClient.getQueriesData({
+        queryKey: weatherQueryFactory.cards(),
+      })
+      const previousStatsData = queryClient.getQueriesData({
+        queryKey: weatherQueryFactory.stats(),
+      })
 
       // Optimistically update infinite query data for each page type
       // Update home page data (just change bookmark status)
@@ -176,14 +182,35 @@ export const useToggleBookmark = () => {
         })
       }
     },
-    onSuccess: () => {
-      // Force refetch all infinite cards queries immediately
-      queryClient.refetchQueries({ queryKey: weatherQueryFactory.cards() })
+    onSuccess: (_, { newBookmarkStatus }) => {
+      if (newBookmarkStatus) {
+        // Adding bookmark - refetch all pages
+        queryClient.refetchQueries({ queryKey: weatherQueryFactory.cards() })
+      } else {
+        // Removing bookmark - only refetch non-bookmark pages
+        queryClient.refetchQueries({
+          queryKey: weatherQueryFactory.cards(),
+          predicate: (query) => {
+            return query.queryKey[4] !== "bookmarks"
+          },
+        })
+      }
       queryClient.refetchQueries({ queryKey: weatherQueryFactory.stats() })
     },
-    onSettled: () => {
-      // Backup invalidation
-      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
+    onSettled: (_, __, { newBookmarkStatus }) => {
+      // Backup invalidation - for bookmark removal, exclude bookmarks page to avoid loading state
+      if (newBookmarkStatus) {
+        // Adding bookmark - invalidate all pages
+        queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
+      } else {
+        // Removing bookmark - exclude bookmarks page
+        queryClient.invalidateQueries({
+          queryKey: weatherQueryFactory.cards(),
+          predicate: (query) => {
+            return query.queryKey[4] !== "bookmarks"
+          },
+        })
+      }
       queryClient.invalidateQueries({ queryKey: weatherQueryFactory.stats() })
     },
   })
