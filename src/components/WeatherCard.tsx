@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
 import { useToggleBookmark } from "@/hooks/queries/useWeatherMutations"
-import { useScreenSize } from "@/hooks/useScreenSize"
+import { useMemoToggle } from "@/hooks/useMemoToggle"
 import { RULES } from "@/constants/rules"
 
 interface WeatherProps {
@@ -17,11 +17,8 @@ interface WeatherProps {
 export default function WeatherCard({ card }: WeatherProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [isMemoExpanded, setIsMemoExpanded] = useState(false)
   const toggleBookmarkMutation = useToggleBookmark()
-  const charLimit = useScreenSize()
-
-  const shouldToggleMemo = card.memo && card.memo.length >= charLimit
+  const { memoRef, isMemoExpanded, setIsMemoExpanded, shouldToggleMemo } = useMemoToggle(card.memo)
 
   const handleToggleBookmark = async () => {
     try {
@@ -95,7 +92,7 @@ export default function WeatherCard({ card }: WeatherProps) {
 
           <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <p className="text-md font-semibold text-muted-foreground">Note:</p>
+              <p className="text-md font-semibold text-muted-foreground">Note</p>
               {shouldToggleMemo && (
                 <Button
                   variant="ghost"
@@ -111,23 +108,18 @@ export default function WeatherCard({ card }: WeatherProps) {
                 </Button>
               )}
             </div>
-            <div className="relative">
-              <div
-                className={cn(
-                  "text-sm p-2 bg-memo transition-all duration-200 rounded-lg border border-border-default/50",
-                  card.memo ? "text-muted-foreground" : "text-muted-foreground/50 italic",
-                  "max-h-20 overflow-hidden"
-                )}
-              >
-                <p className="line-clamp-1 whitespace-pre-wrap break-words">
-                  {card.memo || "Add a note to remember this day..."}
-                </p>
-              </div>
-              {isMemoExpanded && card.memo && (
-                <div className="absolute top-0 left-0 right-0 z-10 text-sm p-2 bg-memo rounded-lg border border-border-default/50 text-muted-foreground">
-                  <p className="whitespace-pre-wrap break-words">{card.memo}</p>
-                </div>
+            <div
+              className={cn(
+                "text-sm p-2 bg-memo transition-all duration-200 rounded-lg border border-border-default/50",
+                card.memo ? "text-muted-foreground" : "text-muted-foreground/50 italic"
               )}
+            >
+              <p
+                ref={memoRef}
+                className={cn("whitespace-pre-wrap break-words", !isMemoExpanded && "line-clamp-1")}
+              >
+                {card.memo || "Add a note to remember this day..."}
+              </p>
             </div>
           </div>
         </CardContent>

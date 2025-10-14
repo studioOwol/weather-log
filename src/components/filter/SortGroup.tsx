@@ -26,7 +26,6 @@ export default function SortGroup() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm font-medium text-muted-foreground">Sort:</span>
       <CustomSelect
         value={sortBy || "date-desc"}
         placeholder="Select sort option"
