@@ -1,6 +1,6 @@
 import FilterBar from "@/components/FilterBar"
 import AddCardModal from "@/components/modal/AddCardModal"
-import WeatherGrid from "@/components/WeatherGrid"
+import CardBoard from "@/components/CardBoard"
 import { useInfiniteCards } from "@/hooks/queries/useInfiniteCards"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
@@ -43,7 +43,7 @@ export default function Home() {
       </div>
 
       <FilterBar />
-      <WeatherGrid cards={cards} />
+      <CardBoard cards={cards} />
 
       <div ref={ref} className="h-20 flex items-center justify-center">
         {hasNextPage && isFetchingNextPage && (
