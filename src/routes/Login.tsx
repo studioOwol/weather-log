@@ -3,6 +3,7 @@ import { Link } from "react-router"
 import { signInWithPassword } from "../api/supabase"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
+import { Spinner } from "../components/ui/spinner"
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -66,7 +67,14 @@ export default function Login() {
               disabled={loading}
               className="w-full h-12 bg-primary text-white hover:opacity-90"
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <Spinner size="sm" variant="circle" className="text-white" />
+                  Signing in...
+                </span>
+              ) : (
+                "Sign In"
+              )}
             </Button>
             {error && <p className="text-destructive text-sm text-center">{error}</p>}
           </form>

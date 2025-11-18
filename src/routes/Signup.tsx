@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router"
 import { signUp } from "../api/supabase"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
+import { Spinner } from "../components/ui/spinner"
 
 export default function Signup() {
   const [email, setEmail] = useState("")
@@ -94,7 +95,14 @@ export default function Signup() {
               disabled={loading}
               className="w-full h-12 bg-primary text-white hover:opacity-90"
             >
-              {loading ? "Creating account..." : "Sign Up"}
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <Spinner size="sm" variant="circle" className="text-white" />
+                  Creating account...
+                </span>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
             {error && <p className="text-destructive text-sm text-center">{error}</p>}
           </form>
