@@ -9,7 +9,6 @@ import {
 } from "./ui/sheet"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useThemeStore } from "@/stores/useThemeStore"
-import { Button } from "./ui/button"
 import { Switch } from "./ui/switch"
 import { signOut } from "@/api/supabase"
 import { useQueryClient } from "@tanstack/react-query"
