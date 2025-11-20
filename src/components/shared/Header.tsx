@@ -1,28 +1,11 @@
 import { useState } from "react"
-import { Bookmark, Home, Moon, Sun, LogOut } from "lucide-react"
-import { NavLink, useNavigate, Link } from "react-router"
-import { useQueryClient } from "@tanstack/react-query"
-import { useThemeStore } from "../../stores/useThemeStore"
+import { Bookmark, Home, Settings } from "lucide-react"
+import { NavLink, Link } from "react-router"
 import { Button } from "../ui/button"
-import { signOut } from "../../api/supabase"
-import SignOutModal from "../modal/SignOutModal"
+import SettingsSheet from "../SettingsSheet"
 
 export default function Header() {
-  const { resolvedTheme, setTheme } = useThemeStore()
-  const queryClient = useQueryClient()
-  const navigate = useNavigate()
-  const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false)
-
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark")
-  }
-
-  const handleSignOut = async () => {
-    await signOut()
-    queryClient.clear()
-    // Clear URL parameters when signing out
-    navigate("/", { replace: true })
-  }
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
   return (
     <header className="sticky bg-background top-0 z-50 w-full border-b border-border-default">
@@ -62,36 +45,18 @@ export default function Header() {
           </NavLink>
 
           <Button
-            onClick={toggleTheme}
+            onClick={() => setIsSettingsOpen(true)}
             variant="ghost"
             size="icon"
             className="text-primary hover:bg-muted cursor-pointer"
-            aria-label="Toggle theme"
+            aria-label="Settings"
           >
-            {resolvedTheme === "dark" ? (
-              <Moon className="size-4 sm:size-5" />
-            ) : (
-              <Sun className="size-4 sm:size-5" />
-            )}
-          </Button>
-
-          <Button
-            onClick={() => setIsSignOutModalOpen(true)}
-            variant="ghost"
-            size="icon"
-            className="text-primary hover:bg-muted cursor-pointer"
-            aria-label="Sign out"
-          >
-            <LogOut className="size-4 sm:size-5" />
+            <Settings className="size-4 sm:size-5" />
           </Button>
         </nav>
       </div>
 
-      <SignOutModal
-        isOpen={isSignOutModalOpen}
-        onOpenChange={setIsSignOutModalOpen}
-        onConfirm={handleSignOut}
-      />
+      <SettingsSheet isOpen={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
     </header>
   )
 }
