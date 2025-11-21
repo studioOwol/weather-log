@@ -5,8 +5,9 @@ import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
 import { useUpdateCard } from "@/hooks/queries/useWeatherMutations"
 import type { WeatherCardType } from "@/types"
-import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "@/constants/rules"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 interface EditCardModalProps {
   card: WeatherCardType
@@ -15,11 +16,18 @@ interface EditCardModalProps {
 }
 
 export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardModalProps) {
+  const { t, i18n } = useTranslation(I18N_NAMESPACES.CARD)
   const [memo, setMemo] = useState(card.memo || "")
   const updateCardMutation = useUpdateCard()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const hasChanges = memo !== (card.memo || "")
+
+  const formattedDate = new Date(card.date).toLocaleDateString(i18n.language, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
 
   useEffect(() => {
     setMemo(card.memo || "")
@@ -54,21 +62,21 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
-        <DialogHeader>
-          <DialogTitle>Edit Record</DialogTitle>
-          <DialogDescription>Update the note for this weather record.</DialogDescription>
+        <DialogHeader className="mb-3">
+          <DialogTitle>{t("edit.title")}</DialogTitle>
+          <DialogDescription className="sr-only">{t("edit.description")}</DialogDescription>
         </DialogHeader>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Label>
-              Date: <div className="text-sm">{formatDate(card.date)}</div>
+              {t("field.date")}: <div className="text-sm">{formattedDate}</div>
             </Label>
           </div>
 
           <div className="space-y-2">
             <Label>
-              Location:{" "}
+              {t("field.location")}:{" "}
               <div className="text-sm">
                 {card.country} {card.state} {card.city}
               </div>
@@ -77,7 +85,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Min Temp</Label>
+              <Label>{t("field.minTemp")}</Label>
               <div className="text-sm">
                 {card.minTemp}
                 {RULES.TEMP_UNIT}
@@ -85,7 +93,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
             </div>
 
             <div className="space-y-2">
-              <Label>Max Temp</Label>
+              <Label>{t("field.maxTemp")}</Label>
               <div className="text-sm">
                 {card.maxTemp}
                 {RULES.TEMP_UNIT}
@@ -94,7 +102,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="memo">Note</Label>
+            <Label htmlFor="memo">{t("field.note")}</Label>
             <Textarea
               ref={textareaRef}
               id="memo"
@@ -120,14 +128,14 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
               className="flex-1 bg-inner border-border-default"
               onClick={handleClose}
             >
-              Cancel
+              {t("button.cancel")}
             </Button>
             <Button
               type="submit"
               className="flex-1 text-inner"
               disabled={updateCardMutation.isPending || !hasChanges}
             >
-              {updateCardMutation.isPending ? "Updating..." : "Update"}
+              {updateCardMutation.isPending ? t("button.updating") : t("button.update")}
             </Button>
           </div>
         </form>

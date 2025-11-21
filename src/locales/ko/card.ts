@@ -4,12 +4,13 @@ export default {
     description: "오늘의 날씨 기록을 추가합니다.",
   },
   edit: {
-    title: "기록 수정하기",
-    description: "기록을 수정합니다.",
+    title: "메모 수정하기",
+    description: "메모를 수정합니다.",
   },
   delete: {
     title: "기록 삭제하기",
-    description: "이 기록을 삭제하시겠습니까?",
+    description: "{{date}}의 기록을 삭제하시겠습니까?",
+    warning: "삭제 후 되돌릴 수 없습니다.",
     confirm: "삭제",
   },
   field: {
@@ -24,6 +25,10 @@ export default {
     cancel: "취소",
     save: "저장",
     saving: "저장 중...",
+    update: "수정",
+    updating: "수정 중...",
+    delete: "삭제",
+    deleting: "삭제 중...",
   },
   loading: {
     location: "위치 정보를 가져오는 중...",

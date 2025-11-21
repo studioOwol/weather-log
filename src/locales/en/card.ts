@@ -5,11 +5,12 @@ export default {
   },
   edit: {
     title: "Edit Record",
-    description: "Update weather record information.",
+    description: "Update the note for this weather record.",
   },
   delete: {
     title: "Delete Record",
-    description: "Are you sure you want to delete this record?",
+    description: "Are you sure you want to delete the record for {{date}}?",
+    warning: "This action cannot be undone.",
     confirm: "Delete",
   },
   field: {
@@ -24,6 +25,10 @@ export default {
     cancel: "Cancel",
     save: "Save",
     saving: "Saving...",
+    update: "Update",
+    updating: "Updating...",
+    delete: "Delete",
+    deleting: "Deleting...",
   },
   loading: {
     location: "Getting location...",

@@ -9,6 +9,8 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog"
 import { useDeleteCard } from "@/hooks/queries/useWeatherMutations"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 interface DeleteCardModalProps {
   cardId: string
@@ -23,7 +25,14 @@ export default function DeleteCardModal({
   isOpen,
   onOpenChange,
 }: DeleteCardModalProps) {
+  const { t, i18n } = useTranslation(I18N_NAMESPACES.CARD)
   const deleteCardMutation = useDeleteCard()
+
+  const formattedDate = new Date(cardDate).toLocaleDateString(i18n.language, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
 
   const handleDelete = async () => {
     try {
@@ -36,23 +45,27 @@ export default function DeleteCardModal({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="border-none text-muted-foreground">
+      <AlertDialogContent className="border-none text-muted-foreground sm:max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Record</AlertDialogTitle>
+          <AlertDialogTitle className="mb-3">{t("delete.title")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete the record for {cardDate}? <br />
-            This action cannot be undone.
+            <div className="space-y-2">
+              <p>{t("delete.description", { date: formattedDate })}</p>
+              <p>{t("delete.warning")}</p>
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="bg-inner border-border-default">Cancel</AlertDialogCancel>
+        <AlertDialogFooter className="mt-2">
+          <AlertDialogCancel className="bg-inner border-border-default cursor-pointer">
+            {t("button.cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
-            className="bg-destructive hover:bg-destructive/90"
+            className="bg-destructive hover:bg-destructive/90 cursor-pointer"
             disabled={deleteCardMutation.isPending}
           >
             <span className="text-white">
-              {deleteCardMutation.isPending ? "Deleting..." : "Delete"}
+              {deleteCardMutation.isPending ? t("button.deleting") : t("button.delete")}
             </span>
           </AlertDialogAction>
         </AlertDialogFooter>
