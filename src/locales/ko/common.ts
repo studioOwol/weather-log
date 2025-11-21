@@ -7,6 +7,11 @@ export default {
     home: "홈",
     bookmarks: "북마크",
   },
+  filter: {
+    title: "필터 & 검색",
+    clearAll: "전체 초기화",
+    clear: "초기화",
+  },
   button: {
     cancel: "취소",
     confirm: "확인",

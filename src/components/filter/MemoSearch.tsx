@@ -4,9 +4,11 @@ import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { DEBOUNCE_DELAY } from "@/constants/filters"
-import { PLACEHOLDERS } from "@/constants/messages"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 export default function MemoSearch() {
+  const { t } = useTranslation(I18N_NAMESPACES.FILTER)
   const { filters, setMemoSearch } = useUrlFilters()
   const { memoSearch } = filters
 
@@ -27,7 +29,7 @@ export default function MemoSearch() {
       <Input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder={PLACEHOLDERS.SEARCH_NOTES}
+        placeholder={t("placeholder.memo")}
         className="border-border-default pl-10 text-muted-foreground focus:placeholder-transparent"
       />
     </div>

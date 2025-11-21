@@ -4,8 +4,11 @@ import { useState, useEffect } from "react"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUrlFilters } from "@/hooks/useUrlFilters"
 import { DEBOUNCE_DELAY } from "@/constants/filters"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 export default function LocationSearch() {
+  const { t } = useTranslation(I18N_NAMESPACES.FILTER)
   const { filters, setLocationSearch } = useUrlFilters()
   const { locationSearch } = filters
 
@@ -26,7 +29,7 @@ export default function LocationSearch() {
       <Input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Search locations..."
+        placeholder={t("placeholder.location")}
         className="border-border-default pl-10 text-muted-foreground focus:placeholder-transparent"
       />
     </div>
