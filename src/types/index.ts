@@ -49,3 +49,6 @@ export interface WeatherApiResponse {
     temperature_2m_max: string
   }
 }
+
+// i18n types
+export type I18nNamespace = "common" | "settings" | "auth"

@@ -12,5 +12,5 @@ export default {
     english: "English",
     korean: "한국어",
   },
-  signOut: "로그아웃",
+  logout: "로그아웃",
 } as const

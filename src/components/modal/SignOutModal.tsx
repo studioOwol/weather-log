@@ -8,6 +8,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 interface SignOutModalProps {
   isOpen: boolean
@@ -16,6 +18,8 @@ interface SignOutModalProps {
 }
 
 export default function SignOutModal({ isOpen, onOpenChange, onConfirm }: SignOutModalProps) {
+  const { t } = useTranslation(I18N_NAMESPACES.AUTH)
+
   const handleLogout = () => {
     onConfirm()
     onOpenChange(false)
@@ -25,18 +29,18 @@ export default function SignOutModal({ isOpen, onOpenChange, onConfirm }: SignOu
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent className="border-none text-muted-foreground">
         <AlertDialogHeader>
-          <AlertDialogTitle>Sign Out</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to sign out of Weather Log?
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("signOut.title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("signOut.description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="bg-inner border-border-default">Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="bg-inner border-border-default">
+            {t("signOut.cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleLogout}
             className="bg-destructive hover:bg-destructive/90"
           >
-            <span className="text-white">Sign Out</span>
+            <span className="text-white">{t("signOut.confirm")}</span>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

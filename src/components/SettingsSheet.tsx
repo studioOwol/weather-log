@@ -9,11 +9,15 @@ import {
 } from "./ui/sheet"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useThemeStore } from "@/stores/useThemeStore"
+import { useLanguageStore } from "@/stores/useLanguageStore"
 import { Switch } from "./ui/switch"
 import { signOut } from "@/api/supabase"
 import { useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "react-router"
 import SignOutModal from "./modal/SignOutModal"
+import CustomSelect from "./common/CustomSelect"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 interface SettingsSheetProps {
   isOpen: boolean
@@ -21,7 +25,9 @@ interface SettingsSheetProps {
 }
 
 export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetProps) {
+  const { t } = useTranslation(I18N_NAMESPACES.SETTINGS)
   const { resolvedTheme, setTheme } = useThemeStore()
+  const { language, setLanguage } = useLanguageStore()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false)
@@ -37,6 +43,11 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
     onOpenChange(false)
   }
 
+  const languageOptions = [
+    { value: "en", label: t("language.english") },
+    { value: "ko", label: t("language.korean") },
+  ]
+
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent showCloseButton={false}>
@@ -46,23 +57,23 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
               <SheetClose className="sm:hidden p-1 -ml-3 text-primary hover:bg-muted rounded-sm transition-colors focus:outline-none">
                 <ChevronLeft className="size-6" />
               </SheetClose>
-              <SheetTitle className="text-2xl">Settings</SheetTitle>
+              <SheetTitle className="text-2xl">{t("title")}</SheetTitle>
             </div>
             <SheetClose className="hidden -mr-3 sm:block p-1 cursor-pointer text-primary hover:bg-muted rounded-sm transition-colors focus:outline-none">
               <ChevronRight className="size-6" />
             </SheetClose>
           </div>
-          <SheetDescription className="sr-only">App settings and preferences</SheetDescription>
+          <SheetDescription className="sr-only">{t("description")}</SheetDescription>
         </SheetHeader>
 
         <div className="flex flex-col h-[calc(100vh-5rem)]">
           <div className="flex-1 space-y-7">
             {/* Theme */}
             <div className="text-muted-foreground">
-              <h3 className="text-md font-medium mb-3">Appearance</h3>
+              <h3 className="text-md font-medium mb-3">{t("appearance.title")}</h3>
               <div className="flex items-center justify-between">
                 <label htmlFor="dark-mode" className="text-sm cursor-pointer">
-                  {resolvedTheme === "dark" ? "Dark Mode" : "Light Mode"}
+                  {resolvedTheme === "dark" ? t("appearance.darkMode") : t("appearance.lightMode")}
                 </label>
                 <Switch
                   id="dark-mode"
@@ -75,8 +86,13 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
 
             {/* Language selection */}
             <div className="text-muted-foreground">
-              <h3 className="text-md font-medium mb-3">Language</h3>
-              <p className="text-sm ">Language selection will be available soon</p>
+              <h3 className="text-md font-medium mb-3">{t("language.title")}</h3>
+              <CustomSelect
+                value={language}
+                placeholder={t("language.select")}
+                options={languageOptions}
+                onSelect={(value) => setLanguage(value as "en" | "ko")}
+              />
             </div>
           </div>
 
@@ -86,7 +102,7 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
               onClick={() => setIsSignOutModalOpen(true)}
               className="text-sm font-medium text-destructive hover:text-destructive/80 underline underline-offset-2 transition-colors cursor-pointer focus:outline-none"
             >
-              Sign Out
+              {t("logout")}
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import i18n from "@/lib/i18n"
 
-export type Language = "en" | "ko" // | "zh" | "ja"
+export type Language = "en" | "ko"
 
 interface LanguageStore {
   language: Language
