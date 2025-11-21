@@ -84,7 +84,7 @@ export default function DateSearch() {
           placeholder={t("placeholder.year")}
           options={yearOptions}
           onSelect={handleYearChange}
-          className="min-w-20 w-20"
+          className="w-22"
         />
 
         <CustomSelect
@@ -92,7 +92,7 @@ export default function DateSearch() {
           placeholder={t("placeholder.month")}
           options={monthOptions}
           onSelect={handleMonthChange}
-          className="min-w-22 w-22"
+          className="w-22"
         />
 
         <CustomSelect
@@ -100,7 +100,7 @@ export default function DateSearch() {
           placeholder={t("placeholder.day")}
           options={dayOptions}
           onSelect={handleDayChange}
-          className="min-w-18 w-18"
+          className="w-22"
         />
       </div>
     </div>
