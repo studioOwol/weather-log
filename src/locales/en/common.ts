@@ -21,4 +21,8 @@ export default {
     success: "Success",
     noData: "No data available",
   },
+  empty: {
+    home: "No records",
+    bookmarks: "No bookmarked records",
+  },
 } as const

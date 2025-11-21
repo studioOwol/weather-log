@@ -5,4 +5,5 @@ export const I18N_NAMESPACES: Record<string, I18nNamespace> = {
   SETTINGS: "settings",
   AUTH: "auth",
   FILTER: "filter",
+  CARD: "card",
 } as const

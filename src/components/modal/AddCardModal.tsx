@@ -15,11 +15,13 @@ import { useWeather } from "@/hooks/queries/useWeather"
 import { useGeocode } from "@/hooks/queries/useGeocode"
 import { useAddCard } from "@/hooks/queries/useWeatherMutations"
 import { getCurrentLocation } from "@/lib/apiUtils"
-import { formatDate } from "@/lib/dateUtils"
 import { RULES } from "../../constants/rules"
-import { DISPLAY_MESSAGES, ERRORS } from "@/constants/messages"
+import { ERRORS } from "@/constants/messages"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 export default function AddCardModal() {
+  const { t, i18n } = useTranslation(I18N_NAMESPACES.CARD)
   const [isOpen, setIsOpen] = useState(false)
   const [memo, setMemo] = useState("")
   const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null)
@@ -39,7 +41,11 @@ export default function AddCardModal() {
   } = useGeocode(location?.lat, location?.lon)
   const addCardMutation = useAddCard()
 
-  const today = formatDate(new Date().toISOString())
+  const today = new Date().toLocaleDateString(i18n.language, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
 
   useEffect(() => {
     if (isOpen && !location) {
@@ -116,54 +122,48 @@ export default function AddCardModal() {
       </DialogTrigger>
 
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
-        <DialogHeader>
-          <DialogTitle>Add New Record</DialogTitle>
-          <DialogDescription>Create a new weather record for today.</DialogDescription>
+        <DialogHeader className="mb-3">
+          <DialogTitle>{t("add.title")}</DialogTitle>
+          <DialogDescription className="sr-only">{t("add.description")}</DialogDescription>
         </DialogHeader>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Label>
-              Date: <div className="text-sm">{today}</div>
+              {t("field.date")}: <div className="text-sm">{today}</div>
             </Label>
           </div>
 
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
-              Location:{" "}
+              {t("field.location")}:{" "}
               {isGettingLocation || isGeocodeLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
-                  {DISPLAY_MESSAGES.LOADING.LOCATION}
+                  {t("loading.location")}
                 </div>
               ) : isGeocodeError ? (
-                <div className="text-sm text-red-500">
-                  {DISPLAY_MESSAGES.ERROR.LOCATION_NOT_FOUND}
-                </div>
+                <div className="text-sm text-red-500">{t("error.locationNotFound")}</div>
               ) : locationInfo ? (
                 <div className="text-sm">
                   {locationInfo.country} {locationInfo.state} {locationInfo.city}
                 </div>
               ) : (
-                <div className="text-sm text-muted-foreground">
-                  {DISPLAY_MESSAGES.ERROR.LOCATION_NOT_FOUND}
-                </div>
+                <div className="text-sm text-muted-foreground">{t("error.locationNotFound")}</div>
               )}
             </Label>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Min Temp</Label>
+              <Label>{t("field.minTemp")}</Label>
               {isWeatherLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
-                  {DISPLAY_MESSAGES.LOADING.WEATHER}
+                  {t("loading.weather")}
                 </div>
               ) : isWeatherError ? (
-                <div className="text-sm text-red-500">
-                  {DISPLAY_MESSAGES.ERROR.WEATHER_NOT_FOUND}
-                </div>
+                <div className="text-sm text-red-500">{t("error.weatherNotFound")}</div>
               ) : weatherData ? (
                 <div className="text-sm">
                   {Math.ceil(weatherData.daily.temperature_2m_min[0])}
@@ -175,16 +175,14 @@ export default function AddCardModal() {
             </div>
 
             <div className="space-y-2">
-              <Label>Max Temp</Label>
+              <Label>{t("field.maxTemp")}</Label>
               {isWeatherLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
-                  {DISPLAY_MESSAGES.LOADING.WEATHER}
+                  {t("loading.weather")}
                 </div>
               ) : isWeatherError ? (
-                <div className="text-sm text-red-500">
-                  {DISPLAY_MESSAGES.ERROR.WEATHER_NOT_FOUND}
-                </div>
+                <div className="text-sm text-red-500">{t("error.weatherNotFound")}</div>
               ) : weatherData ? (
                 <div className="text-sm">
                   {Math.ceil(weatherData.daily.temperature_2m_max[0])}
@@ -197,7 +195,7 @@ export default function AddCardModal() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="memo">Note</Label>
+            <Label htmlFor="memo">{t("field.note")}</Label>
             <Textarea
               id="memo"
               className="resize-none bg-inner border-border-default w-full h-28 break-all  overflow-y-auto"
@@ -221,14 +219,14 @@ export default function AddCardModal() {
               className="flex-1 bg-inner border-border-default"
               onClick={handleClose}
             >
-              Cancel
+              {t("button.cancel")}
             </Button>
             <Button
               type="submit"
               className="flex-1 text-inner"
               disabled={!location || !weatherData || addCardMutation.isPending}
             >
-              {addCardMutation.isPending ? "Saving..." : "Save"}
+              {addCardMutation.isPending ? t("button.saving") : t("button.save")}
             </Button>
           </div>
         </form>

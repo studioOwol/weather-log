@@ -26,4 +26,8 @@ export default {
     success: "성공",
     noData: "데이터가 없습니다",
   },
+  empty: {
+    home: "기록이 없습니다",
+    bookmarks: "북마크한 기록이 없습니다",
+  },
 } as const
