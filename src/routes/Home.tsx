@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <div>
       <div className="pt-6 pb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-primary">{t("page.allRecords")}</h1>
+        <h1 className="ml-1 text-2xl sm:text-3xl font-bold text-primary">{t("page.allRecords")}</h1>
       </div>
 
       <FilterBar />
