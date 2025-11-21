@@ -18,6 +18,7 @@ export default {
     minTemp: "Min Temp",
     maxTemp: "Max Temp",
     note: "Note",
+    notePlaceholder: "Add a note to remember this day...",
   },
   button: {
     cancel: "Cancel",

@@ -18,6 +18,7 @@ export default {
     minTemp: "최저 기온",
     maxTemp: "최고 기온",
     note: "메모",
+    notePlaceholder: "메모를 추가해보세요",
   },
   button: {
     cancel: "취소",
@@ -29,7 +30,7 @@ export default {
     weather: "날씨 정보를 가져오는 중...",
   },
   error: {
-    locationNotFound: "위치 정보를 사용할 수 없습니다",
-    weatherNotFound: "날씨 정보를 사용할 수 없습니다",
+    locationNotFound: "위치 정보를 사용할 수 없습니다.",
+    weatherNotFound: "날씨 정보를 사용할 수 없습니다.",
   },
 } as const

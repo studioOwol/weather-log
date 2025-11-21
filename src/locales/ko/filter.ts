@@ -6,8 +6,8 @@ export default {
     year: "연도",
     month: "월",
     day: "일",
-    location: "위치 검색...",
-    memo: "메모 검색...",
+    location: "위치 검색",
+    memo: "메모 검색",
     sort: "정렬 옵션 선택",
   },
   sort: {
