@@ -12,7 +12,6 @@ import { RULES } from "@/constants/rules"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
 import { formatLocalizedDate } from "@/lib/dateUtils"
-import { useGeocode } from "@/hooks/queries/useGeocode"
 
 interface WeatherProps {
   card: WeatherCardType
@@ -26,14 +25,7 @@ export default function WeatherCard({ card }: WeatherProps) {
   const { memoRef, isMemoExpanded, setIsMemoExpanded, shouldToggleMemo } = useMemoToggle(card.memo)
 
   const formattedDate = formatLocalizedDate(card.date, i18n.language)
-
-  // Fetch location data based on current language
-  const { data: locationInfo } = useGeocode(card.location.lat, card.location.lon)
-
-  // Use geocode data if available, otherwise fallback to stored data
-  const displayLocation = locationInfo
-    ? `${locationInfo.country} ${locationInfo.state} ${locationInfo.city}`
-    : `${card.country} ${card.state} ${card.city}`
+  const displayLocation = `${card.country} ${card.state} ${card.city}`
 
   const handleToggleBookmark = async () => {
     try {
