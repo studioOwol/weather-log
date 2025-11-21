@@ -18,3 +18,13 @@ export const formatDate = (dateString: string) => {
     day: "2-digit",
   })
 }
+
+export const formatLocalizedDate = (dateString: string, locale: string) => {
+  const date = new Date(dateString)
+
+  return date.toLocaleDateString(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+}

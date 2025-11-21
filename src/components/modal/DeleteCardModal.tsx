@@ -11,6 +11,7 @@ import {
 import { useDeleteCard } from "@/hooks/queries/useWeatherMutations"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
+import { formatLocalizedDate } from "@/lib/dateUtils"
 
 interface DeleteCardModalProps {
   cardId: string
@@ -28,11 +29,7 @@ export default function DeleteCardModal({
   const { t, i18n } = useTranslation(I18N_NAMESPACES.CARD)
   const deleteCardMutation = useDeleteCard()
 
-  const formattedDate = new Date(cardDate).toLocaleDateString(i18n.language, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const formattedDate = formatLocalizedDate(cardDate, i18n.language)
 
   const handleDelete = async () => {
     try {

@@ -19,6 +19,7 @@ import { RULES } from "../../constants/rules"
 import { ERRORS } from "@/constants/messages"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
+import { formatLocalizedDate } from "@/lib/dateUtils"
 
 export default function AddCardModal() {
   const { t, i18n } = useTranslation(I18N_NAMESPACES.CARD)
@@ -41,11 +42,7 @@ export default function AddCardModal() {
   } = useGeocode(location?.lat, location?.lon)
   const addCardMutation = useAddCard()
 
-  const today = new Date().toLocaleDateString(i18n.language, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const today = formatLocalizedDate(new Date().toISOString(), i18n.language)
 
   useEffect(() => {
     if (isOpen && !location) {
@@ -216,14 +213,14 @@ export default function AddCardModal() {
             <Button
               type="button"
               variant="outline"
-              className="flex-1 bg-inner border-border-default"
+              className="flex-1 bg-inner border-border-default cursor-pointer"
               onClick={handleClose}
             >
               {t("button.cancel")}
             </Button>
             <Button
               type="submit"
-              className="flex-1 text-inner"
+              className="flex-1 text-inner cursor-pointer"
               disabled={!location || !weatherData || addCardMutation.isPending}
             >
               {addCardMutation.isPending ? t("button.saving") : t("button.save")}

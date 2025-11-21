@@ -8,6 +8,7 @@ import type { WeatherCardType } from "@/types"
 import { RULES } from "@/constants/rules"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
+import { formatLocalizedDate } from "@/lib/dateUtils"
 
 interface EditCardModalProps {
   card: WeatherCardType
@@ -23,11 +24,7 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
 
   const hasChanges = memo !== (card.memo || "")
 
-  const formattedDate = new Date(card.date).toLocaleDateString(i18n.language, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const formattedDate = formatLocalizedDate(card.date, i18n.language)
 
   useEffect(() => {
     setMemo(card.memo || "")
@@ -125,14 +122,14 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
             <Button
               type="button"
               variant="outline"
-              className="flex-1 bg-inner border-border-default"
+              className="flex-1 bg-inner border-border-default cursor-pointer"
               onClick={handleClose}
             >
               {t("button.cancel")}
             </Button>
             <Button
               type="submit"
-              className="flex-1 text-inner"
+              className="flex-1 text-inner cursor-pointer"
               disabled={updateCardMutation.isPending || !hasChanges}
             >
               {updateCardMutation.isPending ? t("button.updating") : t("button.update")}
