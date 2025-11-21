@@ -4,8 +4,11 @@ import CardBoard from "@/components/CardBoard"
 import { useInfiniteCards } from "@/hooks/queries/useInfiniteCards"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import { LoadingOverlay, LoadingInline } from "@/components/ui/spinner"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 export default function Home() {
+  const { t } = useTranslation(I18N_NAMESPACES.COMMON)
   const { cards, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteCards("home")
 
@@ -21,10 +24,8 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex flex-col items-center p-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary bg-clip-text">
-          All Records
-        </h1>
+      <div className="pt-6 pb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-primary">{t("page.allRecords")}</h1>
       </div>
 
       <FilterBar />
@@ -42,9 +43,7 @@ export default function Home() {
       )}
 
       <div ref={ref} className="h-20 flex items-center justify-center">
-        {hasNextPage && isFetchingNextPage && (
-          <LoadingInline size="md" />
-        )}
+        {hasNextPage && isFetchingNextPage && <LoadingInline size="md" />}
       </div>
 
       <AddCardModal />

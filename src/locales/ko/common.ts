@@ -1,4 +1,12 @@
 export default {
+  page: {
+    allRecords: "전체 기록",
+    bookmarkedRecords: "북마크한 기록",
+  },
+  navigation: {
+    home: "홈",
+    bookmarks: "북마크",
+  },
   button: {
     cancel: "취소",
     confirm: "확인",

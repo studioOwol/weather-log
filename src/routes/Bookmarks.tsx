@@ -4,8 +4,11 @@ import { EMPTY_MESSAGE } from "@/constants/messages"
 import { useInfiniteCards } from "@/hooks/queries/useInfiniteCards"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import { LoadingOverlay, LoadingInline } from "@/components/ui/spinner"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 export default function Bookmarks() {
+  const { t } = useTranslation(I18N_NAMESPACES.COMMON)
   const {
     cards: bookmarkedCards,
     isLoading,
@@ -27,9 +30,9 @@ export default function Bookmarks() {
 
   return (
     <div>
-      <div className="flex flex-col items-center p-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary bg-clip-text">
-          Bookmarked Records
+      <div className="pt-6 pb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-primary">
+          {t("page.bookmarkedRecords")}
         </h1>
       </div>
 
@@ -48,9 +51,7 @@ export default function Bookmarks() {
       )}
 
       <div ref={ref} className="h-20 flex items-center justify-center">
-        {hasNextPage && isFetchingNextPage && (
-          <LoadingInline size="md" />
-        )}
+        {hasNextPage && isFetchingNextPage && <LoadingInline size="md" />}
       </div>
     </div>
   )

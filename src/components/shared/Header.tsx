@@ -3,8 +3,11 @@ import { Bookmark, Home, Settings } from "lucide-react"
 import { NavLink, Link } from "react-router"
 import { Button } from "../ui/button"
 import SettingsSheet from "../SettingsSheet"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 export default function Header() {
+  const { t } = useTranslation(I18N_NAMESPACES.COMMON)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
   return (
@@ -29,7 +32,7 @@ export default function Header() {
             }
           >
             <Home className="size-4 sm:size-5" />
-            <span className="hidden sm:inline">Home</span>
+            <span className="hidden sm:inline">{t("navigation.home")}</span>
           </NavLink>
 
           <NavLink
@@ -41,7 +44,7 @@ export default function Header() {
             }
           >
             <Bookmark className="size-4 sm:size-5" />
-            <span className="hidden sm:inline">Bookmarks</span>
+            <span className="hidden sm:inline">{t("navigation.bookmarks")}</span>
           </NavLink>
 
           <Button
