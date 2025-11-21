@@ -11,6 +11,8 @@ import { useMemoToggle } from "@/hooks/useMemoToggle"
 import { RULES } from "@/constants/rules"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
+import { formatLocalizedDate } from "@/lib/dateUtils"
+import { useGeocode } from "@/hooks/queries/useGeocode"
 
 interface WeatherProps {
   card: WeatherCardType
@@ -23,11 +25,15 @@ export default function WeatherCard({ card }: WeatherProps) {
   const toggleBookmarkMutation = useToggleBookmark()
   const { memoRef, isMemoExpanded, setIsMemoExpanded, shouldToggleMemo } = useMemoToggle(card.memo)
 
-  const formattedDate = new Date(card.date).toLocaleDateString(i18n.language, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const formattedDate = formatLocalizedDate(card.date, i18n.language)
+
+  // Fetch location data based on current language
+  const { data: locationInfo } = useGeocode(card.location.lat, card.location.lon)
+
+  // Use geocode data if available, otherwise fallback to stored data
+  const displayLocation = locationInfo
+    ? `${locationInfo.country} ${locationInfo.state} ${locationInfo.city}`
+    : `${card.country} ${card.state} ${card.city}`
 
   const handleToggleBookmark = async () => {
     try {
@@ -60,14 +66,6 @@ export default function WeatherCard({ card }: WeatherProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer"
-                onClick={() => setIsEditModalOpen(true)}
-              >
-                <Edit2 />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
                 className="size-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
                 onClick={() => setIsDeleteModalOpen(true)}
               >
@@ -76,7 +74,7 @@ export default function WeatherCard({ card }: WeatherProps) {
             </div>
           </div>
           <p className="text-sm text-muted-foreground/70">
-            {card.country} {card.state} {card.city}
+            {displayLocation}
           </p>
         </CardHeader>
 
@@ -102,20 +100,30 @@ export default function WeatherCard({ card }: WeatherProps) {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <p className="text-md font-semibold text-muted-foreground">{t("field.note")}</p>
-              {shouldToggleMemo && (
+              <div className="flex items-center gap-2">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-5 w-5 p-0 text-muted-foreground/50 hover:text-muted-foreground"
-                  onClick={() => setIsMemoExpanded(!isMemoExpanded)}
+                  className="h-5 w-5 p-0 text-muted-foreground/50 hover:text-muted-foreground cursor-pointer"
+                  onClick={() => setIsEditModalOpen(true)}
                 >
-                  {isMemoExpanded ? (
-                    <ChevronUp className="size-4" />
-                  ) : (
-                    <ChevronDown className="size-4" />
-                  )}
+                  <Edit2 className="size-4" />
                 </Button>
-              )}
+                {shouldToggleMemo && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-5 w-5 p-0 text-muted-foreground/50 hover:text-muted-foreground cursor-pointer"
+                    onClick={() => setIsMemoExpanded(!isMemoExpanded)}
+                  >
+                    {isMemoExpanded ? (
+                      <ChevronUp className="size-4" />
+                    ) : (
+                      <ChevronDown className="size-4" />
+                    )}
+                  </Button>
+                )}
+              </div>
             </div>
             <div
               className={cn(
