@@ -24,7 +24,7 @@ export const formatLocalizedDate = (dateString: string, locale: string) => {
 
   return date.toLocaleDateString(locale, {
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   })
 }

@@ -119,19 +119,17 @@ export default function AddCardModal() {
       </DialogTrigger>
 
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
-        <DialogHeader className="mb-3">
+        <DialogHeader className="mb-1">
           <DialogTitle>{t("add.title")}</DialogTitle>
           <DialogDescription className="sr-only">{t("add.description")}</DialogDescription>
         </DialogHeader>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <Label>
               {t("field.date")}: <div className="text-sm">{today}</div>
             </Label>
-          </div>
 
-          <div className="space-y-2">
             <Label className="flex items-center gap-2">
               {t("field.location")}:{" "}
               {isGettingLocation || isGeocodeLoading ? (

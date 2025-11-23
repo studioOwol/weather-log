@@ -59,19 +59,17 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="border-none sm:max-w-md text-muted-foreground">
-        <DialogHeader className="mb-3">
+        <DialogHeader className="mb-1">
           <DialogTitle>{t("edit.title")}</DialogTitle>
           <DialogDescription className="sr-only">{t("edit.description")}</DialogDescription>
         </DialogHeader>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <Label>
               {t("field.date")}: <div className="text-sm">{formattedDate}</div>
             </Label>
-          </div>
 
-          <div className="space-y-2">
             <Label>
               {t("field.location")}:{" "}
               <div className="text-sm">

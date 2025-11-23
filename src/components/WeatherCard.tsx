@@ -45,7 +45,7 @@ export default function WeatherCard({ card }: WeatherProps) {
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-semibold text-muted-foreground">{formattedDate}</h3>
 
-            <div className="">
+            <div>
               <Button
                 variant="ghost"
                 size="sm"
@@ -58,16 +58,22 @@ export default function WeatherCard({ card }: WeatherProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="size-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
+                className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer"
+                onClick={() => setIsEditModalOpen(true)}
+              >
+                <Edit2 />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="size-8 p-0 -mr-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
                 onClick={() => setIsDeleteModalOpen(true)}
               >
                 <Trash2 />
               </Button>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground/70">
-            {displayLocation}
-          </p>
+          <p className="text-sm text-muted-foreground/70">{displayLocation}</p>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -93,14 +99,6 @@ export default function WeatherCard({ card }: WeatherProps) {
             <div className="flex items-center justify-between">
               <p className="text-md font-semibold text-muted-foreground">{t("field.note")}</p>
               <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-5 w-5 p-0 text-muted-foreground/50 hover:text-muted-foreground cursor-pointer"
-                  onClick={() => setIsEditModalOpen(true)}
-                >
-                  <Edit2 className="size-4" />
-                </Button>
                 {shouldToggleMemo && (
                   <Button
                     variant="ghost"
