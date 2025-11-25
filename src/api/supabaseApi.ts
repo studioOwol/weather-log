@@ -28,6 +28,7 @@ const toDbFormat = (card: WeatherCardType) => ({
   max_temp: card.maxTemp,
   is_bookmarked: card.isBookmarked,
   created_at: new Date(card.createdAt).toISOString(),
+  language: card.language,
 })
 
 // Convert DB format to WeatherCardType
@@ -43,6 +44,7 @@ const fromDbFormat = (dbCard: any): WeatherCardType => ({
   maxTemp: dbCard.max_temp,
   isBookmarked: dbCard.is_bookmarked,
   createdAt: new Date(dbCard.created_at).getTime(),
+  language: dbCard.language || null,
 })
 
 // Get cards with pagination (Infinite Scroll)

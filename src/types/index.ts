@@ -10,6 +10,7 @@ export interface WeatherCardType {
   maxTemp: number
   isBookmarked: boolean
   createdAt: number
+  language: string | null
 }
 
 export type FilterType = "home" | "bookmarks"

@@ -2,14 +2,14 @@ import { reverseGeocode } from "@/api/api"
 import { useQuery } from "@tanstack/react-query"
 import i18n from "@/lib/i18n"
 
-export const useGeocode = (lat?: number, lon?: number) => {
+export const useGeocode = (lat?: number, lon?: number, enabled = true) => {
   return useQuery({
     queryKey: ["geocode", lat, lon, i18n.language],
     queryFn: async () => {
       const result = await reverseGeocode(lat!, lon!)
       return result
     },
-    enabled: !!lat && !!lon,
+    enabled: !!lat && !!lon && enabled,
     staleTime: 30 * 60000,
   })
 }

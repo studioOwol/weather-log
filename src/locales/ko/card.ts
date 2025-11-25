@@ -4,8 +4,8 @@ export default {
     description: "오늘의 날씨 기록을 추가합니다.",
   },
   edit: {
-    title: "메모 수정하기",
-    description: "메모를 수정합니다.",
+    title: "기록 수정하기",
+    description: "기록을 수정합니다.",
   },
   delete: {
     title: "기록 삭제하기",
@@ -29,6 +29,8 @@ export default {
     updating: "수정 중...",
     delete: "삭제",
     deleting: "삭제 중...",
+    refresh: "새로고침",
+    refreshing: "새로고침 중...",
   },
   loading: {
     location: "위치 정보를 가져오는 중...",
@@ -37,5 +39,6 @@ export default {
   error: {
     locationNotFound: "위치 정보를 사용할 수 없습니다.",
     weatherNotFound: "날씨 정보를 사용할 수 없습니다.",
+    addressRefreshFailed: "주소를 새로고침하는데 실패했습니다.",
   },
 } as const

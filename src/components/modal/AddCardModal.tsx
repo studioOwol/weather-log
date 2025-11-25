@@ -89,6 +89,7 @@ export default function AddCardModal() {
       maxTemp: Math.ceil(weatherData.daily.temperature_2m_max[0]),
       isBookmarked: false,
       createdAt: Date.now(),
+      language: i18n.language,
     }
 
     try {
@@ -138,7 +139,7 @@ export default function AddCardModal() {
                   {t("loading.location")}
                 </div>
               ) : isGeocodeError ? (
-                <div className="text-sm text-red-500">{t("error.locationNotFound")}</div>
+                <div className="text-sm text-destructive">{t("error.locationNotFound")}</div>
               ) : locationInfo ? (
                 <div className="text-sm">
                   {locationInfo.country} {locationInfo.state} {locationInfo.city}
@@ -158,7 +159,7 @@ export default function AddCardModal() {
                   {t("loading.weather")}
                 </div>
               ) : isWeatherError ? (
-                <div className="text-sm text-red-500">{t("error.weatherNotFound")}</div>
+                <div className="text-sm text-destructive">{t("error.weatherNotFound")}</div>
               ) : weatherData ? (
                 <div className="text-sm">
                   {Math.ceil(weatherData.daily.temperature_2m_min[0])}
@@ -177,7 +178,7 @@ export default function AddCardModal() {
                   {t("loading.weather")}
                 </div>
               ) : isWeatherError ? (
-                <div className="text-sm text-red-500">{t("error.weatherNotFound")}</div>
+                <div className="text-sm text-destructive">{t("error.weatherNotFound")}</div>
               ) : weatherData ? (
                 <div className="text-sm">
                   {Math.ceil(weatherData.daily.temperature_2m_max[0])}

@@ -29,6 +29,8 @@ export default {
     updating: "Updating...",
     delete: "Delete",
     deleting: "Deleting...",
+    refresh: "Refresh",
+    refreshing: "Refreshing...",
   },
   loading: {
     location: "Getting location...",
@@ -37,5 +39,6 @@ export default {
   error: {
     locationNotFound: "Location info not available",
     weatherNotFound: "Weather info not available",
+    addressRefreshFailed: "Failed to refresh address",
   },
 } as const
