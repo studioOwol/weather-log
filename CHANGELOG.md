@@ -32,14 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Incremental compilation for faster checks
   - Prevents commits with type errors
 
-### Changed
-
-- **WeatherCard UI**: Moved Edit button to Note section for better UX
-- **Loading States**: Replaced text loading with animated spinner component
-
 ### Technical
 
-- Implemented language change detection to invalidate geocode cache
 - Updated all modals (Add, Edit, Delete) with i18n support
 
 ## [1.0.0] - 2025-11-20
