@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body {
+  font-family: "IBM Plex Sans KR", sans-serif;
+}
+
 @theme {
   --color-background: #f9f7f0;
   --color-foreground: #748da6;
