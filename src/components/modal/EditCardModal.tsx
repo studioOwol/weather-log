@@ -142,13 +142,13 @@ export default function EditCardModal({ card, isOpen, onOpenChange }: EditCardMo
                 >
                   {isRefreshing ? (
                     <>
-                      <Loader2 className="size-3 mr-1 animate-spin" />
-                      {t("button.refreshing")}
+                      <Loader2 className="size-3 sm:mr-1 animate-spin" />
+                      <span className="hidden sm:inline">{t("button.refreshing")}</span>
                     </>
                   ) : (
                     <>
-                      <RefreshCw className="size-3 mr-1" />
-                      {t("button.refresh")}
+                      <RefreshCw className="size-3 sm:mr-1" />
+                      <span className="hidden sm:inline">{t("button.refresh")}</span>
                     </>
                   )}
                 </Button>
