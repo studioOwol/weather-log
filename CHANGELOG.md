@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Manual Address Refresh**: Edit modal now includes a refresh button to update location information
+  - Language tracking for geocoded addresses
+  - Refresh button appears when language changes
+  - Prevents unnecessary API calls with language-based caching
+
+### Changed
+
+- **Typography**: Applied IBM Plex Sans KR font
+
 ## [1.1.0] - 2025-11-21
 
 ### Added
@@ -14,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Internationalization (i18n)**: Complete multi-language support
   - English and Korean language support
   - Language selector in Settings
-  - Dynamic location translation based on selected language
   - Localized date formatting for all components
   - Namespace-based translation organization (common, settings, auth, filter, card)
 - **Pre-commit Hooks**: Husky integration with TypeScript type checking
@@ -26,9 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **WeatherCard UI**: Moved Edit button to Note section for better UX
 - **Loading States**: Replaced text loading with animated spinner component
-- **Location Display**: Now uses real-time geocoding with language-aware caching
-  - Locations update automatically when language changes
-  - Efficient caching reduces API calls
 
 ### Technical
 
