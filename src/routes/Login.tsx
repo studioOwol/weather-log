@@ -4,8 +4,11 @@ import { signInWithPassword } from "../api/supabase"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { Spinner } from "../components/ui/spinner"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "../constants/i18n"
 
 export default function Login() {
+  const { t } = useTranslation(I18N_NAMESPACES.AUTH)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -25,7 +28,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="max-w-md w-full space-y-7">
+      <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center">
             <img
@@ -34,8 +37,7 @@ export default function Login() {
               className="size-15"
             />
           </div>
-          <h1 className="mt-2 text-3xl font-bold text-foreground">Weather Log</h1>
-          <p className="mt-3 text-muted-foreground">Sign in to start tracking your weather</p>
+          <h1 className="mt-1 text-3xl font-bold text-foreground">Weather Log</h1>
         </div>
 
         <div className="bg-inner rounded-lg border border-border-default p-6">
@@ -43,7 +45,7 @@ export default function Login() {
             <div>
               <Input
                 type="email"
-                placeholder="Email"
+                placeholder={t("signIn.email")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -54,7 +56,7 @@ export default function Login() {
             <div>
               <Input
                 type="password"
-                placeholder="Password"
+                placeholder={t("signIn.password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -70,10 +72,10 @@ export default function Login() {
               {loading ? (
                 <span className="flex items-center gap-2">
                   <Spinner size="sm" variant="circle" className="text-white" />
-                  Signing in...
+                  {t("signIn.loading")}
                 </span>
               ) : (
-                "Sign In"
+                t("signIn.submit")
               )}
             </Button>
             {error && <p className="text-destructive text-sm text-center">{error}</p>}
@@ -81,9 +83,9 @@ export default function Login() {
 
           <div className="mt-6 text-center">
             <p className="text-muted-foreground">
-              Don't have an account?{" "}
+              {t("signIn.noAccount")}{" "}
               <Link to="/signup" className="text-primary hover:underline">
-                Sign up
+                {t("signIn.signUpLink")}
               </Link>
             </p>
           </div>

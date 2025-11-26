@@ -4,8 +4,11 @@ import { signUp } from "../api/supabase"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { Spinner } from "../components/ui/spinner"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "../constants/i18n"
 
 export default function Signup() {
+  const { t } = useTranslation(I18N_NAMESPACES.AUTH)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -19,13 +22,13 @@ export default function Signup() {
     setError("")
 
     if (password !== confirmPassword) {
-      setError("Passwords don't match")
+      setError(t("signUp.errors.passwordMismatch"))
       setLoading(false)
       return
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters")
+      setError(t("signUp.errors.passwordTooShort"))
       setLoading(false)
       return
     }
@@ -42,7 +45,7 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="max-w-md w-full space-y-7">
+      <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center">
             <img
@@ -51,8 +54,7 @@ export default function Signup() {
               className="size-15"
             />
           </div>
-          <h1 className="mt-2 text-3xl font-bold text-foreground">Weather Log</h1>
-          <p className="mt-3 text-muted-foreground">Create an account to start tracking weather</p>
+          <h1 className="mt-1 text-3xl font-bold text-foreground">Weather Log</h1>
         </div>
 
         <div className="bg-inner rounded-lg border border-border-default p-6">
@@ -60,7 +62,7 @@ export default function Signup() {
             <div>
               <Input
                 type="email"
-                placeholder="Email"
+                placeholder={t("signUp.email")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -71,7 +73,7 @@ export default function Signup() {
             <div>
               <Input
                 type="password"
-                placeholder="Password (6+ characters)"
+                placeholder={t("signUp.password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -82,7 +84,7 @@ export default function Signup() {
             <div>
               <Input
                 type="password"
-                placeholder="Confirm password"
+                placeholder={t("signUp.confirmPassword")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -98,10 +100,10 @@ export default function Signup() {
               {loading ? (
                 <span className="flex items-center gap-2">
                   <Spinner size="sm" variant="circle" className="text-white" />
-                  Creating account...
+                  {t("signUp.loading")}
                 </span>
               ) : (
-                "Sign Up"
+                t("signUp.submit")
               )}
             </Button>
             {error && <p className="text-destructive text-sm text-center">{error}</p>}
@@ -109,9 +111,9 @@ export default function Signup() {
 
           <div className="mt-6 text-center">
             <p className="text-muted-foreground">
-              Already have an account?{" "}
+              {t("signUp.hasAccount")}{" "}
               <Link to="/" className="text-primary hover:underline">
-                Sign in
+                {t("signUp.signInLink")}
               </Link>
             </p>
           </div>
