@@ -66,11 +66,11 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
           <SheetDescription className="sr-only">{t("description")}</SheetDescription>
         </SheetHeader>
 
-        <div className="flex flex-col h-[calc(100vh-5rem)]">
+        <div className="flex flex-col h-[calc(100dvh-8rem)] sm:h-[calc(100vh-5rem)]">
           <div className="flex-1 space-y-7">
             {/* Theme */}
             <div className="text-muted-foreground">
-              <h3 className="text-md font-medium mb-3">{t("appearance.title")}</h3>
+              <h3 className="font-medium mb-3">{t("appearance.title")}</h3>
               <div className="flex items-center justify-between">
                 <label htmlFor="dark-mode" className="text-sm cursor-pointer">
                   {resolvedTheme === "dark" ? t("appearance.darkMode") : t("appearance.lightMode")}
@@ -86,7 +86,7 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
 
             {/* Language selection */}
             <div className="text-muted-foreground">
-              <h3 className="text-md font-medium mb-3">{t("language.title")}</h3>
+              <h3 className="font-medium mb-3">{t("language.title")}</h3>
               <CustomSelect
                 value={language}
                 placeholder={t("language.select")}
@@ -97,7 +97,7 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
           </div>
 
           {/* Sign Out - Bottom */}
-          <div className="mt-auto ml-auto mb-3">
+          <div className="mt-auto ml-auto mb-8 sm:mb-3">
             <button
               onClick={() => setIsSignOutModalOpen(true)}
               className="text-sm font-medium text-destructive hover:text-destructive/80 underline underline-offset-2 transition-colors cursor-pointer focus:outline-none"

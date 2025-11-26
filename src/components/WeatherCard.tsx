@@ -79,7 +79,7 @@ export default function WeatherCard({ card }: WeatherProps) {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="text-center">
-              <p className="text-md font-semibold text-muted-foreground">{t("field.minTemp")}</p>
+              <p className="font-semibold text-muted-foreground">{t("field.minTemp")}</p>
               <p className="text-lg font-semibold text-[#5b9bd5]/90">
                 {card.minTemp}
                 {RULES.TEMP_UNIT}
@@ -87,7 +87,7 @@ export default function WeatherCard({ card }: WeatherProps) {
             </div>
             <div className="text-3xl text-muted-foreground/30">/</div>
             <div className="text-center">
-              <p className="text-md font-semibold text-muted-foreground">{t("field.maxTemp")}</p>
+              <p className="font-semibold text-muted-foreground">{t("field.maxTemp")}</p>
               <p className="text-lg font-semibold text-destructive/70">
                 {card.maxTemp}
                 {RULES.TEMP_UNIT}
@@ -97,7 +97,7 @@ export default function WeatherCard({ card }: WeatherProps) {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <p className="text-md font-semibold text-muted-foreground">{t("field.note")}</p>
+              <p className="font-semibold text-muted-foreground">{t("field.note")}</p>
               <div className="flex items-center gap-2">
                 {shouldToggleMemo && (
                   <Button
