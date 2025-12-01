@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog"
-import { useDeleteCard } from "@/hooks/queries/useWeatherMutations"
+import useDeleteCard from "@/hooks/mutations/useDeleteCard"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
 import { formatLocalizedDate } from "@/lib/dateUtils"

@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
-import { useUpdateCard } from "@/hooks/queries/useWeatherMutations"
+import useUpdateCard from "@/hooks/mutations/useUpdateCard"
 import { useGeocode } from "@/hooks/queries/useGeocode"
 import type { WeatherCardType } from "@/types"
 import { RULES } from "@/constants/rules"
