@@ -66,13 +66,8 @@ export default function useDeleteCard() {
         })
       }
     },
-    onSuccess: () => {
-      // Refetch to ensure data consistency
-      queryClient.refetchQueries({ queryKey: weatherQueryFactory.cards() })
-      queryClient.refetchQueries({ queryKey: weatherQueryFactory.stats() })
-    },
     onSettled: () => {
-      // Backup invalidation
+      // Invalidate to sync with server (success or failure)
       queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
       queryClient.invalidateQueries({ queryKey: weatherQueryFactory.stats() })
     },

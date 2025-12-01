@@ -135,7 +135,6 @@ export default function useToggleBookmark() {
           },
         })
       }
-      queryClient.invalidateQueries({ queryKey: weatherQueryFactory.stats() })
     },
   })
 }
