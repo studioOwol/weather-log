@@ -2,18 +2,26 @@ import "./App.css"
 import { Routes, Route } from "react-router"
 import { useEffect } from "react"
 import { useAuthStore } from "./stores/useAuthStore"
+import { supabase } from "./api/supabase"
 import Login from "./routes/Login"
 import Signup from "./routes/Signup"
 import AppRoutes from "./router"
 import { LoadingOverlay } from "./components/ui/spinner"
 
 function App() {
-  const { user, loading, initialize } = useAuthStore()
+  const { user, loading, setAuth } = useAuthStore()
 
   useEffect(() => {
-    initialize()
-  }, [initialize])
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuth(session?.user ?? null, false)
+    })
 
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuth(session?.user ?? null, false)
+    })
+
+    return () => data.subscription.unsubscribe()
+  }, [setAuth])
 
   if (loading) {
     return (

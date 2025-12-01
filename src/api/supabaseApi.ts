@@ -1,18 +1,10 @@
 import { supabase } from "./supabase"
 import type { WeatherCardType, ServerFilterParams } from "../types"
 import { RULES } from "@/constants/rules"
+import { getUserId } from "@/stores/useAuthStore"
 
 // Table name (DB table is weather_card)
 const TABLE_NAME = "weather_card"
-
-// Get current user ID
-const getCurrentUserId = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) throw new Error("User not authenticated")
-  return user.id
-}
 
 // Convert WeatherCardType to DB format
 const toDbFormat = (card: WeatherCardType) => ({
@@ -53,7 +45,7 @@ export const getFilteredCardsPaginated = async (
   offset: number = 0,
   bookmarksOnly: boolean = false
 ): Promise<WeatherCardType[]> => {
-  const userId = await getCurrentUserId()
+  const userId = getUserId()
 
   const { data, error } = await supabase.rpc("filter_weather_cards_paginated", {
     p_user_id: userId,
@@ -81,7 +73,7 @@ export const getCardsStats = async (
   filteredCards: number
   filteredBookmarks: number
 }> => {
-  const userId = await getCurrentUserId()
+  const userId = getUserId()
 
   const { data, error } = await supabase.rpc("get_cards_stats", {
     p_user_id: userId,
@@ -105,7 +97,7 @@ export const getCardsStats = async (
 
 // Add new card
 export const addCard = async (card: WeatherCardType): Promise<WeatherCardType> => {
-  const userId = await getCurrentUserId()
+  const userId = getUserId()
 
   const dbCard = {
     ...toDbFormat(card),
@@ -123,7 +115,7 @@ export const updateCard = async (
   id: string,
   updatedCard: WeatherCardType
 ): Promise<WeatherCardType> => {
-  const userId = await getCurrentUserId()
+  const userId = getUserId()
 
   const dbCard = toDbFormat(updatedCard)
 
@@ -141,7 +133,7 @@ export const updateCard = async (
 
 // Delete card
 export const deleteCard = async (id: string): Promise<void> => {
-  const userId = await getCurrentUserId()
+  const userId = getUserId()
 
   const { error } = await supabase.from(TABLE_NAME).delete().eq("id", id).eq("user_id", userId)
 
@@ -150,7 +142,7 @@ export const deleteCard = async (id: string): Promise<void> => {
 
 // Toggle bookmark status
 export const toggleBookmark = async (id: string, isBookmarked: boolean): Promise<WeatherCardType> => {
-  const userId = await getCurrentUserId()
+  const userId = getUserId()
 
   const { data, error } = await supabase
     .from(TABLE_NAME)
