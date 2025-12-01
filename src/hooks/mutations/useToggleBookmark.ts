@@ -109,26 +109,16 @@ export default function useToggleBookmark() {
     onSuccess: (_, { newBookmarkStatus }) => {
       if (newBookmarkStatus) {
         // Adding bookmark - refetch all pages
-        queryClient.refetchQueries({ queryKey: weatherQueryFactory.cards() })
-      } else {
-        // Removing bookmark - only refetch non-bookmark pages
         queryClient.refetchQueries({
           queryKey: weatherQueryFactory.cards(),
           predicate: (query) => {
-            return query.queryKey[4] !== "bookmarks"
+            return query.queryKey[4] === "bookmarks"
           },
         })
-      }
-      queryClient.refetchQueries({ queryKey: weatherQueryFactory.stats() })
-    },
-    onSettled: (_, __, { newBookmarkStatus }) => {
-      // Backup invalidation - for bookmark removal, exclude bookmarks page to avoid loading state
-      if (newBookmarkStatus) {
-        // Adding bookmark - invalidate all pages
-        queryClient.invalidateQueries({ queryKey: weatherQueryFactory.cards() })
+        queryClient.refetchQueries({ queryKey: weatherQueryFactory.stats() })
       } else {
-        // Removing bookmark - exclude bookmarks page
-        queryClient.invalidateQueries({
+        // Removing bookmark - only refetch non-bookmark pages
+        queryClient.refetchQueries({
           queryKey: weatherQueryFactory.cards(),
           predicate: (query) => {
             return query.queryKey[4] !== "bookmarks"
