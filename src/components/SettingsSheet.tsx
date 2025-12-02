@@ -54,10 +54,10 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
         <SheetHeader className="mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <SheetClose className="sm:hidden p-1 -ml-3 text-primary hover:bg-muted rounded-sm transition-colors focus:outline-none">
+              <SheetClose className="sm:hidden p-1 -ml-4 text-primary hover:bg-muted rounded-sm transition-colors focus:outline-none">
                 <ChevronLeft className="size-6" />
               </SheetClose>
-              <SheetTitle className="text-2xl -ml-1">{t("title")}</SheetTitle>
+              <SheetTitle className="text-2xl ml-1">{t("title")}</SheetTitle>
             </div>
             <SheetClose className="hidden -mr-3 sm:block p-1 cursor-pointer text-primary hover:bg-muted rounded-sm transition-colors focus:outline-none">
               <ChevronRight className="size-6" />
@@ -97,7 +97,7 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
           </div>
 
           {/* Sign Out - Bottom */}
-          <div className="mt-auto ml-auto mb-8 sm:mb-3">
+          <div className="mt-auto ml-auto mb-[calc(1rem+env(safe-area-inset-bottom))] sm:mb-5">
             <button
               onClick={() => setIsSignOutModalOpen(true)}
               className="text-sm font-medium text-destructive hover:text-destructive/80 underline underline-offset-2 transition-colors cursor-pointer focus:outline-none"
