@@ -14,11 +14,7 @@ export default function Header() {
     <header className="sticky bg-background top-0 z-50 w-full border-b border-border-default">
       <div className="h-16 px-4 py-2 flex items-center justify-between text-primary">
         <Link to="/" className="flex items-center gap-1">
-          <img
-            src="/logo-96.webp"
-            alt="Weather Log Logo"
-            className="size-9 sm:size-10"
-          />
+          <img src="/logo-96.webp" alt="Weather Log Logo" className="size-9 sm:size-10" />
           <h1 className="text-lg sm:text-2xl font-bold">Weather Log</h1>
         </Link>
 

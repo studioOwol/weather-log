@@ -29,7 +29,7 @@ export default function FilterBar() {
         <div className="flex items-center gap-3">
           <FilterIcon className="size-4 text-muted-foreground" />
           <span className="font-semibold text-muted-foreground">{t("title")}</span>
-          <Badge className="bg-foreground rounded-xl text-sm text-inner">
+          <Badge className="bg-primary rounded-xl text-sm text-inner">
             {filteredCount} / {totalCards}
           </Badge>
         </div>

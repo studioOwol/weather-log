@@ -48,13 +48,9 @@ export default function Signup() {
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center">
-            <img
-              src="/logo-96.webp"
-              alt="Weather Log Logo"
-              className="size-15"
-            />
+            <img src="/logo-96.webp" alt="Weather Log Logo" className="size-15" />
           </div>
-          <h1 className="mt-1 text-3xl font-bold text-foreground">Weather Log</h1>
+          <h1 className="mt-1 text-3xl font-bold text-primary">Weather Log</h1>
         </div>
 
         <div className="bg-inner rounded-lg border border-border-default p-6">

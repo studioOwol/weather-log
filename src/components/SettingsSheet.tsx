@@ -57,7 +57,7 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
               <SheetClose className="sm:hidden p-1 -ml-4 text-primary hover:bg-muted rounded-sm transition-colors focus:outline-none">
                 <ChevronLeft className="size-6" />
               </SheetClose>
-              <SheetTitle className="text-2xl ml-1">{t("title")}</SheetTitle>
+              <SheetTitle className="text-2xl ml-1 text-primary">{t("title")}</SheetTitle>
             </div>
             <SheetClose className="hidden -mr-3 sm:block p-1 cursor-pointer text-primary hover:bg-muted rounded-sm transition-colors focus:outline-none">
               <ChevronRight className="size-6" />

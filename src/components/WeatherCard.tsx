@@ -44,7 +44,7 @@ export default function WeatherCard({ card }: WeatherProps) {
       <Card className="bg-inner border-border-default relative">
         <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-muted-foreground">{formattedDate}</h3>
+            <h2 className="text-xl font-semibold text-muted-foreground">{formattedDate}</h2>
 
             <div>
               <Button
@@ -53,7 +53,9 @@ export default function WeatherCard({ card }: WeatherProps) {
                 onClick={handleToggleBookmark}
                 disabled={toggleBookmarkMutation.isPending}
                 className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer disabled:opacity-50"
-                aria-label={card.isBookmarked ? tCommon("aria.removeBookmark") : tCommon("aria.addBookmark")}
+                aria-label={
+                  card.isBookmarked ? tCommon("aria.removeBookmark") : tCommon("aria.addBookmark")
+                }
               >
                 {card.isBookmarked ? <BookmarkCheck /> : <Bookmark />}
               </Button>
@@ -77,7 +79,7 @@ export default function WeatherCard({ card }: WeatherProps) {
               </Button>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground/70">{displayLocation}</p>
+          <p className="text-sm text-muted-foreground/80">{displayLocation}</p>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -109,7 +111,9 @@ export default function WeatherCard({ card }: WeatherProps) {
                     size="sm"
                     className="h-5 w-5 p-0 text-muted-foreground/50 hover:text-muted-foreground cursor-pointer"
                     onClick={() => setIsMemoExpanded(!isMemoExpanded)}
-                    aria-label={isMemoExpanded ? tCommon("aria.collapseNote") : tCommon("aria.expandNote")}
+                    aria-label={
+                      isMemoExpanded ? tCommon("aria.collapseNote") : tCommon("aria.expandNote")
+                    }
                   >
                     {isMemoExpanded ? (
                       <ChevronUp className="size-4" />
