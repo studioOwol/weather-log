@@ -114,7 +114,7 @@ export default function AddCardModal() {
       }}
     >
       <DialogTrigger asChild>
-        <Button className="fixed bottom-15 right-4 sm:right-7 h-12 w-12 sm:h-14 sm:w-14 rounded-full transition-all duration-200 z-50 bg-primary hover:bg-primary shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+        <Button className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-7 right-4 sm:right-7 h-12 w-12 sm:h-14 sm:w-14 rounded-full transition-all duration-200 z-50 bg-primary hover:bg-primary shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
           <Plus className="size-5 sm:size-6 text-background" />
         </Button>
       </DialogTrigger>

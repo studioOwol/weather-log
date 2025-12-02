@@ -22,7 +22,7 @@ export default function Header() {
           <h1 className="text-lg sm:text-2xl font-bold">Weather Log</h1>
         </Link>
 
-        <nav className="flex items-center gap-2 sm:gap-3">
+        <nav className="hidden sm:flex items-center gap-2 sm:gap-3">
           <NavLink
             to="/"
             className={({ isActive }) =>
