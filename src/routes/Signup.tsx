@@ -49,7 +49,7 @@ export default function Signup() {
         <div className="text-center">
           <div className="flex justify-center">
             <img
-              src="https://res.cloudinary.com/durvfabtg/image/upload/w_96,h_96,f_webp,q_90,c_fit/v1758015446/weather-log-logo_xvovfd.png"
+              src="/logo-96.webp"
               alt="Weather Log Logo"
               className="size-15"
             />
