@@ -19,6 +19,7 @@ interface WeatherProps {
 
 export default function WeatherCard({ card }: WeatherProps) {
   const { t, i18n } = useTranslation(I18N_NAMESPACES.CARD)
+  const { t: tCommon } = useTranslation(I18N_NAMESPACES.COMMON)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const toggleBookmarkMutation = useToggleBookmark()
@@ -52,6 +53,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 onClick={handleToggleBookmark}
                 disabled={toggleBookmarkMutation.isPending}
                 className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer disabled:opacity-50"
+                aria-label={card.isBookmarked ? tCommon("aria.removeBookmark") : tCommon("aria.addBookmark")}
               >
                 {card.isBookmarked ? <BookmarkCheck /> : <Bookmark />}
               </Button>
@@ -60,6 +62,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 size="sm"
                 className="size-8 p-0 text-muted-foreground hover:bg-secondary/10 cursor-pointer"
                 onClick={() => setIsEditModalOpen(true)}
+                aria-label={tCommon("aria.editRecord")}
               >
                 <Edit2 />
               </Button>
@@ -68,6 +71,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 size="sm"
                 className="size-8 p-0 -mr-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
                 onClick={() => setIsDeleteModalOpen(true)}
+                aria-label={tCommon("aria.deleteRecord")}
               >
                 <Trash2 />
               </Button>
@@ -105,6 +109,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                     size="sm"
                     className="h-5 w-5 p-0 text-muted-foreground/50 hover:text-muted-foreground cursor-pointer"
                     onClick={() => setIsMemoExpanded(!isMemoExpanded)}
+                    aria-label={isMemoExpanded ? tCommon("aria.collapseNote") : tCommon("aria.expandNote")}
                   >
                     {isMemoExpanded ? (
                       <ChevronUp className="size-4" />

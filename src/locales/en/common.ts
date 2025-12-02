@@ -25,4 +25,14 @@ export default {
     home: "No records",
     bookmarks: "No bookmarked records",
   },
+  aria: {
+    addBookmark: "Add bookmark",
+    removeBookmark: "Remove bookmark",
+    editRecord: "Edit weather record",
+    deleteRecord: "Delete weather record",
+    expandNote: "Expand note",
+    collapseNote: "Collapse note",
+    addNewRecord: "Add new weather record",
+    clearDateFilter: "Clear date filter",
+  },
 } as const

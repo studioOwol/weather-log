@@ -13,6 +13,7 @@ import { I18N_NAMESPACES } from "@/constants/i18n"
 
 export default function FilterBar() {
   const { t } = useTranslation(I18N_NAMESPACES.FILTER)
+  const { t: tCommon } = useTranslation(I18N_NAMESPACES.COMMON)
   const filterType = usePageType()
   const isBookmarkPage = filterType === "bookmarks"
   const { filters, clearFilters, updateFilters } = useUrlFilters()
@@ -51,6 +52,7 @@ export default function FilterBar() {
               size="sm"
               className="bg-inner border border-border-default text-xs rounded-lg w-fit sm:px-3 px-2 cursor-pointer hover:bg-memo active:scale-95 transition-all"
               onClick={() => updateFilters({ year: undefined, month: undefined, day: undefined })}
+              aria-label={tCommon("aria.clearDateFilter")}
             >
               <span className="sm:inline hidden">{t("clear")}</span>
               <RotateCcw className="size-3 sm:hidden text-muted-foreground" />

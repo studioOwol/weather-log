@@ -23,6 +23,7 @@ import { formatLocalizedDate } from "@/lib/dateUtils"
 
 export default function AddCardModal() {
   const { t, i18n } = useTranslation(I18N_NAMESPACES.CARD)
+  const { t: tCommon } = useTranslation(I18N_NAMESPACES.COMMON)
   const [isOpen, setIsOpen] = useState(false)
   const [memo, setMemo] = useState("")
   const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null)
@@ -114,7 +115,10 @@ export default function AddCardModal() {
       }}
     >
       <DialogTrigger asChild>
-        <Button className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-7 right-4 sm:right-7 h-12 w-12 sm:h-14 sm:w-14 rounded-full transition-all duration-200 z-50 bg-primary hover:bg-primary shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+        <Button
+          className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-7 right-4 sm:right-7 h-12 w-12 sm:h-14 sm:w-14 rounded-full transition-all duration-200 z-50 bg-primary hover:bg-primary shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer"
+          aria-label={tCommon("aria.addNewRecord")}
+        >
           <Plus className="size-5 sm:size-6 text-background" />
         </Button>
       </DialogTrigger>
