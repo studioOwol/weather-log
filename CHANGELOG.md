@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Mobile Bottom Navigation**: Mobile-optimized navigation bar at the bottom
+  - Home, Bookmarks, and Settings icons for quick access
+  - Icon-only design for clean mobile UX
 - **Manual Address Refresh**: Edit modal now includes a refresh button to update location information
   - Language tracking for geocoded addresses
   - Refresh button appears when language changes
@@ -16,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Mobile UI Improvements**:
+  - Header navigation hidden on mobile screens
+  - Settings sheet no rounded corners on mobile for drawer-like appearance
 - **Typography**: Applied IBM Plex Sans KR font
 
 ## [1.1.0] - 2025-11-21
