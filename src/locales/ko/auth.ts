@@ -13,6 +13,7 @@ export default {
     loading: "로그인 중...",
     noAccount: "계정이 없으신가요?",
     signUpLink: "회원가입",
+    continueWithGoogle: "Google 로그인",
   },
   signUp: {
     title: "회원가입",

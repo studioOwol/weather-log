@@ -13,6 +13,7 @@ export default {
     loading: "Signing in...",
     noAccount: "Don't have an account?",
     signUpLink: "Sign up",
+    continueWithGoogle: "Continue with Google",
   },
   signUp: {
     title: "Sign Up",

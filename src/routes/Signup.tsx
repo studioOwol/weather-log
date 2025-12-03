@@ -53,7 +53,7 @@ export default function Signup() {
           <h1 className="mt-1 text-3xl font-bold text-primary">Weather Log</h1>
         </div>
 
-        <div className="bg-inner rounded-lg border border-border-default p-6">
+        <div className="bg-inner rounded-xl border border-border-default p-6">
           <form onSubmit={handleSignup} className="space-y-4">
             <div>
               <Input
@@ -63,7 +63,7 @@ export default function Signup() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="h-12 px-3 border-border-default bg-background text-foreground"
+                className="h-12 px-3 border-border-default bg-background text-foreground rounded-xl"
               />
             </div>
             <div>
@@ -74,7 +74,7 @@ export default function Signup() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="new-password"
-                className="h-12 px-3 border-border-default bg-background text-foreground"
+                className="h-12 px-3 border-border-default bg-background text-foreground rounded-xl"
               />
             </div>
             <div>
@@ -85,13 +85,13 @@ export default function Signup() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 autoComplete="new-password"
-                className="h-12 px-3 border-border-default bg-background text-foreground"
+                className="h-12 px-3 border-border-default bg-background text-foreground rounded-xl"
               />
             </div>
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-12 bg-primary text-white hover:opacity-90"
+              className="w-full h-12 bg-primary text-white hover:opacity-90 rounded-xl cursor-pointer"
             >
               {loading ? (
                 <span className="flex items-center gap-2">

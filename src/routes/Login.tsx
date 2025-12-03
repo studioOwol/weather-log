@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router"
-import { signInWithPassword } from "../api/supabase"
+import { signInWithPassword, signInWithGoogle } from "../api/supabase"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { Spinner } from "../components/ui/spinner"
@@ -26,6 +26,14 @@ export default function Login() {
     setLoading(false)
   }
 
+  const handleGoogleLogin = async () => {
+    setError("")
+    const { error } = await signInWithGoogle()
+    if (error) {
+      setError(error.message)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
@@ -36,7 +44,7 @@ export default function Login() {
           <h1 className="mt-1 text-3xl font-bold text-primary">Weather Log</h1>
         </div>
 
-        <div className="bg-inner rounded-lg border border-border-default p-6">
+        <div className="bg-inner rounded-xl border border-border-default p-6">
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <Input
@@ -46,7 +54,7 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="h-12 px-3 border-border-default bg-background text-muted-foreground"
+                className="h-12 px-3 border-border-default bg-background text-muted-foreground rounded-xl"
               />
             </div>
             <div>
@@ -57,23 +65,47 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="h-12 px-3 border-border-default bg-background text-muted-foreground"
+                className="h-12 px-3 border-border-default bg-background text-muted-foreground rounded-xl"
               />
             </div>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full h-12 bg-primary text-white hover:opacity-90"
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <Spinner size="sm" variant="circle" className="text-white" />
-                  {t("signIn.loading")}
-                </span>
-              ) : (
-                t("signIn.submit")
-              )}
-            </Button>
+
+            <div className="flex flex-col gap-2">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 bg-primary text-white hover:opacity-90 rounded-xl cursor-pointer"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <Spinner size="sm" variant="circle" className="text-white" />
+                    {t("signIn.loading")}
+                  </span>
+                ) : (
+                  t("signIn.submit")
+                )}
+              </Button>
+
+              {/* Google Login */}
+              <Button
+                type="button"
+                onClick={handleGoogleLogin}
+                variant="outline"
+                className="w-full h-12 bg-primary text-white hover:opacity-90 rounded-xl cursor-pointer relative"
+              >
+                <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
+                  <div className="size-6 rounded-full bg-white flex items-center justify-center -ml-8 mr-3 shrink-0">
+                    <img
+                      src="/google-logo.png"
+                      alt="Google"
+                      className="size-4 object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span>{t("signIn.continueWithGoogle")}</span>
+                </div>
+              </Button>
+            </div>
+
             {error && <p className="text-destructive text-sm text-center">{error}</p>}
           </form>
 
