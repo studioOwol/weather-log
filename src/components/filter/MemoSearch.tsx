@@ -30,7 +30,7 @@ export default function MemoSearch() {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder={t("placeholder.memo")}
-        className="border-border-default pl-10 text-muted-foreground focus:placeholder-transparent"
+        className="border-border-default text-sm pl-10 text-muted-foreground focus:placeholder-transparent"
       />
     </div>
   )

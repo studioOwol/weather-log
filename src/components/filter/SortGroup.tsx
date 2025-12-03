@@ -34,7 +34,7 @@ export default function SortGroup() {
         placeholder={t("placeholder.sort")}
         options={sortOptions}
         onSelect={handleSortChange}
-        className="w-[11.25rem]"
+        className="w-full sm:w-[10rem]"
       />
     </div>
   )

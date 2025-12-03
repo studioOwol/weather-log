@@ -75,16 +75,16 @@ export default function DateSearch() {
   }, [selectedYear, selectedMonth])
 
   return (
-    <div className="flex flex-col items-start">
-      <div className="flex items-center gap-2 min-w-0">
-        <Calendar className="size-4 text-muted-foreground" />
+    <div className="flex items-center gap-2 w-full">
+      <Calendar className="size-4 text-muted-foreground shrink-0" />
 
+      <div className="flex gap-3 flex-1">
         <CustomSelect
           value={selectedYear || ""}
           placeholder={t("placeholder.year")}
           options={yearOptions}
           onSelect={handleYearChange}
-          className="w-22"
+          className="flex-1 min-w-22"
         />
 
         <CustomSelect
@@ -92,7 +92,7 @@ export default function DateSearch() {
           placeholder={t("placeholder.month")}
           options={monthOptions}
           onSelect={handleMonthChange}
-          className="w-22"
+          className="flex-1 min-w-22"
         />
 
         <CustomSelect
@@ -100,7 +100,7 @@ export default function DateSearch() {
           placeholder={t("placeholder.day")}
           options={dayOptions}
           onSelect={handleDayChange}
-          className="w-22"
+          className="flex-1 min-w-22"
         />
       </div>
     </div>

@@ -30,7 +30,7 @@ export default function LocationSearch() {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder={t("placeholder.location")}
-        className="border-border-default pl-10 text-muted-foreground focus:placeholder-transparent"
+        className="border-border-default pl-10 text-sm text-muted-foreground focus:placeholder-transparent"
       />
     </div>
   )

@@ -1,4 +1,4 @@
-import { FilterIcon, RotateCcw } from "lucide-react"
+import { FilterIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import DateSearch from "./filter/DateSearch"
@@ -50,12 +50,11 @@ export default function FilterBar() {
             <Button
               variant="outline"
               size="sm"
-              className="bg-inner border border-border-default text-xs rounded-lg w-fit sm:px-3 px-2 cursor-pointer hover:bg-memo active:scale-95 transition-all"
+              className="hidden sm:inline-flex bg-inner border border-border-default text-xs rounded-lg w-fit px-3 cursor-pointer hover:bg-memo active:scale-95 transition-all"
               onClick={() => updateFilters({ year: undefined, month: undefined, day: undefined })}
               aria-label={tCommon("aria.clearDateFilter")}
             >
-              <span className="sm:inline hidden">{t("clear")}</span>
-              <RotateCcw className="size-3 sm:hidden text-muted-foreground" />
+              {t("clear")}
             </Button>
           )}
         </div>
