@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-12-03
+
 ### Added
 
+- **Google OAuth Login**: Sign in with Google account
+  - One-click authentication with Google
 - **Mobile Bottom Navigation**: Mobile-optimized navigation bar at the bottom
   - Home, Bookmarks, and Settings icons for quick access
   - Icon-only design for clean mobile UX
