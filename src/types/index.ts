@@ -52,4 +52,4 @@ export interface WeatherApiResponse {
 }
 
 // i18n types
-export type I18nNamespace = "common" | "settings" | "auth" | "filter" | "card"
+export type I18nNamespace = "common" | "settings" | "auth" | "filter" | "card" | "privacy"

@@ -40,4 +40,7 @@ export default {
     addNewRecord: "새로운 기록 추가",
     clearDateFilter: "날짜 필터 초기화",
   },
+  footer: {
+    privacyPolicy: "개인정보처리방침",
+  },
 } as const

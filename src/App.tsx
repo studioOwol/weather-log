@@ -5,8 +5,10 @@ import { useAuthStore } from "./stores/useAuthStore"
 import { supabase } from "./api/supabase"
 import Login from "./routes/Login"
 import Signup from "./routes/Signup"
+import PrivacyPolicy from "./routes/PrivacyPolicy"
 import AppRoutes from "./router"
 import { LoadingOverlay } from "./components/ui/spinner"
+import { ROUTES } from "./lib/routes"
 
 function App() {
   const { user, loading, setAuth } = useAuthStore()
@@ -35,6 +37,7 @@ function App() {
     return (
       <Routes>
         <Route path="/signup" element={<Signup />} />
+        <Route path={ROUTES.PRIVACY} element={<PrivacyPolicy />} />
         <Route path="*" element={<Login />} />
       </Routes>
     )

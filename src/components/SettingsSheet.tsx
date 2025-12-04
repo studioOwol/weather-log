@@ -13,11 +13,12 @@ import { useLanguageStore } from "@/stores/useLanguageStore"
 import { Switch } from "./ui/switch"
 import { signOut } from "@/api/supabase"
 import { useQueryClient } from "@tanstack/react-query"
-import { useNavigate } from "react-router"
+import { Link, useNavigate } from "react-router"
 import SignOutModal from "./modal/SignOutModal"
 import CustomSelect from "./common/CustomSelect"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
+import { ROUTES } from "@/lib/routes"
 
 interface SettingsSheetProps {
   isOpen: boolean
@@ -26,6 +27,7 @@ interface SettingsSheetProps {
 
 export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetProps) {
   const { t } = useTranslation(I18N_NAMESPACES.SETTINGS)
+  const { t: tCommon } = useTranslation(I18N_NAMESPACES.COMMON)
   const { resolvedTheme, setTheme } = useThemeStore()
   const { language, setLanguage } = useLanguageStore()
   const queryClient = useQueryClient()
@@ -96,14 +98,21 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
             </div>
           </div>
 
-          {/* Sign Out - Bottom */}
-          <div className="mt-auto ml-auto mb-[calc(0.5rem+env(safe-area-inset-bottom))] sm:mb-5">
+          {/* Bottom Links */}
+          <div className="mt-auto flex items-center justify-end gap-3 mb-[calc(0.5rem+env(safe-area-inset-bottom))] sm:mb-5">
             <button
               onClick={() => setIsSignOutModalOpen(true)}
               className="text-sm font-medium text-destructive hover:text-destructive/80 underline underline-offset-2 transition-colors cursor-pointer focus:outline-none"
             >
               {t("logout")}
             </button>
+            <Link
+              to={ROUTES.PRIVACY}
+              onClick={() => onOpenChange(false)}
+              className="text-sm sm:hidden font-medium text-muted-foreground hover:text-primary underline underline-offset-2 transition-colors cursor-pointer focus:outline-none"
+            >
+              {tCommon("footer.privacyPolicy")}
+            </Link>
           </div>
         </div>
       </SheetContent>

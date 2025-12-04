@@ -35,4 +35,7 @@ export default {
     addNewRecord: "Add new weather record",
     clearDateFilter: "Clear date filter",
   },
+  footer: {
+    privacyPolicy: "Privacy Policy",
+  },
 } as const

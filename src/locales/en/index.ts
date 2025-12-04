@@ -3,6 +3,7 @@ import settings from "./settings"
 import auth from "./auth"
 import filter from "./filter"
 import card from "./card"
+import privacy from "./privacy"
 
 export default {
   common,
@@ -10,4 +11,5 @@ export default {
   auth,
   filter,
   card,
+  privacy,
 } as const
