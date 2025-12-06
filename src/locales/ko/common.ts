@@ -19,6 +19,7 @@ export default {
     delete: "삭제",
     edit: "수정",
     close: "닫기",
+    back: "뒤로가기",
   },
   message: {
     loading: "로딩 중...",

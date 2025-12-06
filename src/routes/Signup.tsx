@@ -6,9 +6,11 @@ import { Button } from "../components/ui/button"
 import { Spinner } from "../components/ui/spinner"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "../constants/i18n"
+import { ROUTES } from "@/lib/routes"
 
 export default function Signup() {
   const { t } = useTranslation(I18N_NAMESPACES.AUTH)
+  const { t: tCommon } = useTranslation(I18N_NAMESPACES.COMMON)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -112,6 +114,15 @@ export default function Signup() {
                 {t("signUp.signInLink")}
               </Link>
             </p>
+          </div>
+
+          <div className="mt-2 text-center">
+            <Link
+              to={ROUTES.PRIVACY}
+              className="text-xs text-muted-foreground hover:text-primary hover:underline transition-colors"
+            >
+              {tCommon("footer.privacyPolicy")}
+            </Link>
           </div>
         </div>
       </div>

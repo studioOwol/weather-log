@@ -14,6 +14,7 @@ export default {
     delete: "Delete",
     edit: "Edit",
     close: "Close",
+    back: "Back",
   },
   message: {
     loading: "Loading...",

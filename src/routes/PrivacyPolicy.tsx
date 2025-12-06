@@ -1,13 +1,25 @@
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "../constants/i18n"
+import { useNavigate } from "react-router"
+import { ChevronLeft } from "lucide-react"
 
 export default function PrivacyPolicy() {
   const { t } = useTranslation(I18N_NAMESPACES.PRIVACY)
+  const { t: tCommon } = useTranslation(I18N_NAMESPACES.COMMON)
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen bg-background py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="bg-inner rounded-xl border border-border-default p-8">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-1 mb-6 text-primary hover:text-primary/80 transition-colors focus:outline-none"
+          >
+            <ChevronLeft className="size-5" />
+            <span className="text-sm font-medium">{tCommon("button.back")}</span>
+          </button>
+
           <h1 className="text-3xl font-bold text-primary mb-4">{t("title")}</h1>
 
           <p className="text-muted-foreground mb-6">{t("lastUpdated")}</p>
