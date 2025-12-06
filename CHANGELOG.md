@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Privacy Policy Page**: Dedicated page for privacy policy
+  - Accessible from footer link
+  - Multi-language support (English/Korean)
+
 ## [1.2.0] - 2025-12-03
 
 ### Added
