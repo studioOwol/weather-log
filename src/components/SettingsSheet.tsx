@@ -13,12 +13,13 @@ import { useLanguageStore } from "@/stores/useLanguageStore"
 import { Switch } from "./ui/switch"
 import { signOut } from "@/api/supabase"
 import { useQueryClient } from "@tanstack/react-query"
-import { Link, useNavigate } from "react-router"
+import { Link } from "react-router"
 import SignOutModal from "./modal/SignOutModal"
 import CustomSelect from "./common/CustomSelect"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
 import { ROUTES } from "@/lib/routes"
+import { useAuthStore } from "@/stores/useAuthStore"
 
 interface SettingsSheetProps {
   isOpen: boolean
@@ -31,7 +32,7 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
   const { resolvedTheme, setTheme } = useThemeStore()
   const { language, setLanguage } = useLanguageStore()
   const queryClient = useQueryClient()
-  const navigate = useNavigate()
+  const { setAuth } = useAuthStore()
   const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false)
 
   const toggleTheme = (checked: boolean) => {
@@ -41,7 +42,7 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
   const handleSignOut = async () => {
     await signOut()
     queryClient.clear()
-    navigate("/", { replace: true })
+    setAuth(null, false)
     onOpenChange(false)
   }
 
