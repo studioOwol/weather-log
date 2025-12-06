@@ -1,8 +1,3 @@
-export const EMPTY_MESSAGE = {
-  HOME: "No records",
-  BOOKMARKS: "No bookmarked records",
-}
-
 export const PLACEHOLDERS = {
   YEAR: "Year",
   MONTH: "Month",

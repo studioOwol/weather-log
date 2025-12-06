@@ -1,7 +1,8 @@
 import type { WeatherCardType } from "@/types"
 import WeatherCard from "./WeatherCard"
-import { EMPTY_MESSAGE } from "@/constants/messages"
 import Masonry from "react-masonry-css"
+import { useTranslation } from "react-i18next"
+import { I18N_NAMESPACES } from "@/constants/i18n"
 
 interface CardBoardProps {
   cards: WeatherCardType[]
@@ -9,14 +10,14 @@ interface CardBoardProps {
   subMessage?: string
 }
 
-export default function CardBoard({
-  cards,
-  emptyMessage = EMPTY_MESSAGE.HOME,
-}: CardBoardProps) {
+export default function CardBoard({ cards, emptyMessage }: CardBoardProps) {
+  const { t } = useTranslation(I18N_NAMESPACES.COMMON)
   if (cards.length === 0) {
     return (
       <div className="text-center py-12">
-        <h3 className="text-lg font-medium text-muted-foreground mb-2">{emptyMessage}</h3>
+        <h3 className="text-lg font-medium text-foreground mb-2">
+          {emptyMessage ?? t("empty.home")}
+        </h3>
       </div>
     )
   }
