@@ -19,7 +19,6 @@ import CustomSelect from "./common/CustomSelect"
 import { useTranslation } from "react-i18next"
 import { I18N_NAMESPACES } from "@/constants/i18n"
 import { ROUTES } from "@/lib/routes"
-import { useAuthStore } from "@/stores/useAuthStore"
 
 interface SettingsSheetProps {
   isOpen: boolean
@@ -32,7 +31,6 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
   const { resolvedTheme, setTheme } = useThemeStore()
   const { language, setLanguage } = useLanguageStore()
   const queryClient = useQueryClient()
-  const { setAuth } = useAuthStore()
   const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false)
 
   const toggleTheme = (checked: boolean) => {
@@ -40,10 +38,11 @@ export default function SettingsSheet({ isOpen, onOpenChange }: SettingsSheetPro
   }
 
   const handleSignOut = async () => {
-    await signOut()
-    queryClient.clear()
-    setAuth(null, false)
-    onOpenChange(false)
+    const { error } = await signOut()
+    if (!error) {
+      queryClient.clear()
+      onOpenChange(false)
+    }
   }
 
   const languageOptions = [
