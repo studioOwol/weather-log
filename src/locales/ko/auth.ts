@@ -29,4 +29,18 @@ export default {
       passwordTooShort: "비밀번호는 최소 6자 이상이어야 합니다.",
     },
   },
+  validation: {
+    emailRequired: "이메일을 입력해주세요.",
+    emailInvalid: "올바른 이메일 주소를 입력해주세요.",
+    passwordRequired: "비밀번호를 입력해주세요.",
+    passwordTooShort: "비밀번호는 최소 6자 이상이어야 합니다.",
+    confirmPasswordRequired: "비밀번호를 다시 입력해주세요.",
+    passwordMismatch: "비밀번호가 일치하지 않습니다.",
+  },
+  supabaseErrors: {
+    invalid_credentials: "이메일 또는 비밀번호가 올바르지 않습니다.",
+    user_already_exists: "이미 가입된 이메일입니다.",
+    email_not_confirmed: "이메일 인증이 필요합니다.",
+    unknown: "오류가 발생했습니다. 다시 시도해주세요.",
+  },
 } as const

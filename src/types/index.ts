@@ -53,3 +53,19 @@ export interface WeatherApiResponse {
 
 // i18n types
 export type I18nNamespace = "common" | "settings" | "auth" | "filter" | "card" | "privacy"
+
+// Validation message keys (auth namespace)
+export type ValidationMessageKey =
+  | "validation.emailRequired"
+  | "validation.emailInvalid"
+  | "validation.passwordRequired"
+  | "validation.passwordTooShort"
+  | "validation.confirmPasswordRequired"
+  | "validation.passwordMismatch"
+
+// Supabase error keys (auth namespace)
+export type SupabaseErrorKey =
+  | "supabaseErrors.invalid_credentials"
+  | "supabaseErrors.user_already_exists"
+  | "supabaseErrors.email_not_confirmed"
+  | "supabaseErrors.unknown"

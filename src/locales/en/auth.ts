@@ -29,4 +29,18 @@ export default {
       passwordTooShort: "Password must be at least 6 characters.",
     },
   },
+  validation: {
+    emailRequired: "Email is required.",
+    emailInvalid: "Please enter a valid email address.",
+    passwordRequired: "Password is required.",
+    passwordTooShort: "Password must be at least 6 characters.",
+    confirmPasswordRequired: "Please confirm your password.",
+    passwordMismatch: "Passwords don't match.",
+  },
+  supabaseErrors: {
+    invalid_credentials: "Invalid email or password.",
+    user_already_exists: "This email is already registered.",
+    email_not_confirmed: "Please verify your email address.",
+    unknown: "An error occurred. Please try again.",
+  },
 } as const
