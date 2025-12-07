@@ -44,6 +44,9 @@ export default function Login() {
             <img src="/logo-96.webp" alt="Weather Log Logo" className="size-15" />
           </div>
           <h1 className="mt-1 text-3xl font-bold text-primary">Weather Log</h1>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Track your daily weather and create personal weather logs
+          </p>
         </div>
 
         <div className="bg-inner rounded-xl border border-border-default p-6">
