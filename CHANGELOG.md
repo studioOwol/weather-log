@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Client-side Form Validation**: Zod-based validation for auth forms
+  - Real-time field validation on blur
+  - Localized error messages
+  - Unified Supabase error handling with i18n support
 - **Privacy Policy Page**: Dedicated page for privacy policy
   - Accessible from footer link
   - Multi-language support (English/Korean)
