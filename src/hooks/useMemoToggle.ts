@@ -8,10 +8,16 @@ export const useMemoToggle = (memo: string | null) => {
   useEffect(() => {
     const checkOverflow = () => {
       if (memoRef.current && memo) {
+        // 축소 상태에서만 overflow 체크
         if (!isMemoExpanded) {
-          const isOverflowing = memoRef.current.scrollHeight > memoRef.current.clientHeight
+          const scrollHeight = memoRef.current.scrollHeight
+          const clientHeight = memoRef.current.clientHeight
+          // 5px 이상 차이날 때만 overflow로 판단 (브라우저 렌더링 오차 무시)
+          const isOverflowing = scrollHeight - clientHeight > 5
+
           setShouldToggleMemo(isOverflowing)
         }
+        // 확장 상태에서는 shouldToggleMemo 값을 유지 (버튼이 사라지지 않도록)
       } else {
         setShouldToggleMemo(false)
       }
