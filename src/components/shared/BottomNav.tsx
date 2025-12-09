@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Bookmark, Home, Settings } from "lucide-react"
+import { MdHome, MdOutlineHome, MdBookmark, MdBookmarkBorder } from "react-icons/md"
+import { TbSettings, TbSettingsFilled } from "react-icons/tb"
 import { NavLink } from "react-router"
 import SettingsSheet from "../SettingsSheet"
 
@@ -12,31 +13,35 @@ export default function BottomNav() {
         <div className="flex items-center justify-around h-16 px-4">
           <NavLink
             to="/"
-            className={({ isActive }) =>
-              `flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-lg transition-colors flex-1 ${
-                isActive ? "text-primary" : "text-muted-foreground"
-              }`
-            }
+            className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-lg transition-colors flex-1 text-primary"
           >
-            <Home className="size-6" />
+            {({ isActive }) =>
+              isActive ? <MdHome className="size-6" /> : <MdOutlineHome className="size-6" />
+            }
           </NavLink>
 
           <NavLink
             to="/bookmarks"
-            className={({ isActive }) =>
-              `flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-lg transition-colors flex-1 ${
-                isActive ? "text-primary" : "text-muted-foreground"
-              }`
-            }
+            className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-lg transition-colors flex-1 text-primary"
           >
-            <Bookmark className="size-6" />
+            {({ isActive }) =>
+              isActive ? (
+                <MdBookmark className="size-6" />
+              ) : (
+                <MdBookmarkBorder className="size-6" />
+              )
+            }
           </NavLink>
 
           <button
             onClick={() => setIsSettingsOpen(true)}
-            className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-lg transition-colors flex-1 text-muted-foreground hover:text-primary"
+            className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-lg transition-colors flex-1 text-primary"
           >
-            <Settings className="size-6" />
+            {isSettingsOpen ? (
+              <TbSettingsFilled className="size-6" />
+            ) : (
+              <TbSettings className="size-6" />
+            )}
           </button>
         </div>
       </nav>

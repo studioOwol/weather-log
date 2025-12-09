@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Bookmark, Home, Settings } from "lucide-react"
+import { MdOutlineHome, MdBookmarkBorder } from "react-icons/md"
+import { TbSettings } from "react-icons/tb"
 import { NavLink, Link } from "react-router"
 import { Button } from "../ui/button"
 import SettingsSheet from "../SettingsSheet"
@@ -27,7 +28,7 @@ export default function Header() {
               }`
             }
           >
-            <Home className="size-4 sm:size-5" />
+            <MdOutlineHome className="size-4 sm:size-5" />
             <span className="hidden sm:inline">{t("navigation.home")}</span>
           </NavLink>
 
@@ -39,7 +40,7 @@ export default function Header() {
               }`
             }
           >
-            <Bookmark className="size-4 sm:size-5" />
+            <MdBookmarkBorder className="size-4 sm:size-5" />
             <span className="hidden sm:inline">{t("navigation.bookmarks")}</span>
           </NavLink>
 
@@ -50,7 +51,7 @@ export default function Header() {
             className="text-primary hover:bg-muted cursor-pointer"
             aria-label="Settings"
           >
-            <Settings className="size-4 sm:size-5" />
+            <TbSettings className="size-4 sm:size-5" />
           </Button>
         </nav>
       </div>

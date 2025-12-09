@@ -2,7 +2,7 @@ import { useState } from "react"
 import type { WeatherCardType } from "@/types"
 import { Card, CardContent, CardHeader } from "./ui/card"
 import { Button } from "./ui/button"
-import { Bookmark, BookmarkCheck, Edit2, Trash2, ChevronDown, ChevronUp } from "lucide-react"
+import { MdBookmark, MdBookmarkBorder, MdOutlineEdit, MdDeleteOutline, MdExpandMore, MdExpandLess } from "react-icons/md"
 import { cn } from "@/lib/utils"
 import EditCardModal from "./modal/EditCardModal"
 import DeleteCardModal from "./modal/DeleteCardModal"
@@ -57,7 +57,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                   card.isBookmarked ? tCommon("aria.removeBookmark") : tCommon("aria.addBookmark")
                 }
               >
-                {card.isBookmarked ? <BookmarkCheck /> : <Bookmark />}
+                {card.isBookmarked ? <MdBookmark className="size-5" /> : <MdBookmarkBorder className="size-5" />}
               </Button>
               <Button
                 variant="ghost"
@@ -66,7 +66,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 onClick={() => setIsEditModalOpen(true)}
                 aria-label={tCommon("aria.editRecord")}
               >
-                <Edit2 />
+                <MdOutlineEdit className="size-5" />
               </Button>
               <Button
                 variant="ghost"
@@ -75,7 +75,7 @@ export default function WeatherCard({ card }: WeatherProps) {
                 onClick={() => setIsDeleteModalOpen(true)}
                 aria-label={tCommon("aria.deleteRecord")}
               >
-                <Trash2 />
+                <MdDeleteOutline className="size-5" />
               </Button>
             </div>
           </div>
@@ -116,9 +116,9 @@ export default function WeatherCard({ card }: WeatherProps) {
                     }
                   >
                     {isMemoExpanded ? (
-                      <ChevronUp className="size-4" />
+                      <MdExpandLess className="size-5" />
                     ) : (
-                      <ChevronDown className="size-4" />
+                      <MdExpandMore className="size-5" />
                     )}
                   </Button>
                 )}
