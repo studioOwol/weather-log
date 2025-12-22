@@ -49,9 +49,12 @@ export default function Bookmarks() {
         <CardBoard cards={bookmarkedCards} emptyMessage={t("empty.bookmarks")} />
       )}
 
-      <div ref={ref} className="h-20 flex items-center justify-center">
-        {hasNextPage && isFetchingNextPage && <LoadingInline size="md" />}
-      </div>
+      {hasNextPage && isFetchingNextPage && (
+        <div ref={ref} className="h-20 flex items-center justify-center">
+          <LoadingInline size="md" />
+        </div>
+      )}
+      {!isFetchingNextPage && <div ref={ref} />}
     </div>
   )
 }

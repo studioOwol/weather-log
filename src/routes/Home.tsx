@@ -42,9 +42,12 @@ export default function Home() {
         <CardBoard cards={cards} />
       )}
 
-      <div ref={ref} className="h-20 flex items-center justify-center">
-        {hasNextPage && isFetchingNextPage && <LoadingInline size="md" />}
-      </div>
+      {hasNextPage && isFetchingNextPage && (
+        <div ref={ref} className="h-20 flex items-center justify-center">
+          <LoadingInline size="md" />
+        </div>
+      )}
+      {!isFetchingNextPage && <div ref={ref} />}
 
       <AddCardModal />
     </div>

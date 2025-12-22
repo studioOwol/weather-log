@@ -3,5 +3,7 @@ export const ROUTES = {
 
   BOOKMARKS: "/bookmarks",
 
+  SETTINGS: "/settings",
+
   PRIVACY: "/privacy",
 }

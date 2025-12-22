@@ -3,6 +3,7 @@ import RootLayout from "./layouts/RootLayout"
 import Home from "./routes/Home"
 import { ROUTES } from "./lib/routes"
 import Bookmarks from "./routes/Bookmarks"
+import Settings from "./routes/Settings"
 import PrivacyPolicy from "./routes/PrivacyPolicy"
 
 export default function AppRoutes() {
@@ -15,6 +16,7 @@ export default function AppRoutes() {
         {/* 인증된 사용자가 잘못된 경로에 접근하면 홈으로 리다이렉트 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
+      <Route path={ROUTES.SETTINGS} element={<Settings />} />
     </Routes>
   )
 }
