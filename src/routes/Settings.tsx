@@ -43,7 +43,7 @@ export default function Settings() {
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       <Header />
-      <main className="flex-1 overflow-y-auto px-4 sm:px-6 md:px-8">
+      <main className="flex-1 overflow-y-auto px-5 sm:px-6 md:px-8">
         <div className="flex flex-col max-w-sm mx-auto min-h-full">
       {/* Header */}
       <div className="mt-6 mb-6">
@@ -82,7 +82,7 @@ export default function Settings() {
       </div>
 
       {/* Bottom Links */}
-      <div className="mt-auto w-full pb-[calc(4rem+15px)] sm:pb-6">
+      <div className="mt-auto w-full pb-[calc(4rem+18px)] sm:pb-6">
         <div className="flex items-center justify-end gap-3">
           <button
             onClick={() => setIsSignOutModalOpen(true)}
