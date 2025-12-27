@@ -6,8 +6,8 @@
   <a href="https://weather-log.vercel.app">https://weather-log.vercel.app</a>
 </p>
 
-<img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/e5ef75ad-b501-4046-96d3-55560b0811b2" />
-<img width="1000" height="600" alt="weather-log-about2" src="https://github.com/user-attachments/assets/1bb817c7-7f56-4e03-8c93-f998552fb5dc" />
+<img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/c7754fa3-1a58-4dd5-86db-f8ce07434895" />
+<img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/d60bf7a0-2a5a-4e73-b9ab-9eb46f07c434" />
 <br>
 
 ## 🌟 Features
@@ -39,4 +39,5 @@
 ## 📄 License
 
 MIT License - Copyright (c) 2025 studioOwol
+
 
