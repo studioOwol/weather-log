@@ -16,6 +16,7 @@
 - Keep a personal note for each day
 - Bookmark your favorite records
 - Search by date, location, or note content
+- Multi-language support (EN, KO)
 
 <br>
 
